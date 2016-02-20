@@ -8,6 +8,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\user;
+use app\models\SignupForm;
 
 class SiteController extends Controller
 {
@@ -54,15 +56,36 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
+        if (!\Yii::$app->user->isGuest) {   
             return $this->goHome();
         }
+    
+        $model = new User();
+        $model->setScenario('login');
 
-        $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
         return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionSignup()
+    {
+        $model = new User();
+        $model->setScenario('signup');
+        if ($model->load(Yii::$app->request->post())) { 
+            if ($model->save()) {
+                if ($model->type == $model::TYPE_TEACHER) {
+                    return $this->render('authen', ['message' => $model->username]);
+                }
+                return $this->redirect(['login']);
+            }   
+        }
+        
+        $model->type = $model::TYPE_STUDENT;
+        return $this->render('signup', [
             'model' => $model,
         ]);
     }
@@ -90,5 +113,24 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionLanguage()
+    {
+        $language = Yii::$app->language;
+
+        if ($language == 'en-US') {
+            $language = 'zh-CN';
+        } else {
+            $language = 'en-US';
+        }
+
+        #use cookie to store language
+        $lang_cookie = new yii\web\Cookie(['name' => 'language', 'value' => $language, 'expire' => 3600*24*30,]);
+        $lang_cookie->expire = time() + 3600*24*30;
+        Yii::$app->response->cookies->add($lang_cookie);
+
+        Yii::$app->language = $language;
+        $this->goBack(Yii::$app->request->headers['Referer']);
     }
 }

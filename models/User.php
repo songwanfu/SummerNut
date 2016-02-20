@@ -2,37 +2,134 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
-{
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+use Yii;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
+use app\models\Common;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+/**
+ * This is the model class for table "t_user".
+ *
+ * @property integer $id
+ * @property string $username
+ * @property string $password
+ * @property string $email
+ * @property string $head_picture
+ * @property string $accessToken
+ * @property string $authKey
+ * @property integer $sex
+ * @property string $phone_number
+ * @property string $faculty
+ * @property string $signature
+ * @property integer $type
+ * @property integer $status
+ * @property string $login_ip
+ * @property string $register_time
+ * @property string $login_time
+ */
+class user extends ActiveRecord implements IdentityInterface
+{
+    const SEX_FEMALE = 1;//男性
+    const SEX_MALE = 2;//女性
+    const SEX_SECRET = 3;//保密
+    const TYPE_STUDENT = 1;//学生
+    const TYPE_TEACHER = 2;//教师
+    const STATUS_NORMAL = 1;//正常
+    const STATUS_ABNORMAL = 2;//异常
+    const STATUS_AUTHEN = 3;//认证
+
+    public $password_repeat;
+    public $rememberMe = true;
+    private $_user = false;
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 't_user';
+    }
+
+    public function scenarios()
+    {
+        return [
+            'login' => ['username', 'password', 'login_time', 'login_ip'],
+            'signup' => ['username', 'password', 'password_repeat', 'email', 'rememberMe', 'type', 'status', 'register_time', 'login_time', 'login_ip', 'sex'],
+            'profile' => ['username', 'sex', 'head_picture', 'phone_number', 'faculty', 'signature'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['username', 'password', 'email'], 'required'],
+            [['sex', 'type', 'status'], 'integer'],
+            [['register_time', 'login_time'], 'safe'],
+            ['username', 'string', 'min' => 3, 'max' => 16],
+            ['password', 'string', 'min' => 6, 'max' => 16],
+            [['email', 'head_picture', 'accessToken', 'authKey', 'signature'], 'string', 'max' => 255],
+            [['phone_number'], 'string', 'max' => 11],
+            [['faculty'], 'string', 'max' => 20],
+            [['login_ip'], 'string', 'max' => 15],
+            ['sex', 'default', 'value' => self::SEX_FEMALE],
+            ['type', 'default', 'value' => self::TYPE_STUDENT],
+            ['status', 'default', 'value' => self::STATUS_NORMAL],
+            ['login_ip', 'default', 'value' => self::getIp()],
+            [['login_time', 'register_time'], 'default', 'value' => Common::getTime()],
+            ['username', 'unique', 'on' => 'signup'],
+            ['password', 'compare', 'on' => 'signup'],
+            ['password', 'match', 'pattern' => '/^[A-Za-z0-9\-_]+$/', 'on' => 'signup','message' => '{attribute}为字母,数字和下划线组成'],
+            ['password', 'validatePassword', 'on' => 'login'],
+            ['email', 'email', 'on' => 'signup'],
+            ['rememberMe', 'boolean', 'on' => 'signup'],
+            ['head_picture', 'file', 'extensions' => ['png', 'jpg', 'jpeg'], 'maxSize' => 1024*1024*1024, 'on' => 'profile'],
+        ];
+    }
+
+    public function afterValidate()
+    {
+        if ($this->getScenario() == 'signup') {
+            parent::afterValidate();
+            $this->setPassword($this->password);
+        }
+        
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'username' => Yii::t('app', 'Username'),
+            'password' => Yii::t('app', 'Password'),
+            'password_repeat' => Yii::t('app', 'Password Repeat'),
+            'email' => Yii::t('app', 'Email'),
+            'head_picture' => Yii::t('app', 'Head Picture'),
+            'accessToken' => Yii::t('app', 'Access Token'),
+            'authKey' => Yii::t('app', 'Auth Key'),
+            'sex' => Yii::t('app', 'Sex'),
+            'phone_number' => Yii::t('app', 'Phone Number'),
+            'faculty' => Yii::t('app', 'Faculty'),
+            'signature' => Yii::t('app', 'Signature'),
+            'type' => Yii::t('app', 'User Type'),
+            'rememberMe' => Yii::t('app', 'Remember Me'),
+            'status' => Yii::t('app', 'Status'),
+            'login_ip' => Yii::t('app', 'Login Ip'),
+            'register_time' => Yii::t('app', 'Register Time'),
+            'login_time' => Yii::t('app', 'Login Time'),
+        ];
+    }
 
     /**
      * @inheritdoc
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return static::findOne(['id' => $id]);
     }
 
     /**
@@ -40,38 +137,18 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::findOne(['access_token' => $token]);
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param  string      $username
-     * @return static|null
-     */
+
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::findOne(['username' => $username]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getId()
     {
-        return $this->id;
+        return $this->getPrimaryKey();
     }
 
     /**
@@ -82,6 +159,12 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         return $this->authKey;
     }
 
+
+    public function setPassword($password)
+    {
+        $this->password = Yii::$app->security->generatePasswordHash($password);
+    }
+
     /**
      * @inheritdoc
      */
@@ -90,14 +173,68 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         return $this->authKey === $authKey;
     }
 
+
     /**
-     * Validates password
+     * Validates the password.
+     * This method serves as the inline validation for password.
      *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
+     * @param string $attribute the attribute currently being validated
+     * @param array $params the additional name-value pairs given in the rule
      */
-    public function validatePassword($password)
+    public function validatePassword($attribute, $params)
     {
-        return $this->password === $password;
+        if (!$this->hasErrors()) {
+            $user = $this->getUser();
+
+            if (!$user || !Yii::$app->security->validatePassword($this->password, $user->password)) {
+                $this->addError($attribute, Yii::t('app', 'Incorrect username or password.'));
+            }
+        }
+    }
+
+    /**
+     * Logs in a user using the provided username and password.
+     * @return boolean whether the user is logged in successfully
+     */
+    public function login()
+    {
+        if ($this->validate()) {
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+        }
+        return false;
+    }
+
+    /**
+     * [getIp Get user IP adress.]
+     * @return [String] [IP adress]
+     */
+    public static function getIp()
+    {
+        return Yii::$app->request->userIP;
+    }
+
+    /**
+     * Finds user by [[username]]
+     * @return User|null
+     */
+    public function getUser()
+    {
+        if ($this->_user === false) {
+            $this->_user = self::findByUsername($this->username);
+        }
+
+        return $this->_user;
+    }
+
+    /**
+     * [typeList Get user type list.]
+     * @return [Array] [UserTypeList]
+     */
+    public function typeList()
+    {
+        return [
+            self::TYPE_STUDENT => Yii::t('app', 'Student'), 
+            self::TYPE_TEACHER => Yii::t('app', 'Teacher'),
+        ];
     }
 }

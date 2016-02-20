@@ -6,6 +6,21 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'on beforeRequest' => function ($event) {
+        $lang_saved = null;
+        if (true){
+            # use cookie to store language
+            $lang_saved = Yii::$app->request->cookies->get('language');
+        }else{
+            # use session to store language
+            $lang_saved = Yii::$app->session['language'];
+        }
+        $lang = ($lang_saved) ? $lang_saved : 'en-US';
+
+        Yii::$app->sourceLanguage = 'en-US';
+        Yii::$app->language = $lang;
+        return; 
+    },
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -45,6 +60,20 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                  ['class' => 'yii\rest\UrlRule', 'controller' => ['avatar']]
+            ],
+        ],
+
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    // 'language' => 'zh-CN',
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                    ],
+                ],
             ],
         ],
         
