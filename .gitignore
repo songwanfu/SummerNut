@@ -26,5 +26,8 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 
-# db.php
-/config/db.php
+# ignore config dir
+/config
+
+# ignore web/uploads
+web/uploads
