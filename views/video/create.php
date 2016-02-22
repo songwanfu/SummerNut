@@ -24,12 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
 	        ],
 	    ]); ?>
 		
-	   	<?= $form->field($model, 'url')->widget(FileInput::classname(), [
+	   	<?= $form->field($model, 'url')->label(Yii::t('app', 'Create Video'))->widget(FileInput::classname(), [
 	    	'pluginOptions' => [
 		        'uploadUrl' => Url::to(['video/upload']),
 		        'uploadAsync' => false,
-		        'allowedPreviewTypes' => ['video', 'audio', 'image', 'flash', 'text', 'html'],
-		        'allowedFileExtensions' => ['mp4','flv', 'avi', 'wmv', 'rmvb', 'jpg', 'jpeg', 'gif', 'mp3', 'html', 'pdf','txt', 'doc', 'docx','ppt', 'xml', 'sql', 'zip', 'php'],
+		        'allowedPreviewTypes' => ['video'],
+		        'allowedFileExtensions' => ['mp4','flv', 'avi', 'wmv', 'rmvb'],
 		        'maxFileCount' => 1,
 		       	'maxFileSize' => 100000,
 		        'uploadExtraData' => [
@@ -38,12 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
 		        
     		]
     	]); ?>
-		
-		<?= $form->field($model, 'name')->textInput();?>
-
-	    <div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div> 
 
 	    <?php ActiveForm::end(); ?>
 

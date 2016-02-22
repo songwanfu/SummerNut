@@ -18,8 +18,8 @@ class VideoSearch extends Video
     public function rules()
     {
         return [
-            [['id', 'status', 'play_count', 'download_count'], 'integer'],
-            [['name', 'icon', 'url', 'size', 'duration', 'create_time', 'update_time'], 'safe'],
+            [['id', 'status'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 

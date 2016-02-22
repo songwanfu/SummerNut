@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Video;
 use app\models\VideoSearch;
+use app\models\Attachment;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -65,6 +66,7 @@ class VideoController extends Controller
     public function actionCreate()
     {
         $model = new Video();
+        // var_dump($model->extension);die;
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -127,16 +129,36 @@ class VideoController extends Controller
     public function actionUpload()
     {
         $model = new Video();
-        $model->load(Yii::$app->request->post());
-        $fileObj = UploadedFile::getInstance($model, 'url');
-        $model->url = $fileObj->name;
-        if ($fileObj && $model->validate()) {
-            $fileObj->saveAs(Yii::$app->params['uploadUrl'] . $fileObj->baseName . '.' . $fileObj->extension);
-        }
+        $model = Attachment::uploadFile($model, 'url');
+        if ($model) {
+            if ($model->extension == 'mp4') {
+                $model->status = $model::STATUS_AUTHEN;
+            }
 
-        $res = [
-            'initialPreview' => "<img src='/img/success.jpg' class='file-preview-image' alt='Desert' title='Desert'>",
-        ];
-        echo json_encode($res);
+            if ($model->save()) {
+                 $res = [
+                    'initialPreview' => "<img src='/img/success.jpg' class='file-preview-image' alt='Desert' title='Desert'>",
+                ];
+                echo json_encode($res);
+            }
+           
+        }
+       
+    }
+
+    public function actionPlay($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('play', ['url' => $model->url]);
+    }
+
+    public function actionPlayTime($duration)
+    {
+        var_dump($duration);
+    }
+
+    public function actionPlayEnd($duration)
+    {
+        var_dump($duration);
     }
 }

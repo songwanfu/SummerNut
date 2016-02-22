@@ -27,11 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
+            'status',
             'icon',
-            'url:url',
+            [
+                'attribute' => 'url',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a($model->name . '.' . $model->extension, ["play?id=$model->id"]);
+                }
+            ],
             'size',
             'duration',
-            'status',
             'play_count',
             'download_count',
             'create_time',

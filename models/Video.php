@@ -21,6 +21,11 @@ use Yii;
  */
 class Video extends \yii\db\ActiveRecord
 {
+    const STATUS_NORAML = 1;
+    const STATUS_AUTHEN = 2;
+    const STATUS_TRANSCODE = 3;
+    const STATUS_INVALID = 4;
+
     /**
      * @inheritdoc
      */
@@ -35,12 +40,14 @@ class Video extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['size', 'status'], 'required'],
+            // [['size', 'status'], 'required'],
             [['status', 'play_count', 'download_count'], 'integer'],
             [['create_time', 'update_time'], 'safe'],
-            [['name', 'icon', 'url'], 'string', 'max' => 255],
+            [['name', 'icon', 'url', 'extension'], 'string', 'max' => 255],
             [['size', 'duration'], 'string', 'max' => 10],
-            // [['url'], 'file', 'extensions'=>'mp4'],
+            [['url'], 'file', 'extensions'=>Attachment::$videoFormats],
+            ['status', 'default', 'value' => self::STATUS_TRANSCODE],
+            [['create_time', 'update_time'], 'default', 'value' => Common::getTime()],
         ];
     }
 
@@ -53,6 +60,7 @@ class Video extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
             'icon' => Yii::t('app', 'Icon'),
+            'extension' => Yii::t('app', 'Extension'),
             'url' => Yii::t('app', 'Url'),
             'size' => Yii::t('app', 'Size'),
             'duration' => Yii::t('app', 'Duration'),

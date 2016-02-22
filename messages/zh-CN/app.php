@@ -12,4 +12,8 @@ return [
 	'Teacher' => '教师',
 	'Remember Me' => '一个月内记住我',
 	'Incorrect username or password.' => '不正确的用户名或密码。',
+
+	'Videos' => '视频',
+	'Video' => '视频',
+	'Create Video' => '上传视频',
 ];

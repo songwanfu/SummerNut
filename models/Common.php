@@ -2,6 +2,7 @@
 namespace app\models;
 use Yii;
 
+
 class Common
 {
 
@@ -29,4 +30,5 @@ class Common
     {
         return date('Y-m-d H:i:s', time());
     }
+
 }
