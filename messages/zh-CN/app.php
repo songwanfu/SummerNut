@@ -16,4 +16,10 @@ return [
 	'Videos' => '视频',
 	'Video' => '视频',
 	'Create Video' => '上传视频',
+
+	'Contents' => '目录',
+	'Diffculty Level' => '难度',
+	'Elementary' => '初级',
+	'Intermediate' => '中级',
+	'Advanced' => '高级',
 ];

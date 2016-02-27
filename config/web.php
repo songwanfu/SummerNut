@@ -78,6 +78,21 @@ $config = [
         ],
         
     ],
+
+    'modules' => [
+       'treemanager' =>  [
+            'class' => '\kartik\tree\Module',
+            // other module settings, refer detailed documentation
+            'treeStructure' => [
+                'treeAttribute' => 'root',
+                'leftAttribute' => 'lft',
+                'rightAttribute' => 'rgt',
+                'depthAttribute' => 'lvl',
+            ],
+        ]
+    ],
+
+
     'params' => $params,
 ];
 
