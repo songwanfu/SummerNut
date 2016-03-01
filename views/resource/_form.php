@@ -4,17 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Video */
+/* @var $model app\models\Resource */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="video-form">
+<div class="resource-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'icon')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'extension')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
@@ -23,6 +25,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'duration')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status')->textInput() ?>
+
+    <?= $form->field($model, 'resource_type')->textInput() ?>
+
+    <?= $form->field($model, 'course_id')->textInput() ?>
 
     <?= $form->field($model, 'play_count')->textInput() ?>
 

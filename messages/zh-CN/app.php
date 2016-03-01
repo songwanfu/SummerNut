@@ -22,4 +22,14 @@ return [
 	'Elementary' => '初级',
 	'Intermediate' => '中级',
 	'Advanced' => '高级',
+	'Status' => '课程状态',
+	'Online' => '上线',
+	'Offline' => '下线',
+	'Course Introduction' => '课程简介',
+	'Course Notice' => '课程须知',
+	'Course Gains' => '课程收获',
+	'Other Configures' => '其他选项',
+	'Upload File' => '上传文件',
+
+	'Resource' => '资源',
 ];

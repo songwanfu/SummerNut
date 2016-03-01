@@ -4,19 +4,17 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\VideoSearch */
+/* @var $searchModel app\models\ResourceSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Videos');
+$this->title = Yii::t('app', 'Resources');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="video-index">
+<div class="resource-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Video'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Resource'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -27,8 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'status',
             'icon',
+            'extension',
             [
                 'attribute' => 'url',
                 'format' => 'raw',
@@ -38,13 +36,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'size',
             'duration',
+            'status',
+            'resource_type',
+            'course_id',
             'play_count',
             'download_count',
-            'create_time',
-            'update_time',
+            // 'create_time',
+            // 'update_time',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 
 </div>
+
+<?= $this->render('/views/_form', [
+        'model' => 's',
+]) ?>

@@ -33,7 +33,10 @@ class Course extends \kartik\tree\models\Tree
     const LEVEL_ELEMENTARY = 1;
     const LEVEL_INTERMEDIATE = 2;
     const LEVEL_ADVANCED = 3;
+    const STATUS_VALID = 1;
+    const STATUS_INVALID = 2;
 
+    public $url;
     // public $icon;
     // public $number;
     /**
@@ -41,7 +44,7 @@ class Course extends \kartik\tree\models\Tree
      */
     public static function tableName()
     {
-        return 'tbl_product';
+        return 't_course';
     }
 
     /**
@@ -49,14 +52,16 @@ class Course extends \kartik\tree\models\Tree
      */
     public function rules()
     {
-        $rules = parent::rules();
+        $rules_parent = parent::rules();
         $rules_course = [
-            [['difficulty_level', 'teacher_id'], 'safe'],
-            ['teacher_id', 'integer'],
+            [['difficulty_level', 'teacher_id', 'status', 'introduction', 'notice', 'gains'], 'safe'],
+            [['teacher_id', 'status'], 'integer'],
+            [['introduction', 'notice', 'gains'], 'string', 'max' => 500],
             ['teacher_id', 'default', 'value' => Yii::$app->user->id],
             ['difficulty_level', 'default', 'value' => self::LEVEL_ELEMENTARY],
+            ['status', 'default', 'value' => self::STATUS_VALID]
         ];
-        return array_merge($rules, $rules_course);
+        return array_merge($rules_parent, $rules_course);
     }
 
     /**
@@ -64,14 +69,16 @@ class Course extends \kartik\tree\models\Tree
      */
     public function attributeLabels()
     {
-        $labels = parent::attributeLabels();
-        $difficultyLevelAttribute = $teacherAttribute = null;
+        $labels_parent = parent::attributeLabels();
         $labels_course = [
-            $difficultyLevelAttribute => Yii::t('app', 'Diffculty Level'),
-            $teacherAttribute => Yii::t('app', 'Teacher'),
+            'difficulty_level' => Yii::t('app', 'Diffculty Level'),
+            'status' => Yii::t('app', 'Status'),
+            'introduction' => Yii::t('app', 'Course Introduction'),
+            'notice' => Yii::t('app', 'Course Notice'),
+            'gains' => Yii::t('app', 'Course Gains'),
         ];
         
-        return array_merge($labels, $labels_course);
+        return array_merge($labels_parent, $labels_course);
     }
 
     public function isDisabled()
@@ -89,6 +96,33 @@ class Course extends \kartik\tree\models\Tree
             self::LEVEL_INTERMEDIATE => Yii::t('app', 'Intermediate'),
             self::LEVEL_ADVANCED => Yii::t('app', 'Advanced'),
         ];
+    }
+
+    public static function statusList()
+    {
+        return [
+            self::STATUS_VALID => Yii::t('app', 'Online'),
+            self::STATUS_INVALID => Yii::t('app', 'Offline'),
+        ];
+    }
+
+    public static function maxDepth()
+    {
+        return self::find()->max('lvl');
+    }
+
+
+    /**
+     * [isFile 判断是否是文件]
+     * @param  Course  $model [description]
+     * @return boolean        [description]
+     */
+    public static function isFile(Course $model)
+    {
+        if ($model->rgt - $model->lft == 1) {
+            return true;
+        }
+        return false;
     }
 
 }

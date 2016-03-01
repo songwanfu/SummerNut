@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\web\UploadedFile;
-use app\models\Common;
 
 /**
  * This is the model class for table "t_resource".
@@ -24,9 +23,7 @@ use app\models\Common;
  * @property string $create_time
  * @property string $update_time
  */
-
-
-class Attachment extends \yii\db\ActiveRecord
+class Resource extends \yii\db\ActiveRecord
 {
     public static $videoFormats = ['mp4', 'wmv', 'flv', 'avi', 'rmvb'];
     public static $imgFormats = ['jpg', 'jpeg', 'png'];
@@ -41,7 +38,7 @@ class Attachment extends \yii\db\ActiveRecord
     const STATUS_AUTHEN = 2;
     const STATUS_TRANSCODE = 3;
     const STATUS_INVALID = 4;
-    
+
     /**
      * @inheritdoc
      */
@@ -87,8 +84,6 @@ class Attachment extends \yii\db\ActiveRecord
             'update_time' => Yii::t('app', 'Update Time'),
         ];
     }
-
-
     /**
      * [uploadFile Upload file.]
      * @param  [Object] $model    [active form model]
@@ -96,22 +91,26 @@ class Attachment extends \yii\db\ActiveRecord
      * @param  string $rootPath [description]
      * @return [Object | null]           [description]
      */
-    public static function uploadFile($model, $attr, $rootPath = '')
+    public static function uploadFile(Resource $model, $attr, $rootPath = '')
     {
         if ($rootPath == '') {
             $rootPath = Yii::$app->params['uploadUrl'];
         }
 
         $fileObj = UploadedFile::getInstance($model, $attr);
-        // var_dump($fileObj->baseName);die;
+        // var_dump($fileObj);die;
         $model->name = $fileObj->baseName;
         $model->size = Common::transByte($fileObj->size);
         $model->extension = $fileObj->extension;
+        $model->status = self::getStatus($fileObj->extension);
+        $model->resource_type = self::getResType($fileObj->extension);
+        // var_dump($model);die;
+        $dir = self::getDir($fileObj->extension);
+        $relaPath = '/' . $dir . '/' . $fileObj->baseName . '.'. time(). '.' . $fileObj->extension;
+        $model->$attr = $relaPath;
+
         if ($fileObj && $model->validate()) {
-            $dir = self::getDir($fileObj->extension);
-            $relaPath = '/' . $dir . '/' . $fileObj->baseName . '.'. time(). '.' . $fileObj->extension;
             $fileObj->saveAs($rootPath . $relaPath);
-            $model->$attr = $relaPath;
             return $model;
         }
     }
@@ -136,4 +135,18 @@ class Attachment extends \yii\db\ActiveRecord
         }
         return (self::DEST_DIR . '/' .$dir);
     }
+
+    public static function getStatus($extension)
+    {
+        if (in_array($extension, self::$videoFormats) && $extension != 'mp4') {
+            return self::STATUS_TRANSCODE;
+        }
+        return self::STATUS_AUTHEN;
+    }
+
+    public static function getResType($extension)
+    {
+        
+    }
+
 }

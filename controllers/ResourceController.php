@@ -3,22 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Video;
-use app\models\VideoSearch;
-use app\models\Attachment;
+use app\models\Resource;
+use app\models\ResourceSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 
 /**
- * VideoController implements the CRUD actions for Video model.
+ * ResourceController implements the CRUD actions for Resource model.
  */
-class VideoController extends Controller
+class ResourceController extends Controller
 {
-
-    // public $enableCsrfValidation = false;//CSRF验证取消
-
     public function behaviors()
     {
         return [
@@ -32,12 +27,12 @@ class VideoController extends Controller
     }
 
     /**
-     * Lists all Video models.
+     * Lists all Resource models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new VideoSearch();
+        $searchModel = new ResourceSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,7 +42,7 @@ class VideoController extends Controller
     }
 
     /**
-     * Displays a single Video model.
+     * Displays a single Resource model.
      * @param integer $id
      * @return mixed
      */
@@ -59,18 +54,16 @@ class VideoController extends Controller
     }
 
     /**
-     * Creates a new Video model.
+     * Creates a new Resource model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Video();
-        // var_dump($model->extension);die;
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        $model = new Resource();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -79,7 +72,7 @@ class VideoController extends Controller
     }
 
     /**
-     * Updates an existing Video model.
+     * Updates an existing Resource model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,7 +91,7 @@ class VideoController extends Controller
     }
 
     /**
-     * Deletes an existing Video model.
+     * Deletes an existing Resource model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -111,15 +104,15 @@ class VideoController extends Controller
     }
 
     /**
-     * Finds the Video model based on its primary key value.
+     * Finds the Resource model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Video the loaded model
+     * @return Resource the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Video::findOne($id)) !== null) {
+        if (($model = Resource::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -128,13 +121,14 @@ class VideoController extends Controller
 
     public function actionUpload()
     {
-        $model = new Video();
-        $model = Attachment::uploadFile($model, 'url');
-        if ($model) {
-            if ($model->extension == 'mp4') {
-                $model->status = $model::STATUS_AUTHEN;
-            }
+         // var_dump(Yii::$app->request->post());die;
+        $model = new Resource();
+        $model->load(Yii::$app->request->post());
+        $model = $model::uploadFile($model, 'url');
 
+        
+        var_dump($model);die;
+        if ($model) {
             if ($model->save()) {
                  $res = [
                     'initialPreview' => "<img src='/img/success.jpg' class='file-preview-image' alt='Desert' title='Desert'>",

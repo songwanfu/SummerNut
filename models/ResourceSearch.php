@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Video;
+use app\models\Resource;
 
 /**
- * VideoSearch represents the model behind the search form about `app\models\Video`.
+ * ResourceSearch represents the model behind the search form about `app\models\Resource`.
  */
-class VideoSearch extends Video
+class ResourceSearch extends Resource
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class VideoSearch extends Video
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'status', 'resource_type', 'course_id', 'play_count', 'download_count'], 'integer'],
+            [['name', 'extension', 'size'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class VideoSearch extends Video
      */
     public function search($params)
     {
-        $query = Video::find();
+        $query = Resource::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -58,6 +58,8 @@ class VideoSearch extends Video
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
+            'resource_type' => $this->resource_type,
+            'course_id' => $this->course_id,
             'play_count' => $this->play_count,
             'download_count' => $this->download_count,
             'create_time' => $this->create_time,
@@ -66,6 +68,7 @@ class VideoSearch extends Video
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'icon', $this->icon])
+            ->andFilterWhere(['like', 'extension', $this->extension])
             ->andFilterWhere(['like', 'url', $this->url])
             ->andFilterWhere(['like', 'size', $this->size])
             ->andFilterWhere(['like', 'duration', $this->duration]);

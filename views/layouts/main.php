@@ -38,12 +38,12 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => Yii::t('app', 'Video'), 'url' => ['/video/index']],
+            ['label' => Yii::t('app', 'Resource'), 'url' => ['/resource/index']],
             [
                 'label' => Yii::t('app', 'Widgets'),
                 'items' => [
                     [
-                        'label' => Yii::$app->language == 'en-US' ?  Yii::t('app', 'Chinese') : 'English',
+                        'label' => Yii::$app->language == 'en-US' ?  '中文' : 'English',
                         'url' => ["/site/language"],
                         'linkOptions' => ['data-method' => 'post'],
                     ], 
