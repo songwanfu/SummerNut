@@ -17,6 +17,7 @@ return [
 	'Video' => '视频',
 	'Create Video' => '上传视频',
 
+	'Course' => '课程',
 	'Contents' => '目录',
 	'Diffculty Level' => '难度',
 	'Elementary' => '初级',
@@ -32,4 +33,10 @@ return [
 	'Upload File' => '上传文件',
 
 	'Resource' => '资源',
+	'Upload success!' => '上传资源完成！',
+	'Video Normal' => '正常状态',
+	'Video Authen' => '审核中',
+	'Video Transcode' => '转码中',
+	'Video Invalid' => '不可用状态',
+	'Attachment' => '附件',
 ];

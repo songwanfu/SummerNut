@@ -114,9 +114,8 @@ class ResourceController extends Controller
     {
         if (($model = Resource::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+        return;
     }
 
     public function actionUpload()
@@ -124,14 +123,12 @@ class ResourceController extends Controller
          // var_dump(Yii::$app->request->post());die;
         $model = new Resource();
         $model->load(Yii::$app->request->post());
-        $model = $model::uploadFile($model, 'url');
+        $model = $model->uploadFile($model, 'url');
 
-        
-        var_dump($model);die;
         if ($model) {
             if ($model->save()) {
                  $res = [
-                    'initialPreview' => "<img src='/img/success.jpg' class='file-preview-image' alt='Desert' title='Desert'>",
+                    'initialPreview' => '<p>' . Yii::t('app', 'Upload success!') . '</p>',
                 ];
                 echo json_encode($res);
             }
@@ -143,7 +140,10 @@ class ResourceController extends Controller
     public function actionPlay($id)
     {
         $model = $this->findModel($id);
-        return $this->render('play', ['url' => $model->url]);
+        $model->play_count += 1;
+        if ($model->save()) {
+            return $this->render('play', ['url' => $model->url]);
+        } 
     }
 
     public function actionPlayTime($duration)
@@ -154,5 +154,35 @@ class ResourceController extends Controller
     public function actionPlayEnd($duration)
     {
         var_dump($duration);
+    }
+
+    public function actionDeleteByAjax()
+    {
+        $id = Yii::$app->request->post('id');
+        $model = $this->findModel($id);
+        if ($model) {
+            // $model->status = $model::STATUS_INVALID;
+            // $model->resource_type = $model::TYPE_ATTACHMENT;
+            // if ($model->save()) {
+            //     echo true;
+            //     return;
+            // } 
+            
+            if ($model->delete()) {
+                echo true;
+                return;
+            }
+        }
+        echo false;
+    }
+
+    public function actionDownload($id)
+    {
+        $model = $this->findModel($id);
+        $model->download_count += 1;
+        if ($model->save()) {
+            return Yii::$app->response->sendFile(Yii::$app->params['uploadUrl'] . $model->url);
+        }
+        
     }
 }

@@ -50,6 +50,3 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 
-<?= $this->render('/views/_form', [
-        'model' => 's',
-]) ?>

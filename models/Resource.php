@@ -34,11 +34,13 @@ class Resource extends \yii\db\ActiveRecord
     const IMG_DIR = 'img';
     const DOCUMENT_DIR = 'document';
 
-    const STATUS_NORAML = 1;
-    const STATUS_AUTHEN = 2;
-    const STATUS_TRANSCODE = 3;
-    const STATUS_INVALID = 4;
+    const STATUS_NORAML = 1;//正常
+    const STATUS_AUTHEN = 2;//审核中
+    const STATUS_TRANSCODE = 3;//转码中
+    const STATUS_INVALID = 4;//不可用
 
+    const TYPE_VIDEO = 1;//视频
+    const TYPE_ATTACHMENT = 2;//附件
     /**
      * @inheritdoc
      */
@@ -84,6 +86,17 @@ class Resource extends \yii\db\ActiveRecord
             'update_time' => Yii::t('app', 'Update Time'),
         ];
     }
+
+    public static function statusList()
+    {
+        return [
+            self::STATUS_NORAML => Yii::t('app', 'Video Normal'),
+            self::STATUS_AUTHEN => Yii::t('app', 'Video Authen'),
+            self::STATUS_TRANSCODE => Yii::t('app', 'Video Transcode'),
+            self::STATUS_INVALID => Yii::t('app', 'Video Invalid'),
+        ];
+    }
+
     /**
      * [uploadFile Upload file.]
      * @param  [Object] $model    [active form model]
@@ -91,7 +104,7 @@ class Resource extends \yii\db\ActiveRecord
      * @param  string $rootPath [description]
      * @return [Object | null]           [description]
      */
-    public static function uploadFile(Resource $model, $attr, $rootPath = '')
+    public function uploadFile(Resource $model, $attr, $rootPath = '')
     {
         if ($rootPath == '') {
             $rootPath = Yii::$app->params['uploadUrl'];
@@ -102,10 +115,10 @@ class Resource extends \yii\db\ActiveRecord
         $model->name = $fileObj->baseName;
         $model->size = Common::transByte($fileObj->size);
         $model->extension = $fileObj->extension;
-        $model->status = self::getStatus($fileObj->extension);
-        $model->resource_type = self::getResType($fileObj->extension);
+        $model->status = $this->setStatus($fileObj->extension);
+        $model->resource_type = $this->setResType($fileObj->extension, $model->course_id);
         // var_dump($model);die;
-        $dir = self::getDir($fileObj->extension);
+        $dir = $this->setDir($fileObj->extension);
         $relaPath = '/' . $dir . '/' . $fileObj->baseName . '.'. time(). '.' . $fileObj->extension;
         $model->$attr = $relaPath;
 
@@ -117,11 +130,11 @@ class Resource extends \yii\db\ActiveRecord
 
 
     /**
-     * [getDir Get file upload dir.]
+     * [setDir Set file upload dir.]
      * @param  [String] $extension [The file extension]
      * @return [String]            [description]
      */
-    public static function getDir($extension)
+    public function setDir($extension)
     {
         $dir = '';
         if (in_array($extension, self::$videoFormats)) {
@@ -136,7 +149,11 @@ class Resource extends \yii\db\ActiveRecord
         return (self::DEST_DIR . '/' .$dir);
     }
 
-    public static function getStatus($extension)
+    /**
+     * [setStatus Set resource status.]
+     * @param [type] $extension [file extension]
+     */
+    public function setStatus($extension)
     {
         if (in_array($extension, self::$videoFormats) && $extension != 'mp4') {
             return self::STATUS_TRANSCODE;
@@ -144,9 +161,43 @@ class Resource extends \yii\db\ActiveRecord
         return self::STATUS_AUTHEN;
     }
 
-    public static function getResType($extension)
+    /**
+     * [setResType Set resource type.]
+     * @param  [type] $extension [file extension]
+     * @param  [type] $course_id [course id]
+     * @return [type]            [description]
+     */
+    public function setResType($extension, $course_id)
     {
-        
+        if (in_array($extension, self::$videoFormats) && empty($this->getVideo($course_id))) {
+            return self::TYPE_VIDEO;
+        }
+        return self::TYPE_ATTACHMENT;
+    }
+
+    /**
+     * [getModels Get all models]
+     * @param  Array  $condition [description]
+     * @return [type]            [description]
+     */
+    public function getModels($fieldArr = [], $condition = [], $sort = [])
+    {
+        return self::find()->select($fieldArr)->where($condition)->orderBy($sort)->all();
+    }
+
+    /**
+     * [getVideo Get main video]
+     * @param  [type] $course_id [course id]
+     * @return [type]            [description]
+     */
+    public function getVideo($course_id)
+    {
+        return self::findOne(['course_id' => $course_id, 'resource_type' => self::TYPE_VIDEO]);
+    }
+
+    public function getAttachments($course_id)
+    {
+        return self::find()->where(['course_id' => $course_id, 'resource_type' => self::TYPE_ATTACHMENT])->orderBy('create_time')->all();
     }
 
 }

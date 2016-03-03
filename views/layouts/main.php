@@ -38,6 +38,7 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => Yii::t('app', 'Course'), 'url' => ['/course/index']],
             ['label' => Yii::t('app', 'Resource'), 'url' => ['/resource/index']],
             [
                 'label' => Yii::t('app', 'Widgets'),
