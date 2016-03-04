@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Resource;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ResourceSearch */
@@ -12,11 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="resource-index">
 
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Resource'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -25,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'icon',
+            // 'icon',
             'extension',
             [
                 'attribute' => 'url',
@@ -35,14 +31,34 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'size',
-            'duration',
-            'status',
-            'resource_type',
-            'course_id',
+            // 'duration',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'filter' => Html::activeDropDownList($searchModel, 'status', Resource::statusList(Resource::INCLUDE_ALL), ['class' => 'form-control']),
+                'value' => function ($model) {
+                    $list = Resource::statusList();
+                    return $list[$model->status];
+                },
+                'headerOptions' => ['width' => '100px'],
+            ],
+            [
+               'attribute' => 'resource_type',
+                'format' => 'raw',
+                'filter' => Html::activeDropDownList($searchModel, 'resource_type', Resource::typeList(Resource::INCLUDE_ALL), ['class' => 'form-control']),
+                'value' => function ($model) {
+                    $list = Resource::typeList();
+                    return $list[$model->resource_type];
+                },
+                'headerOptions' => ['width' => '100px'],
+            ],
+            [
+                'label' => Yii::t('app', 'Course'),
+                'attribute' => 'course_id',
+
+            ],
             'play_count',
             'download_count',
-            // 'create_time',
-            // 'update_time',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

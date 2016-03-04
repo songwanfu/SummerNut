@@ -18,8 +18,8 @@ class ResourceSearch extends Resource
     public function rules()
     {
         return [
-            [['id', 'status', 'resource_type', 'course_id', 'play_count', 'download_count'], 'integer'],
-            [['name', 'extension', 'size'], 'safe'],
+            [['id', 'status', 'resource_type'], 'integer'],
+            [['name', 'extension'], 'safe'],
         ];
     }
 

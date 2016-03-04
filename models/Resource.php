@@ -41,6 +41,10 @@ class Resource extends \yii\db\ActiveRecord
 
     const TYPE_VIDEO = 1;//视频
     const TYPE_ATTACHMENT = 2;//附件
+
+    const INCLUDE_NOT_ALL = 1;
+    const INCLUDE_ALL = 2;
+
     /**
      * @inheritdoc
      */
@@ -87,14 +91,33 @@ class Resource extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function statusList()
+    public static function statusList($type = self::INCLUDE_NOT_ALL)
     {
-        return [
+        $temp = [];
+        if ($type == self::INCLUDE_ALL) {
+            $temp = ['' => Yii::t('app', 'All')];
+        }
+        $list =  [
             self::STATUS_NORAML => Yii::t('app', 'Video Normal'),
             self::STATUS_AUTHEN => Yii::t('app', 'Video Authen'),
             self::STATUS_TRANSCODE => Yii::t('app', 'Video Transcode'),
             self::STATUS_INVALID => Yii::t('app', 'Video Invalid'),
         ];
+        return ($temp + $list);
+    }
+
+    public static function typeList($type = self::INCLUDE_NOT_ALL)
+    {
+        $temp = [];
+        if ($type == self::INCLUDE_ALL) {
+            $temp = ['' => Yii::t('app', 'All')];
+        }
+
+        $list =  [
+            self::TYPE_VIDEO => Yii::t('app', 'Video'),
+            self::TYPE_ATTACHMENT => Yii::t('app', 'Attachment'),
+        ];
+        return ($temp + $list);
     }
 
     /**
