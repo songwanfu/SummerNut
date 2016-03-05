@@ -89,6 +89,23 @@ $config = [
                 'rightAttribute' => 'rgt',
                 'depthAttribute' => 'lvl',
             ],
+        ],
+        'markdown' => [
+            'class' => 'kartik\markdown\Module',
+            'smarty' => function($module) {
+                if (\Yii::$app->user->can('smarty')) {
+                    if(\Yii::$app->user->can('smartyYiiApp'))
+                        $module->smartyYiiApp=true;
+                    else
+                        $module->smartyYiiApp=false;
+                    if(\Yii::$app->user->can('smartyYiiParams'))
+                        $module->smartyYiiParams=true;
+                    else
+                        $module->smartyYiiParams=false;
+                    return true;
+                }
+                return false;
+            }
         ]
     ],
 

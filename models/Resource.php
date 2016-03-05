@@ -65,6 +65,7 @@ class Resource extends \yii\db\ActiveRecord
             [['name', 'icon', 'url'], 'string', 'max' => 255],
             [['extension', 'size', 'duration'], 'string', 'max' => 10],
             [['create_time', 'update_time'], 'default', 'value' => Common::getTime()],
+            ['url', 'file', 'extensions' => array_merge(self::$videoFormats, self::$imgFormats, self::$documentFormats)],
         ];
     }
 
@@ -129,28 +130,45 @@ class Resource extends \yii\db\ActiveRecord
      */
     public function uploadFile(Resource $model, $attr, $rootPath = '')
     {
-        if ($rootPath == '') {
-            $rootPath = Yii::$app->params['uploadUrl'];
-        }
-
         $fileObj = UploadedFile::getInstance($model, $attr);
-        // var_dump($fileObj);die;
+        
         $model->name = $fileObj->baseName;
         $model->size = Common::transByte($fileObj->size);
         $model->extension = $fileObj->extension;
         $model->status = $this->setStatus($fileObj->extension);
         $model->resource_type = $this->setResType($fileObj->extension, $model->course_id);
+
+        return $this->upload($model, $attr, $rootPath);
         // var_dump($model);die;
+        // $dir = $this->setDir($fileObj->extension);
+        // $relaPath = '/' . $dir . '/' . $fileObj->baseName . '.'. time(). '.' . $fileObj->extension;
+        // $model->$attr = $relaPath;
+
+        // if ($fileObj && $model->validate()) {
+        //     $fileObj->saveAs($rootPath . $relaPath);
+        //     return $model;
+        // }
+    }
+
+    public function uploadImg($model, $attr, $rootPath = '')
+    {
+        return $this->upload($model, $attr, $rootPath);
+    }
+
+    public function upload($model, $attr, $rootPath = '')
+    {
+        if ($rootPath == '') {
+            $rootPath = Yii::$app->params['uploadUrl'];
+        }
+        $fileObj = UploadedFile::getInstance($model, $attr);
         $dir = $this->setDir($fileObj->extension);
         $relaPath = '/' . $dir . '/' . $fileObj->baseName . '.'. time(). '.' . $fileObj->extension;
         $model->$attr = $relaPath;
-
         if ($fileObj && $model->validate()) {
             $fileObj->saveAs($rootPath . $relaPath);
             return $model;
         }
     }
-
 
     /**
      * [setDir Set file upload dir.]

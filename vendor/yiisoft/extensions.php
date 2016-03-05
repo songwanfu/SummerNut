@@ -102,4 +102,22 @@ return array (
       '@kartik/tree' => $vendorDir . '/kartik-v/yii2-tree-manager',
     ),
   ),
+  'kartik-v/yii2-mpdf' => 
+  array (
+    'name' => 'kartik-v/yii2-mpdf',
+    'version' => '1.0.0.0',
+    'alias' => 
+    array (
+      '@kartik/mpdf' => $vendorDir . '/kartik-v/yii2-mpdf',
+    ),
+  ),
+  'kartik-v/yii2-markdown' => 
+  array (
+    'name' => 'kartik-v/yii2-markdown',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/markdown' => $vendorDir . '/kartik-v/yii2-markdown',
+    ),
+  ),
 );

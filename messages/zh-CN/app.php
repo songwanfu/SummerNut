@@ -1,5 +1,6 @@
 <?php
 return [
+	'Summer Nut' => '夏果',
 	'Chinese' => '中文',
 	'Widgets' => '工具',
 	'Username' => '用户名',
@@ -31,6 +32,8 @@ return [
 	'Course Gains' => '课程收获',
 	'Other Configures' => '其他选项',
 	'Upload File' => '上传文件',
+	'Upload Icon' => '上传封面',
+	'Course Icon' => '课程封面',
 
 	'Upload success!' => '上传资源完成！',
 	'Video Normal' => '正常',
@@ -40,6 +43,7 @@ return [
 	'Attachment' => '附件',
 
 	'Resource' => '资源',
+	'Resources' => '资源',
 	'Name' => '名称',
 	'Extension' => '后缀名',
 	'Size' => '大小',
@@ -51,7 +55,27 @@ return [
 	'All' => '全部',
 	'Create Time' => '创建时间',
 	'Update Time' => '更新时间',
+	'Chapter' => '章节',
 
+	'Create' => '创建',
 	'Update' => '更新',
 	'Delete' => '删除',
+	'Are you sure you want to delete this item?' => '您确定要删除此项吗？',
+
+	'Home Work' => '课后作业',
+	'Tasks' => '课后作业',
+	'Create Task' => '添加课后作业',
+	'Task Title' => '题目',
+	'Total Score' => '总分',
+	'Task Type' => '作业类型',
+	'Is Timing' => '是否计时',
+	'Complete Time' => '完成时间',
+	'Timing' => '计时',
+	'Not Timing' => '不计时',
+	'Task Choice' => '选择题',
+	'Task True Or False' => '判断题',
+	'Task Short Answer' => '简答题',
+	'Task Calculation' => '计算题',
+	'Task Coding' => '编程题',
+	'Task Image' => '题目图片',
 ];

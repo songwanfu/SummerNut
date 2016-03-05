@@ -36,6 +36,7 @@ class Course extends \kartik\tree\models\Tree
     const STATUS_VALID = 1;
     const STATUS_INVALID = 2;
 
+    public static $iconFormats = ['jpg', 'jpeg', 'png'];
     public $url;
     // public $icon;
     // public $number;
@@ -59,7 +60,8 @@ class Course extends \kartik\tree\models\Tree
             [['introduction', 'notice', 'gains'], 'string', 'max' => 500],
             ['teacher_id', 'default', 'value' => Yii::$app->user->id],
             ['difficulty_level', 'default', 'value' => self::LEVEL_ELEMENTARY],
-            ['status', 'default', 'value' => self::STATUS_VALID]
+            ['status', 'default', 'value' => self::STATUS_VALID],
+            ['icon', 'file', 'extensions' => self::$iconFormats],
         ];
         return array_merge($rules_parent, $rules_course);
     }
@@ -123,6 +125,24 @@ class Course extends \kartik\tree\models\Tree
             return true;
         }
         return false;
+    }
+
+    public static function isRoot(Course $model)
+    {
+        if ($model->lvl == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function findModel($id)
+    {
+        return self::findOne(['id' => $id]);
+    }
+
+    public static function findRoot($id)
+    {
+        return self::findModel(self::findModel($id)->root);
     }
 
 }

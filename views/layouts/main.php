@@ -27,7 +27,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Summer Nut',
+        'brandLabel' => Yii::t('app', 'Summer Nut'),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -40,6 +40,7 @@ AppAsset::register($this);
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => Yii::t('app', 'Course'), 'url' => ['/course/index']],
             ['label' => Yii::t('app', 'Resource'), 'url' => ['/resource/index']],
+            ['label' => Yii::t('app', 'Tasks'), 'url' => ['/task/index']],
             [
                 'label' => Yii::t('app', 'Widgets'),
                 'items' => [
