@@ -78,4 +78,12 @@ return [
 	'Task Calculation' => '计算题',
 	'Task Coding' => '编程题',
 	'Task Image' => '题目图片',
+	'Option A' => '选项A',
+	'Option B' => '选项B',
+	'Option C' => '选项C',
+	'Option D' => '选项D',
+	'Answer Choice' => '参考答案',
+	'Answer Json' => '参考答案',
+	'Code Test Input' => '测试用例输入',
+	'Code Test Output' => '测试用例输出',
 ];

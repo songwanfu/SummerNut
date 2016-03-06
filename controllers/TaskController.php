@@ -77,9 +77,13 @@ class TaskController extends Controller
 
         $model = new Task();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            var_dump(Yii::$app->request->post());die;
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
+            $model->course_id = $course_id;
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -147,4 +151,5 @@ class TaskController extends Controller
         }
         echo Json::encode(HtmlPurifier::process($output));
     }
+
 }
