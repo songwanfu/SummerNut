@@ -120,4 +120,13 @@ return array (
       '@kartik/markdown' => $vendorDir . '/kartik-v/yii2-markdown',
     ),
   ),
+  'kartik-v/yii2-dialog' => 
+  array (
+    'name' => 'kartik-v/yii2-dialog',
+    'version' => '1.0.0.0',
+    'alias' => 
+    array (
+      '@kartik/dialog' => $vendorDir . '/kartik-v/yii2-dialog',
+    ),
+  ),
 );

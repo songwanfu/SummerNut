@@ -49,6 +49,20 @@ class Task extends \yii\db\ActiveRecord
         return 't_task';
     }
 
+    public function attributes()
+    {
+        $attributesArr = array_keys(static::getTableSchema()->columns);
+        return array_merge($attributesArr, ['option_A', 'option_B']);
+        // $length = count($attributesArr);
+        // $temp = [
+        //     $length + 1 => 'country',
+        //     $length + 2 => 'language',
+        //      $length + 3 => 'lang_desc',
+        // ];//添加自定义的属性
+        // return (array_merge($attributesArr, ['country', 'language', 'lang_desc']));
+        // return (array_merge($attributesArr, $temp));die;
+    }
+
     /**
      * @inheritdoc
      */
@@ -62,7 +76,51 @@ class Task extends \yii\db\ActiveRecord
             [['create_time', 'update_time'], 'safe'],
             [['answer_json', 'image'], 'string', 'max' => 255],
             [['complete_time'], 'string', 'max' => 6],
+            [['create_time', 'update_time'], 'default', 'value' => Common::getTime()],
         ];
+    }
+
+    public function validateAttr(Task $model)
+    {
+        if ($model->task_type == static::TYPE_CHOICE) {
+            if (!$model['option_A']) {
+                $model->addError('option_A', Yii::t('app', 'The option_A cannot be blank.'));
+            }
+            if (!$model['option_B']) {
+                $model->addError('option_B', Yii::t('app', 'The option_B cannot be blank.'));
+            }
+            if (!$model['answer_choice']) {
+                $model->addError('answer_choice', Yii::t('app', 'The answer_choice cannot be blank.'));
+            }
+
+            $optionArr = [
+                'A' => $model['option_A'],
+                'B' => $model['option_B'],
+                'C' => $model['option_C'],
+                'D' => $model['option_D'],
+            ];
+
+            $choiceArr = $model['answer_choice'];
+            unset($model['answer_choice']);
+            $model->option_json = json_encode([array_filter($optionArr)]);
+            $model->answer_json = json_encode($choiceArr);
+        }
+
+        // if ($model->task_type == static::TYPE_SHORT_ANSWER || $model->task_type == static::TYPE_CALCULATION) {
+        //     if (empty($model->answer_json)) {
+        //         $model->addError('answer_json', Yii::t('app', 'The answer_json cannot be blank.'));
+        //     }
+        // }
+
+        if ($model->task_type == static::TYPE_CODING) {
+            if (empty($model['code_test_one_input'])) {
+                $model->addError('code_test_one_input', Yii::t('app', 'code_test_one_input cannot be blank.'));
+            }
+            if (empty($model['code_test_one_output'])) {
+                $model->addError('code_test_one_output', Yii::t('app', 'code_test_one_output cannot be blank.'));
+            }
+        }
+        return $model;
     }
 
     /**
@@ -88,36 +146,36 @@ class Task extends \yii\db\ActiveRecord
             'option_C' => Yii::t('app', 'Option C'),
             'option_D' => Yii::t('app', 'Option D'),
             'answer_choice' => Yii::t('app', 'Answer Choice'),
-            'code_test_one_input' => Yii::t('app', 'Code Test Input'),
-            'code_test_two_input' => Yii::t('app', 'Code Test Input'),
-            'code_test_three_input' => Yii::t('app', 'Code Test Input'),
-            'code_test_one_output' => Yii::t('app', 'Code Test Output'),
-            'code_test_two_output' => Yii::t('app', 'Code Test Output'),
-            'code_test_three_output' => Yii::t('app', 'Code Test Output'),
+            'code_test_one_input' => Yii::t('app', 'Code Test Input One'),
+            'code_test_two_input' => Yii::t('app', 'Code Test Input Two'),
+            'code_test_three_input' => Yii::t('app', 'Code Test Input Three'),
+            'code_test_one_output' => Yii::t('app', 'Code Test Output One'),
+            'code_test_two_output' => Yii::t('app', 'Code Test Output Two'),
+            'code_test_three_output' => Yii::t('app', 'Code Test Output Three'),
         ];
     }
 
     public static function timingList()
     {
         return [
-            self::IS_NOT_TIMING => Yii::t('app', 'Not Timing'),
-            self::IS_TIMING => Yii::t('app', 'Timing'),
+            static::IS_NOT_TIMING => Yii::t('app', 'Not Timing'),
+            static::IS_TIMING => Yii::t('app', 'Timing'),
         ];
     }
 
     public static function typeList()
     {
         return [
-            self::TYPE_CHOICE => Yii::t('app', 'Task Choice'),
-            self::TYPE_SHORT_ANSWER => Yii::t('app', 'Task Short Answer'),
-            self::TYPE_CALCULATION => Yii::t('app', 'Task Calculation'),
-            self::TYPE_CODING => Yii::t('app', 'Task Coding'),
+            static::TYPE_CHOICE => Yii::t('app', 'Task Choice'),
+            static::TYPE_SHORT_ANSWER => Yii::t('app', 'Task Short Answer'),
+            static::TYPE_CALCULATION => Yii::t('app', 'Task Calculation'),
+            // static::TYPE_CODING => Yii::t('app', 'Task Coding'),
         ];
     }
 
     public static function scoreList()
     {
-        return [1, 2, 3, 4, 5];
+        return [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
     }
 
     public static function timeList()
@@ -127,6 +185,6 @@ class Task extends \yii\db\ActiveRecord
 
     public static function answerList()
     {
-        return ['A', 'B', 'C', 'D'];
+        return ['A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D'];
     }
 }

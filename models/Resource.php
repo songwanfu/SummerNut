@@ -160,7 +160,13 @@ class Resource extends \yii\db\ActiveRecord
         if ($rootPath == '') {
             $rootPath = Yii::$app->params['uploadUrl'];
         }
+        
         $fileObj = UploadedFile::getInstance($model, $attr);
+
+        if (!$fileObj) {
+            return $model;
+        }
+
         $dir = $this->setDir($fileObj->extension);
         $relaPath = '/' . $dir . '/' . $fileObj->baseName . '.'. time(). '.' . $fileObj->extension;
         $model->$attr = $relaPath;

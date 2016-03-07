@@ -25,6 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
 	            'class' => 'form-horizontal',
 	            'enctype' => 'multipart/form-data',
 	        ],
+	        'fieldConfig' => [
+	            'template' => "{label}\n<div class=\"col-lg-6\">{input}</div>\n<div class=\"col-lg-4\">{error}</div>",
+	            'labelOptions' => ['class' => 'col-lg-2 control-label'],
+	        ],
 		]); ?>
 
 	    <?= $form->field($model, 'course_id')->textInput() ?>
@@ -33,27 +37,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	    <?= $form->field($model, 'title')->textarea(['rows' => 2]) ?>
 
-		<span id="choice-a">
+		<span id="choice-a" style="display: none">
 			<?= $form->field($model, 'option_A')->textInput(['maxlength' => true]) ?>
 		</span>
 		
-		<span id="choice-b">
+		<span id="choice-b" style="display: none">
 			<?= $form->field($model, 'option_B')->textInput(['maxlength' => true]) ?>
 		</span>
 		
-		<span id="choice-c">
+		<span id="choice-c" style="display: none">
 			<?= $form->field($model, 'option_C')->textInput(['maxlength' => true]) ?>
 		</span>
 
-		<span id="choice-d">
+		<span id="choice-d" style="display: none">
 			<?= $form->field($model, 'option_D')->textInput(['maxlength' => true]) ?>
 		</span>
 		
-		<span id="answer_json">
-			<?= $form->field($model, 'answer_json')->textarea(['rows' => 2]) ?>
+		<span id="answer_json" style="display: none">
+			<?= $form->field($model, 'answer_json')->widget(MarkdownEditor::classname(), ['height' => 260, 'encodeLabels' => true, 'smarty' => true, 'previewAction' => Url::to(['task/preview']),]); ?>
 		</span>
 
-		<span id="answer_choice">
+		<span id="answer_choice" style="display: none">
 	    	<?= $form->field($model, 'answer_choice')->checkboxList($model::answerList()) ?>
 		</span>
 
@@ -63,72 +67,45 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	    <?= $form->field($model, 'is_timing')->dropdownList(Task::timingList()) ?>
 		
-		<span id="complete_time">
+		<span id="complete_time" style="display: none">
 	    	<?= $form->field($model, 'complete_time')->dropdownList(Task::timeList()) ?>
 		</span>
 		
 
-		<span id='code_test_one_input'>
-			<div class="col-lg-3 form-group field-task-code_test_one_input">
-				<label class="control-label" for="task-code_test_one_input">测试用例输入</label>
-				<input type="text" id="task-code_test_one_input" class="form-control" name="Task[code_test_one_input]">
-
-				<div class="help-block"></div>
-			</div>
+		<span id='code_test_one_input' style="display: none">
+			<?= $form->field($model, 'code_test_one_input')->textInput(['maxlength' => true]) ?>
 		</span>
 
 		
-		<span id='code_test_one_output'>
-			<div class="col-lg-3 form-group field-task-code_test_one_output" style="margin-left: 50px">
-				<label class="control-label" for="task-code_test_one_output">测试用例输出</label>
-				<input type="text" id="task-code_test_one_output" class="form-control" name="Task[code_test_one_output]">
-
-				<div class="help-block"></div>
-			</div>
+		<span id='code_test_one_output' style="display: none">
+			<?= $form->field($model, 'code_test_one_output')->textInput(['maxlength' => true]) ?>
 		</span>
 
-		<span id='code_test_two_input'>
-			<div class="col-lg-3 form-group field-task-code_test_two_input">
-				<label class="control-label" for="task-code_test_two_input">测试用例输入</label>
-				<input type="text" id="task-code_test_two_input" class="form-control" name="Task[code_test_two_input]">
-
-				<div class="help-block"></div>
-			</div>
+		<span id='code_test_two_input' style="display: none">
+			<?= $form->field($model, 'code_test_two_input')->textInput(['maxlength' => true]) ?>
 		</span>
 		
-		<span id='code_test_two_output'>
-			<div class="col-lg-3 form-group field-task-code_test_two_output">
-				<label class="control-label" for="task-code_test_two_output">测试用例输出</label>
-				<input type="text" id="task-code_test_two_output" class="form-control" name="Task[code_test_two_output]">
-
-				<div class="help-block"></div>
-			</div>
+		<span id='code_test_two_output' style="display: none">
+			<?= $form->field($model, 'code_test_two_output')->textInput(['maxlength' => true]) ?>
 		</span>
 
-		<span id='code_test_three_input'>
-			<div class="col-lg-3 form-group field-task-code_test_three_input">
-				<label class="control-label" for="task-code_test_three_input">测试用例输入</label>
-				<input type="text" id="task-code_test_three_input" class="form-control" name="Task[code_test_three_input]">
-
-				<div class="help-block"></div>
-			</div>
+		<span id='code_test_three_input' style="display: none">
+			<?= $form->field($model, 'code_test_three_input')->textInput(['maxlength' => true]) ?>
 		</span>
 
-		<span id='code_test_three_output'>
-			<div class="col-lg-3 form-group field-task-code_test_three_output">
-				<label class="control-label" for="task-code_test_three_output">测试用例输出</label>
-				<input type="text" id="task-code_test_three_output" class="form-control" name="Task[code_test_three_output]">
-
-				<div class="help-block"></div>
-			</div>
+		<span id='code_test_three_output' style="display: none">
+			<?= $form->field($model, 'code_test_three_output')->textInput(['maxlength' => true]) ?>
 		</span>
 	
 
 
 	    <?php //echo $form->field($model, 'option_json')->widget(MarkdownEditor::classname(), ['height' => 260, 'encodeLabels' => true, 'smarty' => true, 'previewAction' => Url::to(['task/preview']),]); ?>
 
-	    <div class="col-lg-3 form-group">
-	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	    <div class="form-group">
+	    	<label class="col-lg-2 control-label"></label>
+	    	<div class="col-lg-4">
+	        	<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	    	</div>
 	    </div>
 
 	    <?php ActiveForm::end(); ?>
@@ -152,24 +129,28 @@ $this->params['breadcrumbs'][] = $this->title;
 	$('#task-task_type').change(function(){
 		var type = $(this).children('option:selected').val();
 		if (type == TYPE_CHOICE) {
-			taskInit();
+			choiceOpen();
+			$('#answer_json').hide();
 		} else if (type == TYPE_CODING) {
 			choiceClose();
 			codeOpen();
-			$('#answer_json').show();
+			$('#answer_json').hide();
 		} else {
 			choiceClose();
 			codeClose();
+			$('#answer_json').show();
 		}
 		
 	});
 
 	function taskInit()
 	{
-		choiceOpen();
-		codeClose();
-		$('#answer_json').hide();
-		$('#complete_time').hide();
+		if (TYPE_CHOICE == $('#task-task_type').children('option:selected').val()) {
+			choiceOpen();
+		} else {
+			choiceClose();
+			$('#answer_json').show();
+		}
 	}
 
 	function choiceOpen()

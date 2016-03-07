@@ -105,7 +105,13 @@ $config = [
                     return true;
                 }
                 return false;
-            }
+            },
+            'smartyPants' => true,
+            // 'i18n' => [
+            //     'class' => 'yii\i18n\PhpMessageSource',
+            //     'basePath' => '@markdown/messages',
+            //     'forceTranslation' => true
+            // ],
         ]
     ],
 

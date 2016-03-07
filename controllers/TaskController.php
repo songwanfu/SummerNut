@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Course;
+use app\models\Resource;
 use yii\helpers\Json;
 use yii\helpers\HtmlPurifier;
 use kartik\markdown\Markdown;
@@ -61,8 +62,10 @@ class TaskController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -76,18 +79,26 @@ class TaskController extends Controller
         $course_id = Yii::$app->request->get('course_id');
 
         $model = new Task();
+        $resourceModel = new Resource();
 
         if ($model->load(Yii::$app->request->post())) {
-            var_dump(Yii::$app->request->post());die;
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            $model = $model->validateAttr($model);
+            if (empty($model->errors)) {
+                $model = $resourceModel->uploadImg($model, 'image');
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
-        } else {
-            $model->course_id = $course_id;
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        $model->course_id = $course_id;
+        if (!json_decode($model->answer_json)) {
+            $model->answer_json = '';
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
