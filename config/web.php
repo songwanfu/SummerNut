@@ -45,10 +45,21 @@ $config = [
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
+            'flushInterval' => 1,
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['trace', 'warning'],
+                    'categories' => ['yii\*'],
+                    'exportInterval' => 1,
+                    'logFile' => '@app/runtime/logs/app.log',
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'categories' => ['error'],
+                    'levels' => ['error'],
+                    'exportInterval' => 1,
+                    'logFile' => '@app/runtime/logs/error.log',
                 ],
             ],
         ],

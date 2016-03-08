@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Course;
 use app\models\Task;
+use app\models\Common;
 use kartik\markdown\Markdown;
 
 /* @var $this yii\web\View */
@@ -14,21 +15,25 @@ use kartik\markdown\Markdown;
 // die;
 
 $this->title = $model->title;
+$title = mb_substr(strip_tags($this->title), 0, 60);
+$title .= '......';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tasks'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $title;
 
 $timingList = Task::timingList();
 $typeList = Task::typeList();
 
+//将选项json解析为字符串
 $htmlStr = '';
-if (!empty($model->option_json)) {
-    $options = json_decode($model->option_json, true);
-    $options = $options[0]; 
-    foreach ($options as $k => $v) {
-        $htmlStr .= $k . ':' . PHP_EOL . $v . '<br>';
-    }
+if ($model->task_type == $model::TYPE_CHOICE) {
+    $htmlStr = Common::parseJsonToStr($model->option_json);
 }
-// echo Markdown::convert($model->answer_json);die;
+
+//将答案json解析为字符串
+$answerStr = '';
+if ($model->task_type == Task::TYPE_CHOICE) {
+    $answerStr = implode(',', json_decode($model->answer_json));
+}
 
 ?>
 <div class="task-view">
@@ -49,7 +54,11 @@ if (!empty($model->option_json)) {
                 'label' => Yii::t('app', 'Chapter'),
                 'value' => Course::findModel($model->course_id)->name,
             ],
-            'title:ntext',
+            [
+                'attribute' => 'title',
+                'format' => 'raw',
+                'value' => Markdown::convert($model->title),
+            ],
             [
                 'attribute' => 'image',
                 'format' => 'raw',
@@ -64,7 +73,7 @@ if (!empty($model->option_json)) {
             [
                 'attribute' => 'answer_json',
                 'format' => 'raw',
-                'value' => Markdown::convert($model->answer_json),
+                'value' => $model->task_type == Task::TYPE_CHOICE ? $answerStr : Markdown::convert($model->answer_json),
             ],
             'score',
             [
@@ -77,7 +86,7 @@ if (!empty($model->option_json)) {
             ],
             [
                 'attribute' => 'complete_time',
-                'value' => $model->is_timing == Task::IS_NOT_TIMING ? Yii::t('app', 'Null') : $model->complete_time,
+                'value' => $model->complete_time,
             ],
             'create_time',
             'update_time',

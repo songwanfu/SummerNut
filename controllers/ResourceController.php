@@ -185,4 +185,19 @@ class ResourceController extends Controller
         }
         
     }
+
+    public function actionTranscode()
+    {
+        $model = new Resource();
+
+        //如果数据库还有需要转码的视频,取一条记录开始转码
+        while ($model->findOneTranscodeVideo()) {
+            $video = $model->findOneTranscodeVideo();
+            if (!$model->transcode($video)) {
+                Yii::error("$video->update_time---$video->name transcode failed", 'error');
+                break;
+            }
+        }
+        
+    }
 }

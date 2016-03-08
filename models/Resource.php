@@ -247,4 +247,47 @@ class Resource extends \yii\db\ActiveRecord
         return self::find()->where(['course_id' => $course_id, 'resource_type' => self::TYPE_ATTACHMENT])->orderBy('create_time')->all();
     }
 
+    
+    /**
+     * [transcode Transcode video]
+     * @param  [Resource] $model []
+     * @return [bool]        [success or failed]
+     */
+    public function transcode(Resource $model)
+    {
+        if ($model->save()) {
+            $rootPath = Yii::$app->params['uploadUrl'];
+            $time = time();
+            exec("ffmpeg -i $rootPath$model->url -f mp4 -vcodec libx264 -s 640x360 $rootPath/uploads/video/$model->name.$time.mp4", $res, $rc);
+            if (!$rc) {
+                $model->status = static::STATUS_AUTHEN;
+                $model->extension = 'mp4';
+                $model->url = "/uploads/video/$model->name.$time.mp4";
+                $model->update_time = Common::getTime();
+                if ($model->save()) {
+                    return true;
+                }
+            }
+            
+        }
+
+        return false;
+    }
+
+    public function getTranscodeVideos()
+    {
+        return $this->getModels([], ['status' => static::STATUS_TRANSCODE, 'resource_type' => static::TYPE_VIDEO]);
+    }
+
+    public function findOneTranscodeVideo()
+    {
+        return self::findOne(['status' => static::STATUS_TRANSCODE, 'resource_type' => static::TYPE_VIDEO]);
+    }
+
+    public function getAuthenVideos()
+    {
+        return $this->getModels(['url'], ['status' => static::STATUS_AUTHEN, 'resource_type' => static::TYPE_VIDEO]);
+    }
+
+
 }

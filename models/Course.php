@@ -145,4 +145,21 @@ class Course extends \kartik\tree\models\Tree
         return self::findModel(self::findModel($id)->root);
     }
 
+    public static function fileMap($fieldArr = [])
+    {
+        $fieldStr = strtolower(implode(',', $fieldArr));
+
+        $sql = "SELECT {$fieldStr} FROM t_course WHERE rgt - lft = 1";
+        $models = self::findBySql($sql)->asArray()->all();
+        $map = [];
+        $i = 0;
+        foreach ($models as $model) {
+            foreach ($fieldArr as $field) {
+                $map[$i][$field]  = $model[$field];
+            }
+            $i++;
+        }
+        return $map;
+    }
+
 }

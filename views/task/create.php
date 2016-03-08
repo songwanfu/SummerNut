@@ -2,9 +2,10 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use app\models\Task;
+use app\models\Course;
 use kartik\markdown\MarkdownEditor;
 // use \Michelf\Markdown, \Michelf\SmartyPants;
 /* @var $this yii\web\View */
@@ -12,8 +13,11 @@ use kartik\markdown\MarkdownEditor;
 
 $this->title = Yii::t('app', 'Create Task');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tasks'), 'url' => ['index']];
+if (!empty($courseName)) {
+    $this->params['breadcrumbs'][] = $courseName;
+    $this->params['breadcrumbs'][] = $chapterName;
+}
 $this->params['breadcrumbs'][] = $this->title;
-
 
 ?>
 <div class="task-create">
@@ -26,16 +30,16 @@ $this->params['breadcrumbs'][] = $this->title;
 	            'enctype' => 'multipart/form-data',
 	        ],
 	        'fieldConfig' => [
-	            'template' => "{label}\n<div class=\"col-lg-6\">{input}</div>\n<div class=\"col-lg-4\">{error}</div>",
+	            'template' => "{label}\n<div class=\"col-lg-8\">{input}</div>\n<div class=\"col-lg-2\">{error}</div>",
 	            'labelOptions' => ['class' => 'col-lg-2 control-label'],
 	        ],
 		]); ?>
 
-	    <?= $form->field($model, 'course_id')->textInput() ?>
+	    <?= $form->field($model, 'course_id')->dropdownList(ArrayHelper::map(Course::fileMap(['id', 'name']), 'id', 'name')) ?>
 
 	    <?= $form->field($model, 'task_type')->dropdownList(Task::typeList()) ?>
 
-	    <?= $form->field($model, 'title')->textarea(['rows' => 2]) ?>
+	    <?= $form->field($model, 'title')->widget(MarkdownEditor::classname(), ['height' => 260, 'encodeLabels' => true, 'smarty' => true, 'previewAction' => Url::to(['task/preview']),]); ?>
 
 		<span id="choice-a" style="display: none">
 			<?= $form->field($model, 'option_A')->textInput(['maxlength' => true]) ?>

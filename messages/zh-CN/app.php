@@ -64,8 +64,10 @@ return [
 
 	'Home Work' => '课后作业',
 	'Tasks' => '课后作业',
+	'List All Tasks' => '所有课后作业',
 	'Create Task' => '添加课后作业',
 	'Task Title' => '题目',
+	'Course ID' => '课程',
 	'Total Score' => '总分',
 	'Task Type' => '作业类型',
 	'Is Timing' => '是否计时',
@@ -91,9 +93,10 @@ return [
 	'Code Test Output Two' => '测试用例输出二',
 	'Code Test Input Three' => '测试用例输入三',
 	'Code Test Output Three' => '测试用例输出三',
-	'The answer_choice cannot be blank.' => '参考答案不能为空',
-	'The option_A cannot be blank.' => '选项A不能为空',
-	'The option_B cannot be blank.' => '选项B不能为空',
+	'The answer_choice cannot be blank.' => '参考答案不能为空.',
+	'The option_A cannot be blank.' => '选项A不能为空.',
+	'The option_B cannot be blank.' => '选项B不能为空.',
+	'The answer_choice is not correct.' => '所给出的参考答案不正确.',
 	'Null' => '无',
-
+	'Update Task' => '修改课后作业',
 ];

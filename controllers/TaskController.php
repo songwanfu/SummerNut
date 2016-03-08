@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Course;
 use app\models\Resource;
+use app\models\Common;
 use yii\helpers\Json;
 use yii\helpers\HtmlPurifier;
 use kartik\markdown\Markdown;
@@ -79,11 +80,11 @@ class TaskController extends Controller
         $course_id = Yii::$app->request->get('course_id');
 
         $model = new Task();
-        $resourceModel = new Resource();
 
         if ($model->load(Yii::$app->request->post())) {
             $model = $model->validateAttr($model);
             if (empty($model->errors)) {
+                $resourceModel = new Resource();
                 $model = $resourceModel->uploadImg($model, 'image');
                 if ($model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
@@ -96,8 +97,17 @@ class TaskController extends Controller
             $model->answer_json = '';
         }
 
+        $chapterName = $courseName = null;
+        if (!empty($course_id)) {
+            $chapterName = Course::findModel($course_id)->name; 
+            $courseName = Course::findRoot($course_id)->name; 
+        }
+
         return $this->render('create', [
             'model' => $model,
+            'courseId' => $course_id,
+            'chapterName' => $chapterName,
+            'courseName' => $courseName,
         ]);
     }
 
@@ -111,13 +121,45 @@ class TaskController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model = $model->validateAttr($model);
+            if (empty($model->errors)) {
+                $resourceModel = new Resource();
+                $model = $resourceModel->uploadImg($model, 'image');
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
         }
+
+        if ($model->is_timing == $model::IS_NOT_TIMING) {
+            $model->complete_time = '00:00';
+        }
+
+        if ($model->task_type == $model::TYPE_CHOICE) {
+            $optionArr = json_decode($model->option_json, true);
+            // var_dump($optionArr);die;
+            foreach ($optionArr as $k => $v) {
+                $index = 'option_' . $k;
+                $model->$index = $v;
+            }
+            
+
+            $model->answer_choice = json_decode($model->answer_json, true);
+
+            return $this->render('update-choice', ['model' => $model]);
+        }
+
+        if ($model->task_type == $model::TYPE_SHORT_ANSWER || $model->task_type == $model::TYPE_CALCULATION) {
+            
+
+            return $this->render('update-short-calculation', ['model' => $model]);
+        }
+
+
+        
+
+        
     }
 
     /**

@@ -31,4 +31,14 @@ class Common
         return date('Y-m-d H:i:s', time());
     }
 
+    public static function parseJsonToStr($json)
+    {
+        $arr = json_decode($json, true);
+        $str = '';
+        foreach ($arr as $k => $v) {
+            $str .= $k . ':' . $v . '<br>';
+        }
+        return $str;
+    }
+
 }

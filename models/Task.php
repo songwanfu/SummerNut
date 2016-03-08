@@ -28,6 +28,8 @@ class Task extends \yii\db\ActiveRecord
     const TYPE_CODING = 4;//编程题
     const IS_TIMING = 1;//计时
     const IS_NOT_TIMING = 0;//不计时
+    const INCLUDE_NOT_ALL = 1;//不包含"all"
+    const INCLUDE_ALL = 2;//包含"all"
 
     public $option_A;
     public $option_B;
@@ -99,11 +101,20 @@ class Task extends \yii\db\ActiveRecord
                 'C' => $model['option_C'],
                 'D' => $model['option_D'],
             ];
-
+            $optionArr = array_filter($optionArr);
             $choiceArr = $model['answer_choice'];
+
+            if (!$this->validateAnswer($optionArr, $choiceArr)) {
+               $model->addError('answer_choice', Yii::t('app', 'The answer_choice is not correct.')); 
+            }
+
             unset($model['answer_choice']);
-            $model->option_json = json_encode([array_filter($optionArr)]);
+
+            $model->option_json = json_encode($optionArr);
             $model->answer_json = json_encode($choiceArr);
+            if ($model->is_timing == static::IS_NOT_TIMING) {
+                $model->complete_time = '00:00';
+            }
         }
 
         // if ($model->task_type == static::TYPE_SHORT_ANSWER || $model->task_type == static::TYPE_CALCULATION) {
@@ -120,7 +131,25 @@ class Task extends \yii\db\ActiveRecord
                 $model->addError('code_test_one_output', Yii::t('app', 'code_test_one_output cannot be blank.'));
             }
         }
+
+        $model->update_time = Common::getTime();
         return $model;
+    }
+
+    public function validateAnswer($optionArr, $choiceArr)
+    {
+        $options = [];
+        $choices = [];
+        foreach ($optionArr as $k => $v) {
+            $options[] = $k;
+        }
+
+        foreach ($choiceArr as $k => $v) {
+            if (!in_array($v, $options)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -155,32 +184,50 @@ class Task extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function timingList()
+    public static function timingList($type = self::INCLUDE_NOT_ALL)
     {
-        return [
+        $temp = [];
+        if ($type == self::INCLUDE_ALL) {
+            $temp = ['' => Yii::t('app', 'All')];
+        }
+        $list = [
             static::IS_NOT_TIMING => Yii::t('app', 'Not Timing'),
             static::IS_TIMING => Yii::t('app', 'Timing'),
         ];
+        return ($temp + $list);
     }
 
-    public static function typeList()
+    public static function typeList($type = self::INCLUDE_NOT_ALL)
     {
-        return [
+        $temp = [];
+        if ($type == self::INCLUDE_ALL) {
+            $temp = ['' => Yii::t('app', 'All')];
+        }
+        $list = [
             static::TYPE_CHOICE => Yii::t('app', 'Task Choice'),
             static::TYPE_SHORT_ANSWER => Yii::t('app', 'Task Short Answer'),
             static::TYPE_CALCULATION => Yii::t('app', 'Task Calculation'),
             // static::TYPE_CODING => Yii::t('app', 'Task Coding'),
         ];
+        return ($temp + $list);
     }
 
-    public static function scoreList()
+    public static function scoreList($type = self::INCLUDE_NOT_ALL)
     {
-        return [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
+        $temp = [];
+        if ($type == self::INCLUDE_ALL) {
+            $temp = ['' => Yii::t('app', 'All')];
+        }
+        return $temp + [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
     }
 
-    public static function timeList()
+    public static function timeList($type = self::INCLUDE_NOT_ALL)
     {
-        return ['00:30', '01:00', '01:30', '02:00', '03:00', '05:00', '10:00', '15:00', '20:00', '30:00', '40:00', '50:00', '60:00'];
+        $temp = [];
+        if ($type == self::INCLUDE_ALL) {
+            $temp = ['' => Yii::t('app', 'All')];
+        }
+        return $temp + ['00:00' => '00:00', '00:30' => '00:30', '01:00' => '01:00', '01:30' => '01:30', '02:00' => '02:00', '03:00' => '03:00', '05:00' => '05:00', '10:00' => '10:00', '15:00' => '15:00', '20:00' => '20:00', '30:00' => '30:00', '40:00' => '40:00', '50:00' => '50:00', '60:00' => '60:00'];
     }
 
     public static function answerList()
