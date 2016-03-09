@@ -17,6 +17,7 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/img/icon.jpg" rel="shortcut icon">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -79,9 +80,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Summer Nut <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?php echo Yii::t('app', 'Summer Nut');?> <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><a href="mailto:imsongwanfu@163.com"><?= Yii::t('app', 'Email') ?></a></p>
     </div>
 </footer>
 

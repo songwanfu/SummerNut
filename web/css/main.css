@@ -1,0 +1,50 @@
+.wrap{
+	background-color: #F5F5F5;
+}
+
+.jumbotron-index {
+	background-color: #99CCCC;
+}
+
+.list-query-type {
+	line-height: 40px;
+	color: #999;
+	font-size: 15px;
+}
+
+.list-query li {
+	margin-right: 10px;
+}
+
+.list-hot , .list-new{
+	padding: 10px 10px 0 15px;
+}
+
+.list-preivew {
+	margin: 10px 0px 10px 0px;
+}
+
+.list-preivew :hover{
+	border: 1px solid gray;
+	background-color: red;
+}
+
+.course-status {
+	margin-left: 10px;
+	font-size: 10px;
+	color:#333333;
+}
+
+.course-leaner {
+	font-size: 10px;
+	color:#333333;
+}
+
+.course-tips {
+	text-align: left;
+	color:#999;
+}
+
+.gray {
+	background-color:#999;
+}

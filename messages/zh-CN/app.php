@@ -99,4 +99,8 @@ return [
 	'The answer_choice is not correct.' => '所给出的参考答案不正确.',
 	'Null' => '无',
 	'Update Task' => '修改课后作业',
+
+
+	'Learn Now' => '开始学习',
+	'Email' => '邮件',
 ];
