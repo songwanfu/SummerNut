@@ -22,7 +22,7 @@ class CourseController extends \yii\web\Controller
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['list'], 
+                            'actions' => ['list', 'view'], 
                             'roles' => ['?'],
                         ],
                     ],
@@ -39,6 +39,11 @@ class CourseController extends \yii\web\Controller
     public function actionList()
     {
         return $this->render('list');
+    }
+
+    public function actionView()
+    {
+        return $this->render('view');
     }
 
     public function actionManage()

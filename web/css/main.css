@@ -16,6 +16,12 @@
 	margin-right: 10px;
 }
 
+/*.list-query-type li:hover {
+	margin-right: 10px;
+	background-color: #999;
+	color:#999;
+}*/
+
 .list-hot , .list-new{
 	padding: 10px 10px 0 15px;
 }
@@ -25,9 +31,10 @@
 }
 
 .list-preivew :hover{
-	border: 1px solid gray;
-	background-color: red;
+	/*border: 1px ridge gray;*/
+	/*background-color: red;*/
 }
+.list-preview-href {clear:both;}
 
 .course-status {
 	margin-left: 10px;
@@ -47,4 +54,99 @@
 
 .gray {
 	background-color:#999;
+}
+
+.blur {
+	-webkit-filter: blur(5px); /* Chrome, Opera */
+       -moz-filter: blur(5px);
+        -ms-filter: blur(5px);    
+            filter: blur(5px);
+}
+
+.course-view-infos{
+	/*position: absolute;*/
+	/*width:100%;*/
+	/*margin-top: -20px;*/
+	/*padding:10px 0 0 20px;*/
+/*	left:0px;
+	right:0px;*/
+	background-color: #172a34;
+	color:white;
+	/*clear:both;*/
+/*	background-image: url('http://img.mukewang.com/567252dc0001605306000338.jpg');
+	background-repeat: repeat-x;*/
+}
+
+.course-view-infos .breadcrumb {
+	background-color: #172a34;
+	color:white;
+}
+
+.course-view-title {
+	margin-top: -20px;
+	margin-left: 0px;
+}
+
+.course-view-class dd{
+	color:gray;
+}
+
+.course-view-share {margin-top: 25px}
+
+.course-view-body {margin-top: 50px}
+
+.course-introduction , .course-outline{
+	/*margin-left: -30px;*/
+	border-bottom:1px blue dashed; 
+}
+.course-introduction .introduction-title{
+	color:red;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: "微软雅黑";
+}
+
+.course-introduction li {
+	margin-right: 10px;
+}
+
+
+.course-outline {
+	margin-top: 20px;
+}
+
+.course-outline span{
+/*	color:red;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: "微软雅黑";*/
+}
+
+.outline-title {
+	color:red;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: "微软雅黑";
+}
+
+.course-outline-top li, span{
+	margin-right: 10px;
+}
+
+.outline-body h6 {
+	margin-top: 0px;
+	color:gray;
+}
+
+.outline-body h5 {
+	margin-top: 4px;
+}
+
+.outline-body-list{
+	margin-top: 30px;
+}
+
+.view-body{
+	margin:0 0 0 -45px;
+	padding:0;
 }

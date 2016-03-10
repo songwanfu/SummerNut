@@ -58,29 +58,29 @@ $this->title = Yii::t('app', 'Course');
 
 					
 					<div class="tab-pane active" id="new">
-						<div class="row list-new">
-							<div class="col-lg-3 col-md-3 list-preivew">
-								<img src="http://img.mukewang.com/567252db0001b9ea06000338-240-135.jpg" class="img-rounded">
+						<div class="row list-preivew">
+							<div class="col-lg-3 col-md-3 ">
+								<a href=""><img src="http://img.mukewang.com/567252db0001b9ea06000338-240-135.jpg" class="img-rounded blur"></a>
 								<h5 style="text-align: left">CSS深入理解之relative</h5>
 								<h6 class="course-tips">relative实际使用经验分享，必学！</h6>
 								<span class="course-leaner">更新完毕</span>
 								<span class="course-status">9773人学习</span>
 							</div>
-							<div class="col-lg-3 col-md-3 list-preivew">
+							<div class="col-lg-3 col-md-3">
 								<img src="http://img.mukewang.com/56720f3800016b6206000338-240-135.jpg" class="img-rounded">
 								<h5 style="text-align: left">去哪儿前端沙龙分享第三期</h5>
 								<h6 class="course-tips">去哪儿网前端交互沙龙第三期！</h6>
 								<span class="course-leaner">更新完毕</span>
 								<span class="course-status">14397人学习</span>
 							</div>
-							<div class="col-lg-3 col-md-3 list-preivew">
+							<div class="col-lg-3 col-md-3">
 								<img src="http://img.mukewang.com/56653a860001cbaa06000338-240-135.jpg" class="img-rounded">
 								<h5 style="text-align: left">H5+JS+CSS3 实现圣诞情缘</h5>
 								<h6 class="course-tips">relative实际使用经验分享，必学！</h6>
 								<span class="course-leaner">更新完毕</span>
 								<span class="course-status">37463人学习</span>
 							</div>
-							<div class="col-lg-3 col-md-3 list-preivew">
+							<div class="col-lg-3 col-md-3">
 								<img src="http://img.mukewang.com/55dd982f0001ecb906000338-240-135.jpg" class="img-rounded">
 								<h5 style="text-align: left">DOM探索之基础详解篇</h5>
 								<h6 class="course-tips">前端大牛都是从精通DOM开始的，你准备好了吗！</h6>
@@ -92,7 +92,7 @@ $this->title = Yii::t('app', 'Course');
 
 
 					<div class="tab-pane" id="hot">
-						<div class="row list-hot">
+						<div class="row">
 							<div class="col-lg-3 col-md-3 list-preivew">
 								<img src="http://img.mukewang.com/529dc3380001379906000338-240-135.jpg" class="img-rounded">
 								<h5 style="text-align: left">HTML+CSS基础课程</h5>
