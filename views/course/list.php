@@ -123,7 +123,7 @@ $this->title = Yii::t('app', 'Course');
 							</div>
 						</div>
 					</div>
-
+						
 
 				</div>
 			</div>

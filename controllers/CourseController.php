@@ -17,12 +17,12 @@ class CourseController extends \yii\web\Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['create', 'view', 'update', 'delete', 'test', 'upload', 'delete-icon'], 
+                            'actions' => ['create', 'view', 'learn', 'update', 'delete', 'test', 'upload', 'delete-icon'], 
                             'roles' => ['@'],
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['list', 'view'], 
+                            'actions' => ['list', 'view', 'learn'], 
                             'roles' => ['?'],
                         ],
                     ],
@@ -44,6 +44,11 @@ class CourseController extends \yii\web\Controller
     public function actionView()
     {
         return $this->render('view');
+    }
+
+    public function actionLearn()
+    {
+        return $this->render('learn');
     }
 
     public function actionManage()

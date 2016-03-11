@@ -93,7 +93,7 @@
 
 .course-view-share {margin-top: 25px}
 
-.course-view-body {margin-top: 50px}
+.course-view-body .course-learn-body{margin-top: 50px}
 
 .course-introduction , .course-outline{
 	/*margin-left: -30px;*/
@@ -122,7 +122,7 @@
 	font-family: "微软雅黑";*/
 }
 
-.outline-title {
+.outline-title, .comment-title{
 	color:red;
 	font-size: 18px;
 	font-weight: bold;
@@ -146,7 +146,59 @@
 	margin-top: 30px;
 }
 
-.view-body{
-	margin:0 0 0 -45px;
+.view-body, .learn-body{
+	margin:50px 0 0 -45px;
 	padding:0;
 }
+
+.course-comment {margin-top: 30px}
+
+.evaluation-info {
+	margin-top: 10px;
+	background-color: #99CCCC;
+}
+
+.evaluation-info .comment-total {
+	float: right;
+}
+
+.evaluation-con .evaluation-name {
+	color:gray;
+}
+
+.evaluation-content {
+	margin-top: 10px;
+}
+
+.evaluation-time {
+	color:gray;
+}
+
+.course-comment .media {
+	border-bottom:1px #808080 dashed; 
+}
+.icon-star, .icon-star-empty{
+	color: #FF9900;
+}
+
+.btn-start  {margin-top: 10px;}
+
+.teacher-word {
+	margin-top: 100px;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom:1px #669999 dashed; 
+}
+
+.teacher-info hr {width:2px;}
+
+.teacher-job{color:#999}
+
+.course-notice {
+	margin-top: 20px;
+	background-color: #EDF1F4
+}
+.course-notice p , .course-notice li {
+	color:#999;
+}
+
