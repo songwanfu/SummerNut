@@ -2,7 +2,7 @@
 use yii\widgets\LinkPager;
 /* @var $this yii\web\View */
 
-$this->title = Yii::t('app', 'View');
+$this->title = Yii::t('app', 'Learn');
 
 // $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Course'), 'url' => ['index']];
 // $this->params['breadcrumbs'][] = 'HTML/CSS';
@@ -11,86 +11,79 @@ $this->title = Yii::t('app', 'View');
 
 <div class="wrap">
 	<div class="row course-view-infos">
-			<div class="col-lg-12">
-				<ol class="breadcrumb">
-				  <li><a href="#">课程</a></li>
-				  <li><a href="#">前端开发</a></li>
-				  <li><a href='#'>HTML/CSS</a></li>
-				  <li class="active">CSS深入理解之relative</li>
-				</ol>
-			</div>
-
-			<div class="col-lg-12 course-view-title">
-				<h2>CSS深入理解之relative</h2>
-			</div>
-		
-			<div class="col-lg-3 col-md-3 col-xs-3 course-view-class">
-
-				<dl>
-				  <h4><dt>高级</dt></h4>
-				  <dd>难度</dd>
-				</dl>
-				<dl>
-			</div>
-
-			<div class="col-lg-3 col-md-3 col-xs-3 course-view-class">
-				<dl>
-				  <h4><dt>9934</dt></h4>
-				  <dd>学习人数</dd>
-				</dl>
-				<dl>
-			</div>
-
-			<div class="col-lg-2 col-lg-offset-4 col-md-2 col-md-offset-4 course-view-share">
-				 
-				<span class="icon-heart-empty icon-large">关注</span>
-				<span class="icon-share-alt icon-large" style="margin-left: 10px">分享</span>
-				<span class="icon-weibo icon-large"></span>
-			</div>
-
+		<?= $this->render('course-top')?>
 	</div>
 
 	<div class="row learn-body">
 		<div class="col-lg-9 course-learn-body">
-
-			<div class="col-lg-12 progress">
+			<div class="learn-progress progress">
 			  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-			    60%
+			    已学60%用时0小时49分
 			  </div>
+			</div>
+			<div class="col-lg-12 course-menu">
+				<ul class="list-inline">
+				  <li class="col-lg-4 menu-active"><h4>章节</h4></li>
+				  <li class="col-lg-4"><h4>评论</h4></li>
+				  <li class="col-lg-4"><h4>问答</h4></li>
+				</ul>
+			</div>
+
+			<div class="col-lg-12 course-learn-chapter">
+				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+				  <div class="panel panel-default">
+				    <div class="panel-heading" role="tab" id="headingOne">
+				      <h4 class="panel-title">
+				        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				          <span class="fa fa-list"></span>第1章 relative和absolute相煎何太急
+				        </a>
+				      </h4>
+				    </div>
+				    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+				      <div class="panel-body">
+								<span class="fa fa-play-circle-o"></span><span class="chapter-h2">1-1 relative和absolute的相煎关系 (07:28)</span>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="panel panel-default">
+				    <div class="panel-heading" role="tab" id="headingTwo">
+				      <h4 class="panel-title">
+				        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+				          <span class="fa fa-list"></span>第2章 relative与定位
+				        </a>
+				      </h4>
+				    </div>
+				    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+				      <div class="panel-body">
+				      	2-1 relative和定位 (08:19)
+				      </div>
+				    </div>
+				  </div>
+				  <div class="panel panel-default">
+				    <div class="panel-heading" role="tab" id="headingThree">
+				      <h4 class="panel-title">
+				        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+				          <span class="fa fa-list"></span>第3章 relative与z-index层级的关系
+				        </a>
+				      </h4>
+				    </div>
+				    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+				      <div class="panel-body">
+				      	3-1 relative和层级 (04:24)
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
+
+
 			</div>
 
 
 		</div>
 
 		<div class="col-lg-3  course-view-right">
-			<div class="lear-start">
-				<button class="btn btn-info btn-start col-lg-12">继续学习</button>
-			</div>
-			<div class="teacher-info">
-					<h4 class="teacher-word">讲师提示</h4>
-					<div class="media-left media-middle">
-				    <a href="#">
-				      <img class="media-object img-circle" src="http://img.mukewang.com/user/549beab90001be9037445616-80-80.jpg" alt="..." width="80px">
-				    </a>
-				  </div>
-				  <div class="media-body">
-				  	<h5>张鑫旭</h5>
-				    <h6 class="teacher-job">页面重构设计</h6>
-				  </div>
-
-				  <div class="col-lg-12 course-notice">
-				  	<h5>课程须知</h5>
-				  	<p>熟悉html代码，了解css属性</p>
-				  	<h5>老师告诉你能学到什么？</h5>
-				  	<ol>
-						  <li>relative与absolute；</li>
-						  <li>relative与z-index；</li>
-						  <li>relative的最小化影响准则</li>
-						</ol>
-				  </div>
-
-
-			</div>
+			<?= $this->render('course-right')?>
 
 		</div>
 

@@ -2,10 +2,12 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\markdown\MarkdownEditor;
 use app\assets\VideoPlay;
+use app\assets\CommentEmoji;
 
 VideoPlay::register($this);
-
+CommentEmoji::register($this);
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\VideoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -52,6 +54,116 @@ $this->params['breadcrumbs'][] = $this->title;
 		    	<li><a href="javascript:void(0)">2.0X</a></li>
 		 	 </ul>
 		</div>
+	</div>
+
+	<div class="row col-lg-12 video-menu">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#comment" data-toggle="tab">评论</a></li>
+			<li><a href="#qa" data-toggle="tab">问答</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="comment">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-input">
+          <textarea class="form-control" placeholder="扯淡、吐槽、表扬、鼓励……想说啥就说啥！" id="comment-input" rows="3"></textarea>
+          <button class="btn btn-info emotion" type="button"><span class="icon-smile icon-large">&nbsp;添加表情</span></button>
+        	<button class="btn btn-success comment-send" type="button" id="addCommentSubmit"><span class="icon-mail-forward icon-large">&nbsp;发表评论</span></button>
+        </div>
+        
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-detail">
+
+					<div class="media col-lg-12 evaluation-con">
+					  <div class="media-left media-middle">
+					    <a href="#">
+					      <img class="media-object img-circle" src="http://img.mukewang.com/user/545868f30001886f02200220-40-40.jpg" alt="..." width="60px">
+					    </a>
+					  </div>
+					  <div class="media-body">
+					  	<span class="evaluation-name">黎丶小小小陌</span>
+					    <h5 class="media-heading evaluation-content">挺棒的 支持。</h5>
+					    <span class="evaluation-time">时间：1天前</span>
+					    <span class="icon-thumbs-down comment-down">1</span>
+					    <span class="icon-thumbs-up comment-up">10</span>
+					  </div>
+					</div>
+					<div class="media col-lg-12 evaluation-con">
+					  <div class="media-left media-middle">
+					    <a href="#">
+					      <img class="media-object img-circle" src="http://img.mukewang.com/user/56dc4a6c0001dbb202000200-40-40.jpg" alt="..." width="60px">
+					    </a>
+					  </div>
+					  <div class="media-body">
+					  	<span class="evaluation-name">programme</span>
+					    <h5 class="media-heading evaluation-content">在项目中很实用</h5>
+					    <span class="evaluation-time">时间：1天前</span>
+					    <span class="icon-thumbs-down comment-down">1</span>
+					    <span class="icon-thumbs-up comment-up">10</span>
+					  </div>
+					</div>
+
+				</div>
+
+
+
+
+
+			</div>
+			<div class="tab-pane" id="qa">
+				<div class="qa-input">
+					<?php
+						echo MarkdownEditor::widget([
+						    'name' => 'markdown', 
+						    'options' => ['placeholder' => '求大神！'],
+						    'height' => 150,
+						]);
+					?>
+				</div>
+
+				<div class="qa-detail">
+					<div class="media col-lg-12">
+					  <div class="media-left media-middle col-lg-2">
+					    <a href="#">
+					      <img class="media-object img-circle" src="http://img.mukewang.com/user/545868f30001886f02200220-40-40.jpg" alt="..." width="60px">
+					    </a>
+					    <span class="qa-name">黎丶小小小陌</span>
+					  </div>
+					  <div class="media-body">
+					  	<span class="icon-question-sign icon-large"></span>
+					    <span class="media-heading qa-content">$('input').eq(1)与$("input:eq(2)") 什么区别？</span>
+					    <div class="qa-new">
+					    	<span class="icon-comment icon-large"></span>
+					    	<span>[最新回答]</span>
+					    	<span><a href="">lejsure: </a></span>
+					    	<span>找到答案了，不妥之处欢迎指正$( "selector" ).eq( index );//等价于$( "selector:eq(index)" );</span>
+					    </div>
+					    <span class="evaluation-time">时间：1天前</span>
+					    <span class="icon-comments comment-down">1</span>
+					    <span class="icon-eye-open comment-up">10</span>
+					  </div>
+					</div>
+					<div class="media col-lg-12">
+					  <div class="media-left media-middle col-lg-2">
+					    <a href="#">
+					      <img class="media-object img-circle" src="http://img.mukewang.com/user/534d3a85000149d401000100-40-40.jpg" alt="..." width="60px">
+					    </a>
+					    <span class="qa-name"> Mr_Hs1ung</span>
+					  </div>
+					  <div class="media-body">
+					  	<span class="icon-question-sign icon-large"></span>
+					    <span class="media-heading qa-content">绝对定位是拉伸没搞明白</span>
+					    <div class="qa-new">
+					    	<span class="icon-comment icon-large"></span>
+					    	<span><a href="">[我来回答]</a></span>
+					    </div>
+					    <span class="evaluation-time">时间：7小时前 </span>
+					    <span class="icon-comments comment-down">1</span>
+					    <span class="icon-eye-open comment-up">10</span>
+					  </div>
+					</div>
+				</div>
+
+
+			</div>
 	</div>
 
 </div>
@@ -110,6 +222,14 @@ $this->params['breadcrumbs'][] = $this->title;
         });
 
  	});
+
+	$(function(){
+		$('.emotion').qqFace({
+		  id : 'facebox', 
+		  assign:'comment-input', 
+		  path:'/img/face/'  
+    });
+  });
 
 </script>
 

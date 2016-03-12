@@ -142,16 +142,21 @@
 	margin-top: 4px;
 }
 
-.outline-body-list{
+.outline-body{
 	margin-top: 30px;
+	/*padding-top: 30px;*/
 }
+
+.outline-body-list{margin-bottom: 20px}
+
+.outline-body-list h5{margin: 0 0 0 -10px}
 
 .view-body, .learn-body{
 	margin:50px 0 0 -45px;
 	padding:0;
 }
 
-.course-comment {margin-top: 30px}
+.course-comment, .course-qa{margin-top: 20px}
 
 .evaluation-info {
 	margin-top: 10px;
@@ -172,16 +177,18 @@
 
 .evaluation-time {
 	color:gray;
+	font-size: 14px;
+	font-weight: bold;
 }
 
 .course-comment .media {
 	border-bottom:1px #808080 dashed; 
 }
-.icon-star, .icon-star-empty{
+.fa-star, .fa-star-o{
 	color: #FF9900;
 }
 
-.btn-start  {margin-top: 10px;}
+.btn-start  {margin-top: 0px;}
 
 .teacher-word {
 	margin-top: 100px;
@@ -189,6 +196,8 @@
 	padding-bottom: 20px;
 	border-bottom:1px #669999 dashed; 
 }
+
+
 
 .teacher-info hr {width:2px;}
 
@@ -202,3 +211,70 @@
 	color:#999;
 }
 
+.course-learn-body .progress{background-color: #999}
+
+/*.learn-progress {margin-left: 15px;}*/
+
+.course-learn-chapter {margin-top: 20px;}
+.course-learn-chapter .panel-body {color:gray;margin-left: 3%}
+
+.course-menu {
+	margin-top: 10px;
+	border-bottom:1px red dashed;
+	width:96%;
+	left:2%;
+}
+
+.course-menu .menu-active {color:red;}
+
+.course-menu h4:hover{color:red;cursor: pointer;}
+
+.comment-input button {margin-top:10px;}
+.comment-send {float:right;}
+
+.comment-input, .qa-input{
+	border-bottom:1px #669999 dashed;
+	padding-bottom: 20px;
+}
+
+.comment-up, .comment-down{float:right;}
+
+.comment-up:hover, .comment-down:hover{color:red;cursor:pointer;}
+
+.qa-name{color:gray;font-size: 6px}
+
+.qa-detail{margin-top:10px;}
+
+.qa-content{
+	font-size: 16px;
+	font-family: '黑体';
+	font-weight: bold;
+}
+.fa-question{color:#0099FF;}
+
+.qa-new{color:gray;}
+
+.qa-detail .media{border-bottom:1px #669999 dashed;}
+
+.video-menu .comment-input{margin-top: 20px}
+
+.background{
+	position:absolute;
+	top:51px;
+	left:0px;
+	right:0px;
+	width:100%;
+	overflow: hidden;
+}
+
+.user-head-pic{margin-top: 2%}
+
+.user-info{
+	color:white;
+}
+
+.zone-username .signature{margin-top: 60px}
+
+.zone-nut{margin-top: 90px}
+
+.zone-user-sex{margin: 15px 0 0 75px;color:white;}

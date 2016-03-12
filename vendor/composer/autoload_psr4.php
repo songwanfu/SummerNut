@@ -15,6 +15,8 @@ return array(
     'yii\\bootstrap\\' => array($vendorDir . '/yiisoft/yii2-bootstrap'),
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
     'kartik\\tree\\' => array($vendorDir . '/kartik-v/yii2-tree-manager'),
+    'kartik\\tabs\\' => array($vendorDir . '/kartik-v/yii2-tabs-x'),
+    'kartik\\plugins\\tabs\\' => array($vendorDir . '/kartik-v/bootstrap-tabs-x'),
     'kartik\\plugins\\fileinput\\' => array($vendorDir . '/kartik-v/bootstrap-fileinput'),
     'kartik\\mpdf\\' => array($vendorDir . '/kartik-v/yii2-mpdf'),
     'kartik\\markdown\\' => array($vendorDir . '/kartik-v/yii2-markdown'),

@@ -55,7 +55,6 @@ $this->title = Yii::t('app', 'Course');
 					<li><a href="#hot" data-toggle="tab">最热</a></li>
 				</ul>
 				<div class="tab-content">
-
 					
 					<div class="tab-pane active" id="new">
 						<div class="row list-preivew">
