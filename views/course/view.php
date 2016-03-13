@@ -32,13 +32,13 @@ $this->title = Yii::t('app', 'View');
 				<ul class="outline-body list-unstyled outline-body">
 					<li class="col-lg-12 outline-body-list">
 						<span class="col-lg-1 fa fa-list fa-2x "></span>
-						<h5 class="col-lg-10">第1章 relative和absolute相煎何太急</h5>
-						<h6 class="col-lg-10 col-lg-offset-1">elative和absolute虽然同源，但是实际上是死对头。</h6>
+						<h5 class="col-lg-11">第1章 relative和absolute相煎何太急</h5>
+						<h6 class="col-lg-11">elative和absolute虽然同源，但是实际上是死对头。</h6>
 					</li>
-					<li class="col-lg-12 outline-body-list" style="">
+					<li class="col-lg-12 outline-body-list">
 						<span class="col-lg-1 fa fa-list fa-2x"></span>
-						<h5 class="col-lg-10">第2章 relative与定位</h5>
-						<h6 class="col-lg-10 col-lg-offset-1">relative也能使用top/right/bottom/left定位，和absolute有什么区别，有什么特别的地方呢？</h6>
+						<h5 class="col-lg-11">第2章 relative与定位</h5>
+						<h6 class="col-lg-11">relative也能使用top/right/bottom/left定位，和absolute有什么区别，有什么特别的地方呢？</h6>
 					</li>
 				</ul>
 				

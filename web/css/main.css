@@ -16,11 +16,6 @@
 	margin-right: 10px;
 }
 
-/*.list-query-type li:hover {
-	margin-right: 10px;
-	background-color: #999;
-	color:#999;
-}*/
 
 .list-hot , .list-new{
 	padding: 10px 10px 0 15px;
@@ -30,10 +25,6 @@
 	margin: 10px 0px 10px 0px;
 }
 
-.list-preivew :hover{
-	/*border: 1px ridge gray;*/
-	/*background-color: red;*/
-}
 .list-preview-href {clear:both;}
 
 .course-status {
@@ -64,17 +55,8 @@
 }
 
 .course-view-infos{
-	/*position: absolute;*/
-	/*width:100%;*/
-	/*margin-top: -20px;*/
-	/*padding:10px 0 0 20px;*/
-/*	left:0px;
-	right:0px;*/
 	background-color: #172a34;
 	color:white;
-	/*clear:both;*/
-/*	background-image: url('http://img.mukewang.com/567252dc0001605306000338.jpg');
-	background-repeat: repeat-x;*/
 }
 
 .course-view-infos .breadcrumb {
@@ -129,7 +111,7 @@
 	font-family: "微软雅黑";
 }
 
-.course-outline-top li, span{
+.course-outline-top li, .course-outline-top span{
 	margin-right: 10px;
 }
 
@@ -144,12 +126,9 @@
 
 .outline-body{
 	margin-top: 30px;
-	/*padding-top: 30px;*/
 }
 
 .outline-body-list{margin-bottom: 20px}
-
-.outline-body-list h5{margin: 0 0 0 -10px}
 
 .view-body, .learn-body{
 	margin:50px 0 0 -45px;
@@ -212,8 +191,6 @@
 }
 
 .course-learn-body .progress{background-color: #999}
-
-/*.learn-progress {margin-left: 15px;}*/
 
 .course-learn-chapter {margin-top: 20px;}
 .course-learn-chapter .panel-body {color:gray;margin-left: 3%}

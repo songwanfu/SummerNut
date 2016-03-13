@@ -169,6 +169,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 
+
+
 <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.0/jquery.js"></script>
 <script>
  	$(document).ready(function(){
@@ -230,6 +232,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		  path:'/img/face/'  
     });
   });
+
+
+
 
 </script>
 

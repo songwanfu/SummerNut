@@ -10,6 +10,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\user;
 use app\models\SignupForm;
+use yii\helpers\Json;
 
 class SiteController extends Controller
 {
@@ -133,5 +134,10 @@ class SiteController extends Controller
 
         Yii::$app->language = $language;
         $this->goBack(Yii::$app->request->headers['Referer']);
+    }
+
+    public function actionTest()
+    {
+        return Json::encode("<img src='sss'>");
     }
 }
