@@ -255,3 +255,16 @@
 .zone-nut{margin-top: 90px}
 
 .zone-user-sex{margin: 15px 0 0 75px;color:white;}
+
+.zone-user-menu{margin-top: 30px}
+
+.user-profile{margin-top: -70px;background-color: #d4edf4;
+	border: 1px #d4edf4 dashed;
+	border-radius: 10px;
+}
+
+.user-profile .input-group, .upload-head-pic, .user-sex{margin-top: 20px}
+
+.user-head-pic .img-circle{margin-left: 20px}
+
+.user-sex .field-user-sex .

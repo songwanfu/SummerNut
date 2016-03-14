@@ -54,7 +54,7 @@ class user extends ActiveRecord implements IdentityInterface
         return [
             'login' => ['username', 'password', 'login_time', 'login_ip'],
             'signup' => ['username', 'password', 'password_repeat', 'email', 'rememberMe', 'type', 'status', 'register_time', 'login_time', 'login_ip', 'sex'],
-            'profile' => ['username', 'sex', 'head_picture', 'phone_number', 'faculty', 'signature'],
+            'profile' => ['username', 'email', 'sex', 'head_picture', 'phone_number', 'faculty', 'signature'],
         ];
     }
 

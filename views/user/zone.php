@@ -36,39 +36,30 @@ use kartik\tabs\TabsX;
 			<span class="fa fa-mars" style="text-align: center"></span>
 		</div>
 
-		<div class="col-lg-12">
+		<div class="col-lg-12 zone-user-menu">
 			<?php
 			$html = "";
 			$items = [
 			    [
-			        'label'=>'<i class="glyphicon glyphicon-home"></i> Home',
+			        'label'=>'<i class="glyphicon glyphicon-list"></i> Course',
 			        'content'=>"<img src='ss'>",
 			        'active'=>true
 			    ],
 			    [
-			        'label'=>'<i class="glyphicon glyphicon-user"></i> Profile',
+			        'label'=>'<i class="glyphicon glyphicon-question-sign"></i> QA',
 			        'content'=>'2',
 			        'linkOptions'=>['data-url'=>\yii\helpers\Url::to(['/site/test'])]
 			    ],
 			    [
-			        'label'=>'<i class="glyphicon glyphicon-list-alt"></i> Dropdown',
-			        // 'items'=>[
-			        //      [
-			        //          'label'=>'Option 1',
-			        //          'encode'=>false,
-			        //          'content'=>'3',
-			        //      ],
-			        //      [
-			        //          'label'=>'Option 2',
-			        //          'encode'=>false,
-			        //          'content'=>'4',
-			        //      ],
-			        // ],
+			        'label'=>'<i class="glyphicon glyphicon-pencil"></i>Article',
+			        'content'=>'2',
+			        'linkOptions'=>['data-url'=>\yii\helpers\Url::to(['/site/test'])]
 			    ],
-			    // [
-			    //     'label'=>'<i class="glyphicon glyphicon-king"></i> Disabled',
-			    //     'headerOptions' => ['class'=>'disabled']
-			    // ],
+			    [
+			        'label'=>'<i class="glyphicon glyphicon-cog"></i> 设置',
+			        'content'=>'2',
+			        'linkOptions'=>['data-url'=>\yii\helpers\Url::to(['/user/show-profile'])]
+			    ],
 			];
 
 				echo TabsX::widget([

@@ -12,13 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create User'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -27,20 +20,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'username',
-            'password',
             'email:email',
             'head_picture',
-            // 'accessToken',
-            // 'authKey',
-            // 'sex',
-            // 'phone_number',
-            // 'faculty',
-            // 'signature',
-            // 'type',
-            // 'status',
-            // 'login_ip',
-            // 'register_time',
-            // 'login_time',
+            'sex',
+            'phone_number',
+            'faculty',
+            'signature',
+            'type',
+            'status',
+            'login_ip',
+            'register_time',
+            'login_time',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

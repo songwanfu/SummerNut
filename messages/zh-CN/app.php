@@ -103,4 +103,6 @@ return [
 
 	'Learn Now' => '开始学习',
 	'Email' => '邮件',
+
+	'Upload Head Picture' => '上传头像',
 ];

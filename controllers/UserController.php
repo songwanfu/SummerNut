@@ -5,10 +5,11 @@ namespace app\controllers;
 use Yii;
 use app\models\User;
 use app\models\UserSearch;
+use app\models\Resource;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\helpers\Json;
 /**
  * UserController implements the CRUD actions for User model.
  */
@@ -122,5 +123,34 @@ class UserController extends Controller
     public function actionZone()
     {
         return $this->render('zone');
+    }
+
+    public function actionShowProfile()
+    {
+        $userId = Yii::$app->user->id;
+        $model = $this->findModel($userId);
+        $html = $this->render('/user/updateProfile', ['model' => $model]);
+        return Json::encode($html);
+    }
+
+    public function actionUploadHeadPic()
+    {
+        $data = Yii::$app->request->post();
+        $id = $data['User']['id'];
+        $model = $this->findModel($id);
+        $model->setScenario('profile');
+
+        $resourceModel = new Resource();
+        $model = $resourceModel->uploadImg($model, 'head_picture');
+        if ($model) { 
+            if ($model->save()) {
+                 $res = [
+                    'initialPreview' => '<p>' . Yii::t('app', 'Upload success!') . '</p>',
+                ];
+                echo json_encode($res);
+            }
+           
+        }
+
     }
 }

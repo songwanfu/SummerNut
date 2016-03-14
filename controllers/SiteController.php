@@ -138,6 +138,7 @@ class SiteController extends Controller
 
     public function actionTest()
     {
-        return Json::encode("<img src='sss'>");
+        $html = $this->render('/user/create', ['model' => 1]);
+        return Json::encode($html);
     }
 }
