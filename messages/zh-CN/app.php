@@ -105,4 +105,8 @@ return [
 	'Email' => '邮件',
 
 	'Upload Head Picture' => '上传头像',
+	'Sex' => '性别',
+	'Female' => '女',
+	'Male' => '男',
+	'Secret' => '保密',
 ];

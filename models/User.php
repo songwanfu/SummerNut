@@ -55,6 +55,7 @@ class user extends ActiveRecord implements IdentityInterface
             'login' => ['username', 'password', 'login_time', 'login_ip'],
             'signup' => ['username', 'password', 'password_repeat', 'email', 'rememberMe', 'type', 'status', 'register_time', 'login_time', 'login_ip', 'sex'],
             'profile' => ['username', 'email', 'sex', 'head_picture', 'phone_number', 'faculty', 'signature'],
+            'refreshHeadPic' => ['head_picture'],
         ];
     }
 
@@ -83,8 +84,10 @@ class user extends ActiveRecord implements IdentityInterface
             ['password', 'match', 'pattern' => '/^[A-Za-z0-9\-_]+$/', 'on' => 'signup','message' => '{attribute}为字母,数字和下划线组成'],
             ['password', 'validatePassword', 'on' => 'login'],
             ['email', 'email', 'on' => 'signup'],
+            ['email', 'email', 'on' => 'profile'],
             ['rememberMe', 'boolean', 'on' => 'signup'],
             ['head_picture', 'file', 'extensions' => ['png', 'jpg', 'jpeg'], 'maxSize' => 1024*1024*1024, 'on' => 'profile'],
+            ['head_picture', 'string', 'min' => 3, 'max' => 255, 'on' => 'refreshHeadPic'],
         ];
     }
 
@@ -237,4 +240,15 @@ class user extends ActiveRecord implements IdentityInterface
             self::TYPE_TEACHER => Yii::t('app', 'Teacher'),
         ];
     }
+
+    public function sexList()
+    {
+        return [
+            static::SEX_FEMALE => Yii::t('app', 'Female'),
+            static::SEX_MALE => Yii::t('app', 'Male'),
+            static::SEX_SECRET => Yii::t('app', 'Secret'),
+        ];
+    }
+
+
 }

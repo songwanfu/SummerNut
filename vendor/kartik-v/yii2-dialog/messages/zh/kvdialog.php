@@ -17,8 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Cancel' => '',
-    'Confirmation' => '',
-    'Information' => '',
-    'Ok' => '',
+    'Cancel' => '取消',
+    'Confirmation' => '确认',
+    'Information' => '消息',
+    'Ok' => '确定',
 ];

@@ -11,11 +11,11 @@ use kartik\tabs\TabsX;
 		<div class="col-lg-12 user-info">
 
 			<div class="col-lg-2 user-head-pic">
-				<img src="http://www.songwanfu.com/img/me.jpg" class="img-circle">
+				<img src="<?php echo $model->head_picture?>" class="img-circle" id="user-head-pic" width="140px">
 			</div>
 			<div class="col-lg-3 zone-username">
-				<h2>songwanfu</h2>
-				<h4 class="signature">hello,world</h4>
+				<h2><?php echo $model->username;?></h2>
+				<h4 class="signature"><?php echo $model->signature;?></h4>
 			</div>
 
 			<div class="col-lg-3 col-lg-offset-4 zone-nut">
@@ -33,22 +33,30 @@ use kartik\tabs\TabsX;
 		</div>
 
 		<div class="col-lg-2 zone-user-sex">
-			<span class="fa fa-mars" style="text-align: center"></span>
+			<?php if ($model->sex == $model::SEX_FEMALE) : ?>
+				<span class="fa fa-venus"></span>
+			<?php endif; ?>
+			<?php if ($model->sex == $model::SEX_MALE) : ?>
+				<span class="fa fa-mars"></span>
+			<?php endif; ?>
+			<?php if ($model->sex == $model::SEX_SECRET) : ?>
+				<span class="fa fa-genderless"></span>
+			<?php endif; ?>
+			
 		</div>
 
-		<div class="col-lg-12 zone-user-menu">
+		<div class="col-lg-10 zone-user-menu">
 			<?php
-			$html = "";
 			$items = [
 			    [
 			        'label'=>'<i class="glyphicon glyphicon-list"></i> Course',
-			        'content'=>"<img src='ss'>",
+			        'content'=> $htmlCourse,
 			        'active'=>true
 			    ],
 			    [
 			        'label'=>'<i class="glyphicon glyphicon-question-sign"></i> QA',
 			        'content'=>'2',
-			        'linkOptions'=>['data-url'=>\yii\helpers\Url::to(['/site/test'])]
+			        'linkOptions'=>['data-url'=>\yii\helpers\Url::to(['/user/show-qa'])]
 			    ],
 			    [
 			        'label'=>'<i class="glyphicon glyphicon-pencil"></i>Article',
@@ -69,5 +77,31 @@ use kartik\tabs\TabsX;
 				]);
 			?>
 		</div>
+
 	</div>
 </div>
+
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.1/jquery.js"></script>
+<script type="text/javascript">
+		function changeHeadPic()
+		{
+			var list = headPicList();
+			var url = list[Math.ceil(Math.random()*50)];
+			$('#head_pic').attr('src', url);
+			// $('#user-head-pic').attr('src', url);return;
+			$.ajax({
+				type : 'post',
+				url : '/user/refresh-head-pic',
+				dataType : 'json',
+				async: false,
+				data : {
+					headPic : url,
+				},
+				success : function (json) {
+					if (json == 'true') {
+						$('#user-head-pic').attr('src', url);
+					}
+				}
+			});
+		}
+</script>

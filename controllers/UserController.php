@@ -122,17 +122,33 @@ class UserController extends Controller
 
     public function actionZone()
     {
-        return $this->render('zone');
+        $model = $this->currentUser();
+        $htmlCourse = $this->render('/user/course');
+        return $this->render('zone', ['model' => $model, 'htmlCourse' => $htmlCourse]);
     }
 
+    /**
+     * [actionShowProfile 展示用户详细资料]
+     * @return [type] [description]
+     */
     public function actionShowProfile()
     {
-        $userId = Yii::$app->user->id;
-        $model = $this->findModel($userId);
+        $model = $this->currentUser();
         $html = $this->render('/user/updateProfile', ['model' => $model]);
         return Json::encode($html);
     }
 
+    public function actionShowQa()
+    {
+        $model = $this->currentUser();
+        $html = $this->render('/user/qa', ['model' => $model]);
+        return Json::encode($html);
+    }
+
+    /**
+     * [actionUploadHeadPic 上传头像]
+     * @return [type] [description]
+     */
     public function actionUploadHeadPic()
     {
         $data = Yii::$app->request->post();
@@ -152,5 +168,54 @@ class UserController extends Controller
            
         }
 
+    }
+
+    /**
+     * [actionUpdateProfile 更新用户详细资料]
+     * @return [type] [description]
+     */
+    public function actionUpdateProfile()
+    {
+        $model = $this->currentUser();
+        $username = Yii::$app->request->post('username');
+        $model->email = Yii::$app->request->post('email');
+        $model->signature = Yii::$app->request->post('signature');
+        $model->sex = Yii::$app->request->post('sex');
+
+        if ($username != $model->username) {
+            if (User::findByUsername($username)) {
+                echo Json::encode('用户名已被占用!');
+                return;
+            }
+        }
+        $model->username = $username;
+        $model->setScenario('profile');
+        if ($model->save()) {
+            echo Json::encode('true');
+        } else {
+            echo Json::encode($model->errors);
+        }
+    }
+
+    /**
+     * [actionRefreshHeadPic 更换头像]
+     * @return [type] [description]
+     */
+    public function actionRefreshHeadPic()
+    {
+        $model = $this->currentUser();
+        $model->head_picture = Yii::$app->request->post('headPic');
+        $model->setScenario('refreshHeadPic');
+        if ($model->save()) {
+            echo Json::encode('true');
+        } else {
+            echo Json::encode('false');
+        }
+    }
+
+    protected function currentUser()
+    {
+        $userId = Yii::$app->user->id;
+        return $this->findModel($userId);
     }
 }

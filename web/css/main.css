@@ -254,11 +254,11 @@
 
 .zone-nut{margin-top: 90px}
 
-.zone-user-sex{margin: 15px 0 0 75px;color:white;}
+.zone-user-sex{margin: 15px 0 0 100px;color:white;}
 
 .zone-user-menu{margin-top: 30px}
 
-.user-profile{margin-top: -70px;background-color: #d4edf4;
+.user-course,.user-qa,.user-profile{margin-top: -70px;background-color: #d4edf4;
 	border: 1px #d4edf4 dashed;
 	border-radius: 10px;
 }
@@ -267,4 +267,20 @@
 
 .user-head-pic .img-circle{margin-left: 20px}
 
-.user-sex .field-user-sex .
+.profile-save{padding-bottom: 20px}
+
+.alert-dismissible{margin:5px 0 0 0 ;padding:5px 25px;}
+
+/*.mengceng{display:none;position:absolute;top:0%;left:1%;z-index: 100;width:100%;height:100%;background-color:gray;opacity:0.8;}
+.mengceng .gif{margin:50%;color:blue}*/
+
+.user-head-pic .fa-refresh:hover{cursor:pointer;}
+
+
+.fa-venus{color:#FF3399;}
+.fa-mars{color:#66CCFF}
+
+
+
+
+
