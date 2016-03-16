@@ -1,8 +1,8 @@
 	<div class="col-lg-12">
 		<ol class="breadcrumb">
-		  <li><a href="#">课程</a></li>
-		  <li><a href="#">前端开发</a></li>
-		  <li><a href='#'>HTML/CSS</a></li>
+		  <li><a href="/course/list">课程</a></li>
+		  <li><a href="/course/list?c=fe">前端开发</a></li>
+		  <li><a href='/course/list?c=html'>HTML/CSS</a></li>
 		  <li class="active">CSS深入理解之relative</li>
 		</ol>
 	</div>

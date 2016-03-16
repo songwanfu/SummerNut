@@ -38,10 +38,14 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => Yii::t('app', 'Course'), 'url' => ['/course/index']],
+            ['label' => Yii::t('app', 'Course'), 'url' => ['/course/list']],
+            ['label' => Yii::t('app', 'QA'), 'url' => ['/resource/index']],
+            ['label' => Yii::t('app', 'Article'), 'url' => ['/resource/index']],
+            ['label' => Yii::t('app', 'Zone'), 'url' => ['/user/zone']],
             ['label' => Yii::t('app', 'Resource'), 'url' => ['/resource/index']],
             ['label' => Yii::t('app', 'Tasks'), 'url' => ['/task/index']],
+            
+            ['label' => 'About', 'url' => ['/site/about']],
             [
                 'label' => Yii::t('app', 'Widgets'),
                 'items' => [

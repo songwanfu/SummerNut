@@ -104,9 +104,36 @@ return [
 	'Learn Now' => '开始学习',
 	'Email' => '邮件',
 
+	'Zone' => '个人中心',
 	'Upload Head Picture' => '上传头像',
 	'Sex' => '性别',
 	'Female' => '女',
 	'Male' => '男',
 	'Secret' => '保密',
+
+	'Banners' => '轮播图',
+	'Create Banner' => '添加轮播',
+	'Jump Target' => '跳转链接',
+	'Img' => '图片',
+	'Title' => '标题',
+
+	'QA' => '问答',
+
+	'Article' => '文章',
+
+	'Continue Study' => '继续学习',
+	'Start Study' => '开始学习',
+
+	'Create Category' => '添加分类',
+	'Categories' => '分类',
+	'Alias' => '假名',
+	'Direction' => '方向',
+	'Front-End Develop' => '前端开发',
+	'Back-End Develop' => '后端开发',
+	'Mobile Develop' => '移动开发',
+	'Data Process' => '数据处理',
+	'Photo Process' => '图像处理',
+	
+	'Course Category' => '课程分类',
+
 ];

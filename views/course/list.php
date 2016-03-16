@@ -11,12 +11,14 @@ $this->title = Yii::t('app', 'Course');
 <hr>
 <div class="list-query">
 	<div class="row">
-		<p class="col-lg-1 col-md-1 col-sm-2 list-query-type">方向:</p>
+		<p class="col-lg-1 col-md-1 col-sm-2 list-query-type"><?php echo Yii::t('app', 'Direction');?>:</p>
 		<ul class="col-lg-11 col-md-11 col-sm-10 nav nav-pills">
-		  <li role="menu" ><a href="#">全部</a></li>
-		  <li role="menu" ><a href="#" class="gray">前端开发</a></li>
-		  <li role="menu" ><a href="#">后端开发</a></li>
-		  <li role="menu" ><a href="#">移动开发</a></li>
+		  <li role="menu" ><a href="/course/list" class="gray"><?php echo Yii::t('app', 'All');?></a></li>
+		  <li role="menu" ><a href="/course/list?c=fe"><?php echo Yii::t('app', 'Front-End Develop');?></a></li>
+		  <li role="menu" ><a href="/course/list?c=be"><?php echo Yii::t('app', 'Back-End Develop');?></a></li>
+		  <li role="menu" ><a href="/course/list?c=mobile"><?php echo Yii::t('app', 'Mobile Develop');?></a></li>
+		  <li role="menu" ><a href="/course/list?c=data"><?php echo Yii::t('app', 'Data Process');?></a></li>
+		  <li role="menu" ><a href="/course/list?c=photo"><?php echo Yii::t('app', 'Photo Process');?></a></li>
 		</ul>
 		<hr>
 	</div>
@@ -59,7 +61,7 @@ $this->title = Yii::t('app', 'Course');
 					<div class="tab-pane active" id="new">
 						<div class="row list-preivew">
 							<div class="col-lg-3 col-md-3 ">
-								<a href=""><img src="http://img.mukewang.com/567252db0001b9ea06000338-240-135.jpg" class="img-rounded blur"></a>
+								<a href="/course/view"><img src="http://img.mukewang.com/567252db0001b9ea06000338-240-135.jpg" class="img-rounded blur"></a>
 								<h5 style="text-align: left">CSS深入理解之relative</h5>
 								<h6 class="course-tips">relative实际使用经验分享，必学！</h6>
 								<span class="course-leaner">更新完毕</span>

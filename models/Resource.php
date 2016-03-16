@@ -26,7 +26,7 @@ use yii\web\UploadedFile;
 class Resource extends \yii\db\ActiveRecord
 {
     public static $videoFormats = ['mp4', 'wmv', 'flv', 'avi', 'rmvb'];
-    public static $imgFormats = ['jpg', 'jpeg', 'png'];
+    public static $imgFormats = ['jpg', 'jpeg', 'png', 'gif'];
     public static $documentFormats = ['doc', 'ppt', 'xls', 'pdf', 'txt', 'html', 'zip'];
 
     const DEST_DIR = 'uploads';

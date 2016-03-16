@@ -1,6 +1,6 @@
 
 	<div class="lear-start">
-		<button class="btn btn-info btn-start col-lg-12">开始学习</button>
+		<a href="/course/learn" class="btn btn-info btn-start col-lg-12"><?php echo $btn;?></a>
 	</div>
 	<div class="teacher-info">
 			<h4 class="teacher-word">讲师提示</h4>

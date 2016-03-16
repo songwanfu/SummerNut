@@ -21,19 +21,19 @@ $this->title = Yii::t('app', 'Summer Nut');
 
               <!-- Wrapper for slides -->
               <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                  <img src="http://www.imooc.com/static/img/index/banner2.jpg" alt="...">
-                  <div class="carousel-caption">
-                    title
+                <?php $i = 1;?>
+                <?php foreach ($bannerList as $banner) : ?>
+                  <?php if ($i == 1) : ?>
+                    <div class="item active">
+                  <?php else : ?>
+                    <div class="item">
+                  <?php endif;?>
+                    <img src="<?php echo $banner->img;?>" alt="">
+                    <div class="carousel-caption">
+                      <?php echo $banner->title;$i++;?>
+                    </div>
                   </div>
-                </div>
-                <div class="item">
-                  <img src="http://img.mukewang.com/56dd2f5c000174e620000600.jpg" alt="...">
-                  <div class="carousel-caption">
-                    title
-                  </div>
-                </div>
-              </div>
+                <?php endforeach;?>
 
               <!-- Controls -->
               <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
@@ -80,7 +80,7 @@ $this->title = Yii::t('app', 'Summer Nut');
 
         <p class="lead">夏果微课堂助您成长。</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com"><?php echo Yii::t('app', 'Learn Now');?></a></p>
+        <p><a class="btn btn-lg btn-success" href="/course/list"><?php echo Yii::t('app', 'Learn Now');?></a></p>
     </div>
 </div>
 

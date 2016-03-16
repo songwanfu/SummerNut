@@ -6,6 +6,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use app\models\Course;
 use app\models\Resource;
+use app\models\Category;
 
 class CourseController extends \yii\web\Controller
 {
@@ -38,6 +39,23 @@ class CourseController extends \yii\web\Controller
 
     public function actionList()
     {
+        $course = Yii::$app->request->get('c');
+        $difficulty_level = Yii::$app->request->get('is_easy');
+        $sort = Yii::$app->request->get('sort');
+
+        if (!empty($course)) {
+            if (in_array($course, Category::$direction)) {
+               $aliasList = Category::directionAliasList();
+               $directionId = $aliasList[$course];
+               if (!empty($directionId)) {
+                   $categoryList = Category::findModelsByDirection($directionId);
+                   foreach ($categoryList as $category) {
+                       var_dump(Course::queryCourse($category->id));
+                   }
+               }
+            }
+        }
+        // die;
         return $this->render('list');
     }
 

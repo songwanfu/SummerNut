@@ -55,13 +55,14 @@ class Course extends \kartik\tree\models\Tree
     {
         $rules_parent = parent::rules();
         $rules_course = [
-            [['difficulty_level', 'teacher_id', 'status', 'introduction', 'notice', 'gains'], 'safe'],
-            [['teacher_id', 'status'], 'integer'],
+            [['category', 'difficulty_level', 'teacher_id', 'status', 'leaner_count', 'introduction', 'notice', 'gains', 'create_time', 'update_time'], 'safe'],
+            [['teacher_id', 'status', 'category', 'leaner_count'], 'integer'],
             [['introduction', 'notice', 'gains'], 'string', 'max' => 500],
             ['teacher_id', 'default', 'value' => Yii::$app->user->id],
-            ['difficulty_level', 'default', 'value' => self::LEVEL_ELEMENTARY],
-            ['status', 'default', 'value' => self::STATUS_VALID],
-            ['icon', 'file', 'extensions' => self::$iconFormats],
+            ['difficulty_level', 'default', 'value' => static::LEVEL_ELEMENTARY],
+            ['status', 'default', 'value' => static::STATUS_VALID],
+            ['icon', 'file', 'extensions' => static::$iconFormats],
+            [['create_time', 'update_time'], 'default', 'value' => Common::getTime()],
         ];
         return array_merge($rules_parent, $rules_course);
     }
@@ -75,9 +76,13 @@ class Course extends \kartik\tree\models\Tree
         $labels_course = [
             'difficulty_level' => Yii::t('app', 'Diffculty Level'),
             'status' => Yii::t('app', 'Status'),
+            'leaner_count' => Yii::t('app', 'Learner Count'),
             'introduction' => Yii::t('app', 'Course Introduction'),
             'notice' => Yii::t('app', 'Course Notice'),
             'gains' => Yii::t('app', 'Course Gains'),
+            'category' => Yii::t('app', 'Course Category'),
+            'create_time' => Yii::t('app', 'Create Time'),
+            'update_time' => Yii::t('app', 'Update Time'),
         ];
         
         return array_merge($labels_parent, $labels_course);
@@ -94,23 +99,23 @@ class Course extends \kartik\tree\models\Tree
     public static function levelList()
     {
         return [
-            self::LEVEL_ELEMENTARY => Yii::t('app', 'Elementary'),
-            self::LEVEL_INTERMEDIATE => Yii::t('app', 'Intermediate'),
-            self::LEVEL_ADVANCED => Yii::t('app', 'Advanced'),
+            static::LEVEL_ELEMENTARY => Yii::t('app', 'Elementary'),
+            static::LEVEL_INTERMEDIATE => Yii::t('app', 'Intermediate'),
+            static::LEVEL_ADVANCED => Yii::t('app', 'Advanced'),
         ];
     }
 
     public static function statusList()
     {
         return [
-            self::STATUS_VALID => Yii::t('app', 'Online'),
-            self::STATUS_INVALID => Yii::t('app', 'Offline'),
+            static::STATUS_VALID => Yii::t('app', 'Online'),
+            static::STATUS_INVALID => Yii::t('app', 'Offline'),
         ];
     }
 
     public static function maxDepth()
     {
-        return self::find()->max('lvl');
+        return static::find()->max('lvl');
     }
 
 
@@ -119,16 +124,20 @@ class Course extends \kartik\tree\models\Tree
      * @param  Course  $model [description]
      * @return boolean        [description]
      */
-    public static function isFile(Course $model)
+    public static function isFile($model = null)
     {
+        if ($model == null) return false;
+
         if ($model->rgt - $model->lft == 1) {
             return true;
         }
         return false;
     }
 
-    public static function isRoot(Course $model)
+    public static function isRoot($model = null)
     {
+        if ($model == null) return false;
+
         if ($model->lvl == 0) {
             return true;
         }
@@ -137,12 +146,12 @@ class Course extends \kartik\tree\models\Tree
 
     public static function findModel($id)
     {
-        return self::findOne(['id' => $id]);
+        return static::findOne(['id' => $id]);
     }
 
     public static function findRoot($id)
     {
-        return self::findModel(self::findModel($id)->root);
+        return static::findModel(static::findModel($id)->root);
     }
 
     public static function fileMap($fieldArr = [])
@@ -150,7 +159,7 @@ class Course extends \kartik\tree\models\Tree
         $fieldStr = strtolower(implode(',', $fieldArr));
 
         $sql = "SELECT {$fieldStr} FROM t_course WHERE rgt - lft = 1";
-        $models = self::findBySql($sql)->asArray()->all();
+        $models = static::findBySql($sql)->asArray()->all();
         $map = [];
         $i = 0;
         foreach ($models as $model) {
@@ -160,6 +169,37 @@ class Course extends \kartik\tree\models\Tree
             $i++;
         }
         return $map;
+    }
+
+
+    public static function findRootByCategory($categoryId)
+    {
+        return static::find()->where(['lvl' => 0, 'category' => $categoryId])->all();
+    }
+
+    public static function findModels($field = [], $condition = [], $sort = '')
+    {
+        return static::find($field)->where($condition)->orderBy($sort)->all();
+    }
+
+    public static function queryCourse($category = '', $difficulty_level = '', $sort = 'update_time DESC')
+    {
+        $condition = [];
+
+        if (!empty($category) && empty($difficulty_level)) {
+            $condition = ['lvl' => 0, 'category' => $category];
+        }
+
+        if (empty($category) && !empty($difficulty_level)) {
+            $condition = ['lvl' => 0, 'difficulty_level' => $difficulty_level];
+        }
+
+        if (!empty($category) && !empty($difficulty_level)) {
+            $condition = ['lvl' => 0, 'category' => $category, 'difficulty_level' => $difficulty_level];
+        }    
+
+        return static::findModels(['id', 'name', 'icon', 'difficulty_level', 'learner_count', 'introduction'], $condition, $sort);
+        
     }
 
 }

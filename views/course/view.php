@@ -97,7 +97,7 @@ $this->title = Yii::t('app', 'View');
 		</div>
 
 		<div class="col-lg-3  course-view-right">
-			<?= $this->render('course-right')?>
+			<?= $this->render('course-right', ['btn' => Yii::t('app', 'Start Study')])?>
 
 		</div>
 

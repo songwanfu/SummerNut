@@ -1,3 +1,4 @@
+
 .wrap{
 	background-color: #F5F5F5;
 }
@@ -281,6 +282,33 @@
 .fa-mars{color:#66CCFF}
 
 
+
+
+
+
+
+.category-view li {margin-top: 20px}
+.category-view:first-child {margin-top: -20px}
+.category-view > li:nth-child(odd) {
+	background-color: #CCFFFF;
+	border: 1px solid gray;
+	border-radius: 5px;
+}
+.category-view > li:nth-child(even) {
+	background-color: rgba(212,237,244,1);
+	border: 1px solid gray;
+	border-radius: 5px;
+}
+.course-view-img {margin: 12px;}
+/*.course-view-introduction {font-family: "微软雅黑"}*/
+.course-view-badge {margin:70px 0;}
+.course-view-introduction h5{margin:20px 0 30px 0;color:gray;}
+.course-view-introduction h5 span {margin:0 5px;}
+.course-view-badge .hot-1 {background-color:rgba(240,20,0,1);}
+.course-view-badge .hot-2 {background-color:rgba(240,20,0,0.8);}
+.course-view-badge .hot-3 {background-color:rgba(240,20,0,0.6);}
+.course-view-badge .hot-4 {background-color:rgba(0,0,255,0.5);}
+.course-view-badge .hot-5 {background-color:rgba(153,153,153,1);}
 
 
 

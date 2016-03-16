@@ -10,6 +10,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\user;
 use app\models\SignupForm;
+use app\models\Banner;
 use yii\helpers\Json;
 
 class SiteController extends Controller
@@ -52,8 +53,8 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        // echo 1;die;
-        return $this->render('index');
+        $bannerList = Banner::bannerList();
+        return $this->render('index', ['bannerList' => $bannerList]);
     }
 
     public function actionLogin()
