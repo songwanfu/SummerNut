@@ -81,6 +81,11 @@ class Category extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function directionAliasFlipList()
+    {
+        return array_flip(static::directionAliasList());
+    }
+
 
     public static function categoryMap($field = [])
     {
@@ -103,6 +108,36 @@ class Category extends \yii\db\ActiveRecord
     public static function findModelsByDirection($directionId)
     {
         return static::find()->where(['direction' => $directionId])->all();
+    }
+
+    public static function findModelByAlias($alias)
+    {
+        return static::find()->where(['alias' => $alias])->all();
+    }
+
+    public static function findAllModels()
+    {
+        return static::find()->all();
+    }
+
+    public static function aliasList()
+    {
+        $list = [];
+        $models = static::findAllModels();
+        foreach ($models as $model) {
+            $list[] = $model->alias;
+        }
+        return $list;
+    }
+
+    public static function getDirectionByAlias($alias)
+    {
+        return static::findOne(['alias' => $alias]);
+    }
+
+    public static function findOneById($id)
+    {
+        return static::findOne(['id' => $id]);
     }
 
 }

@@ -11,7 +11,7 @@ $this->title = Yii::t('app', 'Learn');
 
 <div class="wrap">
 	<div class="row course-view-infos">
-		<?= $this->render('course-top')?>
+		<?= $this->render('course-top', ['course' => $course, 'categoryModel' => $categoryModel])?>
 	</div>
 
 	<div class="row learn-body">
@@ -83,7 +83,7 @@ $this->title = Yii::t('app', 'Learn');
 		</div>
 
 		<div class="col-lg-3  course-view-right">
-			<?= $this->render('course-right', ['btn' => Yii::t('app', 'Continue Study')])?>
+			<?= $this->render('course-right', ['isLearn' => true, 'course' => $course])?>
 
 		</div>
 

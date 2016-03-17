@@ -1,6 +1,10 @@
 
 	<div class="lear-start">
-		<a href="/course/learn" class="btn btn-info btn-start col-lg-12"><?php echo $btn;?></a>
+		<?php if ($isLearn) : ?>
+			<a href="/course/learn?cid=<?php echo $course->id?>" class="btn btn-info btn-start col-lg-12"><?php echo Yii::t('app', 'Learn Continue');?></a>
+		<?php else : ?>
+			<a href="/course/learn?cid=<?php echo $course->id?>" class="btn btn-info btn-start col-lg-12"><?php echo Yii::t('app', 'Learn Start');?></a>
+		<?php endif;?>
 	</div>
 	<div class="teacher-info">
 			<h4 class="teacher-word">讲师提示</h4>
@@ -15,14 +19,21 @@
 		  </div>
 
 		  <div class="col-lg-12 course-notice">
-		  	<h5>课程须知</h5>
-		  	<p>熟悉html代码，了解css属性</p>
-		  	<h5>老师告诉你能学到什么？</h5>
-		  	<ol>
-				  <li>relative与absolute；</li>
-				  <li>relative与z-index；</li>
-				  <li>relative的最小化影响准则</li>
-				</ol>
+		  	<?php if ($course->notice): ?>
+		  		<h5>课程须知</h5>
+		  		<p><?php echo $course->notice;?></p>
+		  	<?php endif; ?>
+		  	
+		  	<?php if ($course->gains) : ?>
+					<h5>老师告诉你能学到什么？</h5>
+					<p><?php echo $course->gains;?></p>
+			  	<!-- <ol>
+					  <li>relative与absolute；</li>
+					  <li>relative与z-index；</li>
+					  <li>relative的最小化影响准则</li>
+					</ol> -->
+		  	<?php endif; ?>
+		  	
 		  </div>
 
 

@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use app\models\Course;
 use app\models\Resource;
 use app\models\Category;
+use app\models\UserCourse;
 
 class CourseController extends \yii\web\Controller
 {
@@ -41,32 +42,110 @@ class CourseController extends \yii\web\Controller
     {
         $course = Yii::$app->request->get('c');
         $difficulty_level = Yii::$app->request->get('is_easy');
-        $sort = Yii::$app->request->get('sort');
+        // $sort = Yii::$app->request->get('sort');
+
+        $newCourseList = [];//获取最新的课程列表
+        $hotCourseList = [];//获取最热的课程列表
+        $showCategoryList = [];//该方向下的所有列表
+        $activeDirection = '';//点击的方向
+        $activeCategoryList = [];//需要搜索的列表
+        $activeCategory = '';//点击的分类名称
+        $activeDifficulty = '';//点击的课程程度
 
         if (!empty($course)) {
+            //如果course在方向列表中,则获取分类列表;如果在分类列表里,则
             if (in_array($course, Category::$direction)) {
-               $aliasList = Category::directionAliasList();
-               $directionId = $aliasList[$course];
-               if (!empty($directionId)) {
-                   $categoryList = Category::findModelsByDirection($directionId);
-                   foreach ($categoryList as $category) {
-                       var_dump(Course::queryCourse($category->id));
-                   }
-               }
+                $activeDirection = $course;//将搜索的方向设为active
+                $aliasList = Category::directionAliasList();
+                $directionId = $aliasList[$course];
+                $showCategoryList = Category::findModelsByDirection($directionId);//该方向下的所有列表
+                $activeCategoryList = $showCategoryList;//需要搜索的列表
+            } else if (in_array($course, Category::aliasList())) {
+                $directionId = Category::getDirectionByAlias($course)->direction;//该分类所在的方向ID
+                $directionAliasFlipList = Category::directionAliasFlipList();
+                $activeDirection = $directionAliasFlipList[$directionId];//获取active方向名称
+
+                $showCategoryList = Category::findModelsByDirection($directionId);//该方向下的所有列表
+
+                $activeCategoryList = Category::findModelByAlias($course);//只有一个对象的对象数组
+                $activeCategory = $course;//点击的分类名称
+            } else {
+                $course = '';
             }
+
+            //如果不为空则获取课程列表
+            if (!empty($activeCategoryList)) {
+                foreach ($activeCategoryList as $category) {
+                    $newCourseList[] = Course::queryCourse($category->id, $difficulty_level, 'new');
+                    $hotCourseList[] = Course::queryCourse($category->id, $difficulty_level, 'hot');
+                }
+            } 
         }
-        // die;
-        return $this->render('list');
+
+        //course为空;获取全部课程列表
+        if (empty($course)) {
+            $showCategoryList = Category::findAllModels();
+            $newCourseList[] = Course::queryCourse('', $difficulty_level, 'new');
+            $hotCourseList[] = Course::queryCourse('', $difficulty_level, 'hot');
+        }
+        
+
+
+        
+        if (!empty($difficulty_level)) {
+            $activeDifficulty = $difficulty_level;
+        }
+
+        return $this->render('list', [
+            'c' => $course,
+            'is_easy' => $difficulty_level,
+            'newCourseList' => array_filter($newCourseList),
+            'hotCourseList' => array_filter($hotCourseList),
+            'activeDirection' => $activeDirection,
+            'activeCategory' => $activeCategory,
+            'showCategoryList' => $showCategoryList,
+            'activeDifficulty' => $activeDifficulty,
+        ]);
     }
 
     public function actionView()
     {
-        return $this->render('view');
+        $courseId = Yii::$app->request->get('cid');
+        $isLearn = false;
+        $model = $this->findModelByCoursId($courseId);
+        $categoryModel = Category::findOneById($model->category);
+        if (empty($model)) {
+            $this->goBack(Yii::$app->request->headers['Referer']);
+            return;
+        } else {
+            $videoCount = Course::fileCount($model->id);
+            $userCourse = new UserCourse();
+            if ($userCourse->isLearn(Yii::$app->user->id, $courseId)) {
+                $isLearn = true;
+                if (strpos(Yii::$app->request->getUrl(), 'view') === false) {  
+                    return $this->render('learn', ['course' => $model, 'isLearn' => $isLearn, 'categoryModel' => $categoryModel]);
+                }
+            }
+            return $this->render('view', ['course' => $model, 'isLearn' => $isLearn, 'categoryModel' => $categoryModel, 'videoCount' => $videoCount]);
+        }
+    }
+
+    protected function findModelByCoursId($courseId)
+    {
+        //如果没有找到这门课则返回null
+        $model = Course::findOneById($courseId);
+        if (empty($model) || !Course::isRoot($model)) {
+            return null;
+        } 
+        return $model;
     }
 
     public function actionLearn()
     {
-        return $this->render('learn');
+        $courseId = Yii::$app->request->get('cid');
+        $model = $this->findModelByCoursId($courseId);
+        $categoryModel = Category::findOneById($model->category);
+        return $this->render('learn', ['course' => $model, 'categoryModel' => $categoryModel]);
     }
 
     public function actionComment()

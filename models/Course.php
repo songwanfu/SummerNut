@@ -55,8 +55,8 @@ class Course extends \kartik\tree\models\Tree
     {
         $rules_parent = parent::rules();
         $rules_course = [
-            [['category', 'difficulty_level', 'teacher_id', 'status', 'leaner_count', 'introduction', 'notice', 'gains', 'create_time', 'update_time'], 'safe'],
-            [['teacher_id', 'status', 'category', 'leaner_count'], 'integer'],
+            [['category', 'difficulty_level', 'teacher_id', 'status', 'learner_count', 'introduction', 'notice', 'gains', 'create_time', 'update_time'], 'safe'],
+            [['teacher_id', 'status', 'category', 'learner_count'], 'integer'],
             [['introduction', 'notice', 'gains'], 'string', 'max' => 500],
             ['teacher_id', 'default', 'value' => Yii::$app->user->id],
             ['difficulty_level', 'default', 'value' => static::LEVEL_ELEMENTARY],
@@ -76,7 +76,7 @@ class Course extends \kartik\tree\models\Tree
         $labels_course = [
             'difficulty_level' => Yii::t('app', 'Diffculty Level'),
             'status' => Yii::t('app', 'Status'),
-            'leaner_count' => Yii::t('app', 'Learner Count'),
+            'learner_count' => Yii::t('app', 'Learner Count'),
             'introduction' => Yii::t('app', 'Course Introduction'),
             'notice' => Yii::t('app', 'Course Notice'),
             'gains' => Yii::t('app', 'Course Gains'),
@@ -144,6 +144,16 @@ class Course extends \kartik\tree\models\Tree
         return false;
     }
 
+    public static function isChapter($model = null)
+    {
+        if ($model == null) return false;
+
+        if ($model->lvl == 1) {
+            return true;
+        }
+        return false;
+    }
+
     public static function findModel($id)
     {
         return static::findOne(['id' => $id]);
@@ -184,7 +194,7 @@ class Course extends \kartik\tree\models\Tree
 
     public static function queryCourse($category = '', $difficulty_level = '', $sort = 'update_time DESC')
     {
-        $condition = [];
+        $condition = ['lvl' => 0];
 
         if (!empty($category) && empty($difficulty_level)) {
             $condition = ['lvl' => 0, 'category' => $category];
@@ -197,9 +207,48 @@ class Course extends \kartik\tree\models\Tree
         if (!empty($category) && !empty($difficulty_level)) {
             $condition = ['lvl' => 0, 'category' => $category, 'difficulty_level' => $difficulty_level];
         }    
+        // var_dump($condition);die;
+        if ($sort == 'new') {
+            $sort = 'update_time DESC';
+        } else if ($sort == 'hot') {
+            $sort = 'learner_count DESC';
+        } else {
+            $sort = 'update_time DESC';
+        }
 
         return static::findModels(['id', 'name', 'icon', 'difficulty_level', 'learner_count', 'introduction'], $condition, $sort);
         
     }
 
+    public static function findOneById($id)
+    {
+        return static::findOne(['id' => $id]);
+    }
+
+    public static function fileCount($courseId)
+    {
+        $count = 0;
+        $models = static::findModels([], ['root' => $courseId]);
+        foreach ($models as $model) {
+            if (static::isFile($model)) {
+                $count++;
+            }
+        }
+        return $count;
+    }
+
+    public static function getChapterList($courseId)
+    {
+        $chapterList = [];
+        $models = static::findModels([], ['root' => $courseId]);
+        $i = 0;
+        foreach ($models as $model) {
+            if (static::isChapter($model)) {
+                $chapterList[$i]['chapterName'] = $model->name;
+                $chapterList[$i]['chapterIntro'] = $model->introduction;
+            }
+            $i++;
+        }
+        return $chapterList;
+    }
 }

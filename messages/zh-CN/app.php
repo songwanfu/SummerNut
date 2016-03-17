@@ -135,5 +135,20 @@ return [
 	'Photo Process' => '图像处理',
 	
 	'Course Category' => '课程分类',
-
+	'Course List' => '课程列表',
+	'All Courses' => '所有课程',
+	'Level' => '难度',
+	'Category' => '分类',
+	'New' => '最新',
+	'Hot' => '最热',
+	'More wonderful courses are creating, to be continued!' => '精彩课程制作中，敬请期待！',
+	'Learner Count' => '学习人数',
+	'Learn Continue' => '继续学习',
+	'Learn Start' => '开始学习',
+	'Course Index' => '课程提纲',
+	'Focused' => '已关注',
+	'Focus' => '关注',
+	'Share' => '分享',
+	'Course Judgement' => '课程评价',
+	'Add Course Judgement' => '添加课程评价',
 ];

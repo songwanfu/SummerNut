@@ -48,17 +48,19 @@
 	background-color:#999;
 }
 
-.blur {
-	-webkit-filter: blur(5px); /* Chrome, Opera */
-       -moz-filter: blur(5px);
-        -ms-filter: blur(5px);    
-            filter: blur(5px);
-}
+/*.blur {
+	-webkit-filter: blur(50px);
+       -moz-filter: blur(50px);
+        -ms-filter: blur(50px);    
+            filter: blur(50px);
+}*/
 
 .course-view-infos{
 	background-color: #172a34;
 	color:white;
 }
+
+.list-query-type {}
 
 .course-view-infos .breadcrumb {
 	background-color: #172a34;
@@ -75,6 +77,7 @@
 }
 
 .course-view-share {margin-top: 25px}
+.course-view-share .fa-heart-o, .course-view-share .fa-share-alt, .course-view-share .fa-heart{cursor:pointer;}
 
 .course-view-body .course-learn-body{margin-top: 50px}
 
@@ -112,6 +115,7 @@
 	font-family: "微软雅黑";
 }
 
+.comment-title:span{margin-left:10px;}
 .course-outline-top li, .course-outline-top span{
 	margin-right: 10px;
 }
@@ -136,6 +140,8 @@
 	padding:0;
 }
 
+
+.course-comment .addComment{margin-left: 20px;cursor:pointer;}
 .course-comment, .course-qa{margin-top: 20px}
 
 .evaluation-info {
@@ -310,5 +316,7 @@
 .course-view-badge .hot-4 {background-color:rgba(0,0,255,0.5);}
 .course-view-badge .hot-5 {background-color:rgba(153,153,153,1);}
 
+
+.commentModal-body span{color:rgba(255,153,0,1);cursor:pointer;}
 
 
