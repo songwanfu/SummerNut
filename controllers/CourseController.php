@@ -8,6 +8,8 @@ use app\models\Course;
 use app\models\Resource;
 use app\models\Category;
 use app\models\UserCourse;
+use app\models\Question;
+use app\models\User;
 
 class CourseController extends \yii\web\Controller
 {
@@ -19,7 +21,7 @@ class CourseController extends \yii\web\Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['create', 'list', 'view', 'learn', 'comment', 'manage', 'qa', 'update', 'delete', 'test', 'upload', 'delete-icon'], 
+                            'actions' => ['create', 'list', 'view', 'learn', 'comment', 'manage', 'qa', 'update', 'delete', 'test', 'upload', 'delete-icon', 'qadetail'], 
                             'roles' => ['@'],
                         ],
                         [
@@ -119,12 +121,8 @@ class CourseController extends \yii\web\Controller
             return;
         } else {
             $videoCount = Course::fileCount($model->id);
-            $userCourse = new UserCourse();
-            if ($userCourse->isLearn(Yii::$app->user->id, $courseId)) {
+            if (UserCourse::isLearn(Yii::$app->user->id, $courseId)) {
                 $isLearn = true;
-                if (strpos(Yii::$app->request->getUrl(), 'view') === false) {  
-                    return $this->render('learn', ['course' => $model, 'isLearn' => $isLearn, 'categoryModel' => $categoryModel]);
-                }
             }
             return $this->render('view', ['course' => $model, 'isLearn' => $isLearn, 'categoryModel' => $categoryModel, 'videoCount' => $videoCount]);
         }
@@ -145,17 +143,45 @@ class CourseController extends \yii\web\Controller
         $courseId = Yii::$app->request->get('cid');
         $model = $this->findModelByCoursId($courseId);
         $categoryModel = Category::findOneById($model->category);
-        return $this->render('learn', ['course' => $model, 'categoryModel' => $categoryModel]);
+        $isLearn = false;
+
+        if (UserCourse::isLearn(Yii::$app->user->id, $courseId)) {
+            $isLearn = true;
+        } else {
+            UserCourse::addData(Yii::$app->user->id, $courseId, UserCourse::TYPE_LEARN);
+            $model->learner_count += 1;
+            $model->save();
+            $isLearn = true;
+        }
+        return $this->render('learn', ['course' => $model, 'categoryModel' => $categoryModel, 'isLearn' => $isLearn]);
     }
 
     public function actionComment()
     {
-        return $this->render('comment');
+        $courseId = Yii::$app->request->get('cid');
+        $model = $this->findModelByCoursId($courseId);
+        // var_dump($model);die;
+        $categoryModel = Category::findOneById($model->category);
+        $isLearn = false;
+
+        if (UserCourse::isLearn(Yii::$app->user->id, $courseId)) {
+            $isLearn = true;
+        } 
+        return $this->render('comment', ['course' => $model, 'categoryModel' => $categoryModel, 'isLearn' => $isLearn]);
     }
 
     public function actionQa()
     {
-        return $this->render('qa');
+        $courseId = Yii::$app->request->get('cid');
+        $model = $this->findModelByCoursId($courseId);
+        // var_dump($model);die;
+        $categoryModel = Category::findOneById($model->category);
+        $isLearn = false;
+
+        if (UserCourse::isLearn(Yii::$app->user->id, $courseId)) {
+            $isLearn = true;
+        } 
+        return $this->render('qa', ['course' => $model, 'categoryModel' => $categoryModel, 'isLearn' => $isLearn]);
     }
 
     public function actionManage()
@@ -163,10 +189,16 @@ class CourseController extends \yii\web\Controller
         return $this->render('manage');
     }
 
-    public function actionTest()
+    public function actionQadetail()
     {
-    	$model = new Course();
-    	echo $model->maxDepth();
+        $questionModel = Question::findModel(Yii::$app->request->get('qid'));
+        $courseModel = Course::findOneById($questionModel->course_id);
+        $userModel = User::findModel($questionModel->user_id);
+
+        $questionModel->views += 1;
+        $questionModel->save();
+        
+    	return $this->render('qadetail', ['question' => $questionModel, 'course' => $courseModel, 'user' => $userModel]);
     }
 
     public function actionUpload()

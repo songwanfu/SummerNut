@@ -41,4 +41,25 @@ class Common
         return $str;
     }
 
+    public static function getAwayTime($timestamp)
+    {
+        $currentTime = time();
+        $oldTime = strtotime($timestamp);
+        $time = $currentTime - $oldTime;
+        
+        if ($time > 86400) {
+            return (floor($time / 86400) . Yii::t('app', 'days ago'));
+        } 
+        if ($time < 86400 && $time > 3600) {
+
+            return (floor($time / 3600) . Yii::t('app', 'hours ago'));
+        }
+        if ($time < 3600 && $time > 60) {
+            return (floor($time / 60) . Yii::t('app', 'minuts ago'));
+        }
+        if ($time < 60) {
+            return ($time . Yii::t('app', 'seconds ago'));
+        }
+    }
+
 }

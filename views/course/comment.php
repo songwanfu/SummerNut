@@ -2,6 +2,10 @@
 use yii\widgets\LinkPager;
 use kartik\markdown\MarkdownEditor;
 use app\assets\CommentEmoji;
+use app\models\CourseComment;
+use app\models\Common;
+use app\models\user;
+use app\models\Resource;
 
 CommentEmoji::register($this);
 $this->title = Yii::t('app', 'Comment');
@@ -13,7 +17,7 @@ $this->title = Yii::t('app', 'Comment');
 
 <div class="wrap">
 	<div class="row course-view-infos">
-		<?= $this->render('course-top')?>
+		<?= $this->render('course-top', ['course' => $course, 'categoryModel' => $categoryModel])?>
 	</div>
 
 	<div class="row learn-body">
@@ -25,9 +29,9 @@ $this->title = Yii::t('app', 'Comment');
 			</div>
 			<div class="col-lg-12 course-menu">
 				<ul class="list-inline">
-				  <li class="col-lg-4"><h4>章节</h4></li>
-				  <li class="col-lg-4 menu-active"><h4>评论</h4></li>
-				  <li class="col-lg-4"><h4>问答</h4></li>
+				  <li class="col-lg-4"><a href="/course/learn?cid=<?php echo $course->id;?>"><h4>章节</h4></li></a>
+				  <li class="col-lg-4 menu-active"><a href="/course/comment?cid=<?php echo $course->id;?>"><h4>评论</h4></a></li>
+				  <li class="col-lg-4"><a href="/course/qa?cid=<?php echo $course->id;?>"><h4>问答</h4></a></li>
 				</ul>
 			</div>
 
@@ -36,39 +40,34 @@ $this->title = Yii::t('app', 'Comment');
 	      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-input">
           <textarea class="form-control" placeholder="扯淡、吐槽、表扬、鼓励……想说啥就说啥！" id="comment" rows="3"></textarea>
           <button class="btn btn-info emotion" type="button"><span class="fa fa-smile-o">&nbsp;添加表情</span></button>
-        	<button class="btn btn-success comment-send" type="button" id="addCommentSubmit"><span class="fa fa-send">&nbsp;发表评论</span></button>
+        	<button class="btn btn-success comment-send" type="button" id="addCommentSubmit" onclick="addComment(<?php echo $course->id?>)"><span class="fa fa-send">&nbsp;发表评论</span></button>
         </div>
 
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-detail">
 
-					<div class="media col-lg-12 evaluation-con">
-					  <div class="media-left media-middle">
-					    <a href="#">
-					      <img class="media-object img-circle" src="http://img.mukewang.com/user/545868f30001886f02200220-40-40.jpg" alt="..." width="60px">
-					    </a>
-					  </div>
-					  <div class="media-body">
-					  	<span class="evaluation-name">黎丶小小小陌</span>
-					    <h5 class="media-heading evaluation-content">挺棒的 支持。</h5>
-					    <span class="evaluation-time">时间：1天前</span>
-					    <span class="fa fa-thumbs-o-down comment-down">1</span>
-					    <span class="fa fa-thumbs-up comment-up">10</span>
-					  </div>
-					</div>
-					<div class="media col-lg-12 evaluation-con">
-					  <div class="media-left media-middle">
-					    <a href="#">
-					      <img class="media-object img-circle" src="http://img.mukewang.com/user/56dc4a6c0001dbb202000200-40-40.jpg" alt="..." width="60px">
-					    </a>
-					  </div>
-					  <div class="media-body">
-					  	<span class="evaluation-name">programme</span>
-					    <h5 class="media-heading evaluation-content">在项目中很实用</h5>
-					    <span class="evaluation-time">时间：1天前</span>
-					    <span class="fa fa-thumbs-o-down comment-down">1</span>
-					    <span class="fa fa-thumbs-up comment-up">10</span>
-					  </div>
-					</div>
+					<?php $i = 1; foreach (CourseComment::commentList($course->id) as $comment): ?>
+						<div class="media col-lg-12 evaluation-con">
+						  <div class="media-left media-middle">
+						    <a href="#">
+						      <img class="media-object img-circle" src="<?php echo User::findModel($comment->user_id)->head_picture?>" alt="" width="60px">
+						    </a>
+						  </div>
+						  <div class="media-body">
+						  	<span class="evaluation-name"><?php echo User::findModel($comment->user_id)->username?></span>
+						    <h5 class="media-heading evaluation-content" id="comment-content-<?php echo $i?>"><?php echo $comment->content?></h5>
+						    <?php if ($comment->course_id == $comment->root_id): ?>
+						    	<span class="evaluation-time">时间：<?php echo Common::getAwayTime($comment->comment_time)?></span>
+								<?php else: ?>
+						    	<span class="evaluation-time">时间：<?php echo Common::getAwayTime($comment->comment_time)?>&nbsp;<a href="/resource/play?id=<?php echo Resource::getVideo($comment->course_id)->url?>">源自:<?php Course::findModel($comment->course_id)->name?></a></span>
+						    <?php endif ?>
+						    <span class="fa fa-thumbs-o-down comment-down" onclick="commentDown(<?php echo $comment->id?>)"><?php echo $comment->down_count?></span>
+						    <span class="fa fa-thumbs-o-up comment-up" onclick="commentUp(<?php echo $comment->id?>)"><?php echo $comment->up_count?></span>
+						  </div>
+						</div>
+					<?php $i++;endforeach ?>
+					
+
+					
 
 				</div>
 
@@ -78,7 +77,7 @@ $this->title = Yii::t('app', 'Comment');
 		</div>
 
 		<div class="col-lg-3  course-view-right">
-			<?= $this->render('course-right')?>
+			<?= $this->render('course-right', ['isLearn' => true, 'course' => $course])?>
 		</div>
 
 	</div>
@@ -86,8 +85,7 @@ $this->title = Yii::t('app', 'Comment');
 
 </div>
 
-<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.0/jquery.js"></script>
-<!-- <script type="text/javascript" src="/js/jquery.qqFace.js"></script> -->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript">
 
 	$(function(){
@@ -107,6 +105,73 @@ $this->title = Yii::t('app', 'Comment');
     return str;
   }
 
+  function addComment(courseId)
+  {
+  	var content = $('#comment').val();
+  	if (content != '' && content.length <= 255) {
+  		$.ajax({
+  			url: '/course-comment/add-comment',
+  			type: 'post',
+  			dataType: 'json',
+  			data: {
+  				courseId: courseId,
+  				content: content,
+  			},
+  			success: function (json) {
+  				window.location.reload();
+  			},
+  			error: function () {
+  				alert('失败');
+  			}
+  		});
+  	}
+  }
+
+  $(document).ready(function(){
+  	for (var i = 1; i <= 100; i++) {
+  		$('#comment-content-' + i).html(replace_em($('#comment-content-' + i).text()));
+  	}
+  });
+
+
+  function commentUp(commentId)
+  {
+  	// $('.comment-up').text(parseInt($('.comment-up').text()) + 1);
+  	$.ajax({
+  		url: '/course-comment/comment-up',
+  		type: 'post',
+  		dataType: 'json',
+  		data: {
+  			commentId: commentId
+  		},
+  		success: function () {
+  			window.location.reload();
+  		},
+  		error: function () {
+  			window.location.href = '/site/login';
+  		}
+  	});
+  }
+
+  function commentDown(commentId)
+  {
+
+  	// $('.comment-down').text(parseInt($('.comment-down').text()) + 1);
+  	$.ajax({
+  		url: '/course-comment/comment-down',
+  		type: 'post',
+  		dataType: 'json',
+  		data: {
+  			commentId: commentId
+  		},
+  		success: function () {
+  			window.location.reload();
+  		},
+  		error: function () {
+  			window.location.href = '/site/login';
+  		}
+  	});
+  }
 
 
 </script>

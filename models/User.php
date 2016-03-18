@@ -250,7 +250,7 @@ class user extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    public static function findOne($id)
+    public static function findModel($id)
     {
         return static::findOne(['id' => $id]);
     }

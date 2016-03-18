@@ -151,4 +151,8 @@ return [
 	'Share' => '分享',
 	'Course Judgement' => '课程评价',
 	'Add Course Judgement' => '添加课程评价',
+	'days ago' => '天之前',
+	'hours ago' => '小时之前',
+	'minuts ago' => '分钟之前',
+	'seconds ago' => '秒之前',
 ];

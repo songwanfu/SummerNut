@@ -3,18 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\CourseComment;
-use app\models\Course;
+use app\models\Question;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
-
 /**
- * CourseCommentController implements the CRUD actions for CourseComment model.
+ * QuestionController implements the CRUD actions for Question model.
  */
-class CourseCommentController extends Controller
+class QuestionController extends Controller
 {
     public function behaviors()
     {
@@ -29,13 +27,13 @@ class CourseCommentController extends Controller
     }
 
     /**
-     * Lists all CourseComment models.
+     * Lists all Question models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => CourseComment::find(),
+            'query' => Question::find(),
         ]);
 
         return $this->render('index', [
@@ -44,7 +42,7 @@ class CourseCommentController extends Controller
     }
 
     /**
-     * Displays a single CourseComment model.
+     * Displays a single Question model.
      * @param integer $id
      * @return mixed
      */
@@ -56,13 +54,13 @@ class CourseCommentController extends Controller
     }
 
     /**
-     * Creates a new CourseComment model.
+     * Creates a new Question model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new CourseComment();
+        $model = new Question();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -74,7 +72,7 @@ class CourseCommentController extends Controller
     }
 
     /**
-     * Updates an existing CourseComment model.
+     * Updates an existing Question model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -93,7 +91,7 @@ class CourseCommentController extends Controller
     }
 
     /**
-     * Deletes an existing CourseComment model.
+     * Deletes an existing Question model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -106,79 +104,32 @@ class CourseCommentController extends Controller
     }
 
     /**
-     * Finds the CourseComment model based on its primary key value.
+     * Finds the Question model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return CourseComment the loaded model
+     * @return Question the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = CourseComment::findOne($id)) !== null) {
+        if (($model = Question::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
-    public function actionAddJugement()
+    public function actionAddQuestion()
     {
-        $userId = Yii::$app->user->id;
         $courseId = Yii::$app->request->post('courseId');
         $content = Yii::$app->request->post('content');
-        $score = Yii::$app->request->post('score');
-
-        $model = new CourseComment();
-        if ($model::isCommented($userId, $courseId)) {
-            echo json_encode('false');
-            return;
-        } else {
-            if ($model->addData($userId, $courseId, $content, $score, $model::COMMENT_TYPE_JUDGMENT)) {
-                echo true;
-                return;
-            } else {
-                echo false;
-                return;
-            }
-        }
-    }
-
-    public function actionAddComment()
-    {
         $userId = Yii::$app->user->id;
-        $courseId = Yii::$app->request->post('courseId');
-        $content = Yii::$app->request->post('content');
-        $rootId = Course::findOneById($courseId)->root;
 
-        $model = new CourseComment();
-        if ($model->addData($userId, $courseId, $content, $model::SCORE_DEFAULT, $model::COMMENT_TYPE_COMMENT, $rootId)) {
+        $model = new Question();
+        if ($model->addData($userId, $content, $courseId)) {
             echo Json::encode('true');return;
         } else {
             echo Json::encode('false');return;
-        }
-    }
-
-    public function actionCommentUp()
-    {
-        $commentId= Yii::$app->request->post('commentId');
-        $model = $this->findModel($commentId);
-        $model->up_count += 1;
-        if ($model->save()) {
-            echo Json::encode(true);return;
-        } else {
-            echo Json::encode(false);return;
-        }
-    }
-
-    public function actionCommentDown()
-    {
-        $commentId= Yii::$app->request->post('commentId');
-        $model = $this->findModel($commentId);
-        $model->down_count += 1;
-        if ($model->save()) {
-            echo Json::encode(true);return;
-        } else {
-            echo Json::encode(false);return;
         }
     }
 }

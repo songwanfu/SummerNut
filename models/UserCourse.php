@@ -11,12 +11,19 @@ use Yii;
  * @property integer $user_id
  * @property integer $course_id
  * @property integer $type
+ * @property integer $learn_status
+ * @property integer $learn_time_total
+ * @property string $learn_time
  * @property string $create_time
  */
 class UserCourse extends \yii\db\ActiveRecord
 {
     const TYPE_LEARN = 1;
     const TYPE_FOCUS = 2;
+    const LEARN_STATUS_NOT_FINISH = 1;
+    const LEARN_STATUS_FINISHED = 2;
+    const LEARN_TIME_TOTAL_DEFAULT= 0;
+    const LEARN_TIME_DEFAULT = 0;
     /**
      * @inheritdoc
      */
@@ -32,9 +39,13 @@ class UserCourse extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'course_id', 'type'], 'required'],
-            [['user_id', 'course_id', 'type'], 'integer'],
-            [['create_time'], 'safe'],
+            [['user_id', 'course_id', 'type', 'learn_status', 'learn_time_total'], 'integer'],
+            [['learn_time', 'create_time'], 'safe'],
             ['create_time', 'default', 'value' => Common::getTime()],
+            ['type', 'default', 'value' => self::TYPE_LEARN],
+            ['learn_status', 'default', 'value' => self::LEARN_STATUS_NOT_FINISH],
+            ['learn_time_total', 'default', 'value' => self::LEARN_TIME_TOTAL_DEFAULT],
+            ['learn_time', 'default', 'value' => Common::getTime()]
         ];
     }
 
@@ -48,16 +59,20 @@ class UserCourse extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'User ID'),
             'course_id' => Yii::t('app', 'Course ID'),
             'type' => Yii::t('app', 'Type'),
+            'learn_status' => Yii::t('app', 'Learn Status'),
+            'learn_time_total' => Yii::t('app', 'Learn Time Total'),
+            'learn_time' => Yii::t('app', 'Learn Time'),
             'create_time' => Yii::t('app', 'Create Time'),
         ];
     }
+
 
     public function findModels($field = [], $condition = [])
     {
         return static::find($field)->where($condition)->all();
     }
 
-    public function isLearn($userId, $courseId)
+    public static function isLearn($userId, $courseId)
     {
         return (empty(static::findModels([], ['user_id' => $userId, 'course_id' => $courseId, 'type' => static::TYPE_LEARN])) ? false : true);
     }

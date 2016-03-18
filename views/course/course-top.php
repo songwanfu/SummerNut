@@ -48,7 +48,7 @@ $levelList = Course::levelList();
 		<?php endif;?>
 		
 		<span class="fa fa-share-alt fa-large" style="margin-left: 10px"><?php echo Yii::t('app', 'Share');?></span>
-		<wb:share-button appkey="4209546553" addition="simple" type="icon" picture_search="false" ralateUid="2919453367" default_text="分享夏果的精彩课程。"></wb:share-button>
+		<wb:share-button appkey="4209546553" addition="simple" type="icon" picture_search="false" ralateUid="2919453367" default_text="分享夏果的精彩课程----<?php echo $course->name?>。夏果，满满的都是干货！"></wb:share-button>
 	</div>
 
 <!-- 弹出提示框-->

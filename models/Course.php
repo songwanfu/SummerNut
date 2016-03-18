@@ -246,9 +246,24 @@ class Course extends \kartik\tree\models\Tree
             if (static::isChapter($model)) {
                 $chapterList[$i]['chapterName'] = $model->name;
                 $chapterList[$i]['chapterIntro'] = $model->introduction;
+                $chapterList[$i]['id'] = $model->id;
+                $chapterList[$i]['lft'] = $model->lft;
+                $chapterList[$i]['rgt'] = $model->rgt;
             }
             $i++;
         }
         return $chapterList;
+    }
+
+    public static function getChapterFiles($chapterId, $chapterLft, $chapterRgt)
+    {
+        $models = static::findAll(['root' => static::findModel($chapterId)->root]);
+        $list = [];
+        foreach ($models as $model) {
+            if (static::isFile($model) && ($model->lft > $chapterLft && $model->rgt < $chapterRgt)) {
+                $list[] = $model;
+            }
+        }
+        return $list;
     }
 }

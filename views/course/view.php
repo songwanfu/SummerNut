@@ -3,13 +3,14 @@ use yii\widgets\LinkPager;
 use app\models\Course;
 use app\models\CourseComment;
 use app\models\User;
+use app\models\Common;
 /* @var $this yii\web\View */
 
 $this->title = Yii::t('app', 'View');
 
-$judgments = CourseComment::findModelsByCId($course->id);
+$judgments = CourseComment::judgmentList($course->id);
 $judgmentCount = count($judgments);
-die;
+
 ?>
 
 <div class="wrap">
@@ -41,7 +42,7 @@ die;
 								<h6 class="col-lg-11"><?php echo $chapter['chapterIntro'];?></h6>
 							<?php endif; ?>
 						</li>
-					<?php endforeach ?>
+					<?php endforeach; ?>
 					
 				</ul>
 				
@@ -49,7 +50,9 @@ die;
 
 			<div class="col-lg-12 course-comment">
 				<span class="comment-title"><?php echo Yii::t('app', 'Course Judgement')?></span>
-				<span class="fa fa-comment addComment" onclick="alertAddCommentMoal();"><?php echo Yii::t('app', 'Add Course Judgement')?></span>
+				<?php if (!CourseComment::isCommented(Yii::$app->user->id, $course->id)): ?>
+					<span class="fa fa-comment addComment" onclick="alertAddCommentMoal();"><?php echo Yii::t('app', 'Add Course Judgement')?></span>
+				<?php endif ?>
 				<div class="evaluation-info col-lg-12">
 					<span>满意度评分：<?php $arr = CourseComment::courseAvgScore($course->id);$score = ceil($arr[0]['avgScore']);echo $score;?></span>
 					<?php for ($i = 1; $i <=5; $i++): ?>
@@ -67,41 +70,25 @@ die;
 					<div class="media col-lg-12 evaluation-con">
 					  <div class="media-left media-middle">
 					    <a href="#">
-				      	<img class="media-object img-circle" src="<?php echo User::findOne($judgment->user_id)->head_picture;?>" alt="..." width="60px">	
+				      	<img class="media-object img-circle" src="<?php echo User::findModel($judgment->user_id)->head_picture;?>" alt="..." width="60px">	
 				      </a>
 					  </div>
 					  <div class="media-body">
-					  	<span class="evaluation-name">黎丶小小小陌</span>
-					  	<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-					    <h5 class="media-heading evaluation-content">挺棒的 支持。</h5>
-					    <h6 class="evaluation-time">时间：1天前</h6>
+					  	<span class="evaluation-name"><?php echo User::findModel($judgment->user_id)->username;?></span>
+					  	<?php for ($i = 1; $i <=5; $i++): ?>
+								<?php if ($i <= $judgment->score) : ?>
+									<span class="fa fa-star"></span>
+								<?php else : ?>
+									<span class="fa fa-star-o"></span>
+								<?php endif;?>
+							<?php endfor;?>
+					    <h5 class="media-heading evaluation-content"><?php echo $judgment->content;?></h5>
+					    <h6 class="evaluation-time">时间：<?php echo Common::getAwayTime($judgment->comment_time);?></h6>
 					  </div>
 					</div>
 
 				<?php endforeach ?>
 
-
-<!-- 				<div class="media col-lg-12 evaluation-con">
-				  <div class="media-left media-middle">
-				    <a href="#">
-				      <img class="media-object img-circle" src="http://img.mukewang.com/5642d3e20001c4d401360136-100-100.jpg" alt="..." width="60px">
-				    </a>
-				  </div>
-				  <div class="media-body">
-				  	<span class="evaluation-name">快要坏掉的小海</span>
-				  	<span class="fa fa-star"></span>
-						<span class="fa fa-star"></span>
-						<span class="fa fa-star"></span>
-						<span class="fa fa-star"></span>
-						<span class="fa fa-star-o"></span>
-				    <h5 class="media-heading evaluation-content">老师真心讲的不错，感受到了满满的诚意和爱，感觉世界光明了许多</h5>
-				    <h6 class="evaluation-time">时间：4天前</h6>
-				  </div>
-				</div> -->
 
 
 			</div>
@@ -187,7 +174,7 @@ die;
 			return;
 		} else {
 			$.ajax({
-				url: '/course-comment/add-comment',
+				url: '/course-comment/add-jugement',
 				type: 'post',
 				dataType: 'json',
 				data: {

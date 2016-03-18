@@ -201,6 +201,8 @@
 
 .course-learn-chapter {margin-top: 20px;}
 .course-learn-chapter .panel-body {color:gray;margin-left: 3%}
+.course-learn-chapter .learn-course-name{margin-top:10px;}
+.course-learn-chapter .learn-course-name:first-child{margin-top: 0px}
 
 .course-menu {
 	margin-top: 10px;
@@ -209,7 +211,7 @@
 	left:2%;
 }
 
-.course-menu .menu-active {color:red;}
+.course-menu .menu-active a{color:red;}
 
 .course-menu h4:hover{color:red;cursor: pointer;}
 
@@ -222,7 +224,7 @@
 }
 
 .comment-up, .comment-down{float:right;}
-
+.comment-up{margin-right:10px;}
 .comment-up:hover, .comment-down:hover{color:red;cursor:pointer;}
 
 .qa-name{color:gray;font-size: 6px}
@@ -320,3 +322,15 @@
 .commentModal-body span{color:rgba(255,153,0,1);cursor:pointer;}
 
 
+.qa-add-question-btn{margin:10px auto;}
+
+.qadetail-title{margin-top: 20px}
+
+.qadetail-bar{color:rgba(102,102,102,0.5);font-size:13px;padding-bottom:20px;border-bottom:1px #669999 dashed;}
+
+.qadetail-reply, .qadetail-input{margin-top: 20px}
+
+.qadetail-input .reply-btn{float:right;margin-top: 20px;background-color: green}
+
+.reply-user-info-name{color:gray;text-align: center;}
+.fa-reply{cursor:pointer;}
