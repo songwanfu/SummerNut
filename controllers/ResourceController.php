@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Resource;
 use app\models\ResourceSearch;
+use app\models\Course;
+use app\models\UserPlay;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -140,9 +142,20 @@ class ResourceController extends Controller
     public function actionPlay($id)
     {
         $model = $this->findModel($id);
+        $course = Course::findOneById($model->course_id);
+        $root = Course::findOneById($course->root);
+
+
+        $userPlayModel = new UserPlay();
+        if (!$userPlayModel->isLearn(Yii::$app->user->id, $model->course_id)) {
+            $userPlayModel->addData(Yii::$app->user->id, $model->course_id);
+        }
+        $learnPoint = $userPlayModel->findOneLearnModel(Yii::$app->user->id, $model->course_id)->learn_point;
+
+
         $model->play_count += 1;
         if ($model->save()) {
-            return $this->render('play', ['url' => $model->url]);
+            return $this->render('play', ['url' => $model->url, 'course' => $course, 'root' => $root, 'learnPoint' => $learnPoint]);
         } 
     }
 

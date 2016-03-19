@@ -155,4 +155,16 @@ return [
 	'hours ago' => '小时之前',
 	'minuts ago' => '分钟之前',
 	'seconds ago' => '秒之前',
+
+	'No more focus or learn courses.' => '没有学习或关注的课程。',
+	'No more focus questions.' => '没有关注的问题。',
+	'No more questions.' => '没有提问。',
+	'No more answers.' =>'暂时没有回答。',
+	'No more comments.' => '暂时没有评论。',
+
+	'Play' => '播放',
+
+	'hours' => '小时',
+	'minuts' => '分钟',
+	'seconds' => '秒',
 ];

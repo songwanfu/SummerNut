@@ -10,6 +10,8 @@ use app\models\Category;
 use app\models\UserCourse;
 use app\models\Question;
 use app\models\User;
+use app\models\UserPlay;
+use app\models\Common;
 
 class CourseController extends \yii\web\Controller
 {
@@ -153,7 +155,10 @@ class CourseController extends \yii\web\Controller
             $model->save();
             $isLearn = true;
         }
-        return $this->render('learn', ['course' => $model, 'categoryModel' => $categoryModel, 'isLearn' => $isLearn]);
+        $learnPersent = UserPlay::getLearnPercent(Yii::$app->user->id, $courseId) * 100;
+        $learnTimeToal = Common::transTime(UserCourse::findOneLearnModel(Yii::$app->user->id, $courseId)->learn_time_total);
+
+        return $this->render('learn', ['course' => $model, 'categoryModel' => $categoryModel, 'isLearn' => $isLearn, 'learnPersent' => $learnPersent, 'learnTimeToal' => $learnTimeToal]);
     }
 
     public function actionComment()
@@ -166,8 +171,11 @@ class CourseController extends \yii\web\Controller
 
         if (UserCourse::isLearn(Yii::$app->user->id, $courseId)) {
             $isLearn = true;
-        } 
-        return $this->render('comment', ['course' => $model, 'categoryModel' => $categoryModel, 'isLearn' => $isLearn]);
+        }
+
+        $learnPersent = UserPlay::getLearnPercent(Yii::$app->user->id, $courseId) * 100;
+        $learnTimeToal = Common::transTime(UserCourse::findOneLearnModel(Yii::$app->user->id, $courseId)->learn_time_total);
+        return $this->render('comment', ['course' => $model, 'categoryModel' => $categoryModel, 'isLearn' => $isLearn, 'learnPersent' => $learnPersent, 'learnTimeToal' => $learnTimeToal]);
     }
 
     public function actionQa()
@@ -180,8 +188,11 @@ class CourseController extends \yii\web\Controller
 
         if (UserCourse::isLearn(Yii::$app->user->id, $courseId)) {
             $isLearn = true;
-        } 
-        return $this->render('qa', ['course' => $model, 'categoryModel' => $categoryModel, 'isLearn' => $isLearn]);
+        }
+
+        $learnPersent = UserPlay::getLearnPercent(Yii::$app->user->id, $courseId) * 100;
+        $learnTimeToal = Common::transTime(UserCourse::findOneLearnModel(Yii::$app->user->id, $courseId)->learn_time_total);
+        return $this->render('qa', ['course' => $model, 'categoryModel' => $categoryModel, 'isLearn' => $isLearn, 'learnPersent' => $learnPersent, 'learnTimeToal' => $learnTimeToal]);
     }
 
     public function actionManage()

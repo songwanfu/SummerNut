@@ -96,7 +96,7 @@ class UserCourse extends \yii\db\ActiveRecord
 
     public static function deleteData($condition = [])
     {
-        $models = static::find($condition)->all();
+        $models = static::find()->where($condition)->all();
         foreach ($models as $model) {
             if (!$model->delete()) return false;
         }
@@ -106,5 +106,22 @@ class UserCourse extends \yii\db\ActiveRecord
     public static function deleteFocus($userId, $courseId, $type)
     {
         return static::deleteData(['user_id' => $userId, 'course_id' => $courseId, 'type' => $type]);
+    }
+
+    public static function findModelsByUserId($userId)
+    {
+        return static::find()->where(['user_id' => $userId])->orderBy('create_time DESC')->all();
+    }
+
+    public static function findOneLearnModel($userId, $courseId)
+    {
+        return static::findOne(['user_id' => $userId, 'course_id' => $courseId, 'type' => self::TYPE_LEARN]);
+    }
+
+    public static function userTotalTime($userId)
+    {
+        $sql = "SELECT SUM(learn_time_total) AS timeTotal FROM r_user_course WHERE user_id = {$userId} AND type = 1";
+        $data = static::findBySql($sql)->asArray()->all();
+        return $data[0]['timeTotal'];
     }
 }

@@ -62,4 +62,20 @@ class Common
         }
     }
 
+    public static function transTime($time)
+    {
+        if ($time > 3600) {
+            $h = $time / 3600;
+            $h = floor($h);
+            $m = ($time - $h * 3600) / 60;
+
+            return (round($h, 0) . Yii::t('app', 'hours') . round($m, 0) . Yii::t('app', 'minuts'));
+        }
+        if ($time < 3600 && $time > 60) {
+            $m = $time / 60;
+            return $m . Yii::t('app', 'minuts');
+        }
+        return $time . Yii::t('app', 'seconds');
+    }
+
 }

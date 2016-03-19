@@ -3,19 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\UserCourse;
-use app\models\Course;
+use app\models\Nut;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
-use app\models\UserPlay;
 
 /**
- * UserCourseController implements the CRUD actions for UserCourse model.
+ * NutController implements the CRUD actions for Nut model.
  */
-class UserCourseController extends Controller
+class NutController extends Controller
 {
     public function behaviors()
     {
@@ -30,13 +27,13 @@ class UserCourseController extends Controller
     }
 
     /**
-     * Lists all UserCourse models.
+     * Lists all Nut models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => UserCourse::find(),
+            'query' => Nut::find(),
         ]);
 
         return $this->render('index', [
@@ -45,7 +42,7 @@ class UserCourseController extends Controller
     }
 
     /**
-     * Displays a single UserCourse model.
+     * Displays a single Nut model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +54,13 @@ class UserCourseController extends Controller
     }
 
     /**
-     * Creates a new UserCourse model.
+     * Creates a new Nut model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new UserCourse();
+        $model = new Nut();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +72,7 @@ class UserCourseController extends Controller
     }
 
     /**
-     * Updates an existing UserCourse model.
+     * Updates an existing Nut model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +91,7 @@ class UserCourseController extends Controller
     }
 
     /**
-     * Deletes an existing UserCourse model.
+     * Deletes an existing Nut model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,80 +104,18 @@ class UserCourseController extends Controller
     }
 
     /**
-     * Finds the UserCourse model based on its primary key value.
+     * Finds the Nut model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return UserCourse the loaded model
+     * @return Nut the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = UserCourse::findOne($id)) !== null) {
+        if (($model = Nut::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    public function actionAddFocus()
-    {
-    	$courseId = Yii::$app->request->post('courseId');
-    	$userId = Yii::$app->user->id;
-    	if (UserCourse::isFocus($userId, $courseId)) {
-    		echo true;
-    		return;
-    	} else {
-    		if (UserCourse::addData($userId, $courseId, UserCourse::TYPE_FOCUS)) {
-    			echo true;
-    			return;
-    		}
-    	}
-    	echo false;
-    }
-
-    public function actionDropFocus()
-    {
-    	$courseId = Yii::$app->request->post('courseId');
-    	$userId = Yii::$app->user->id;
-    	if (UserCourse::isFocus($userId, $courseId)) {
-    		if (UserCourse::deleteFocus($userId, $courseId, UserCourse::TYPE_FOCUS)) {
-    			echo true;
-    			return;
-    		}
-    	} else {
-    		echo true;
-    		return;
-    	}
-    	echo false;
-    }
-
-    public function actionPlayEnd()
-    {
-
-    }
-
-    public function actionAddPlayTime()
-    {
-        $chapterId = Yii::$app->request->post('courseId');
-        $duration = Yii::$app->request->post('duration');
-        $userId = Yii::$app->user->id;
-
-        $courseId = Course::findOneById(Course::findOneById($chapterId)->root)->id;
-
-        //写入play表
-        $userPlayModel = new UserPlay();
-        $userPlayModel = $userPlayModel->findOneLearnModel($userId,$chapterId);
-        $userPlayModel->learn_time_total += ceil($duration);
-        $userPlayModel->save();
-
-        //写入usercourse表
-        $model = UserCourse::findOneLearnModel($userId, $courseId);
-        $model->learn_time_total += ceil($duration);
-
-        if ($model->save()) {
-            echo Json::encode('true');return;
-        } else {
-            echo Json::encode('false');return;
         }
     }
 }

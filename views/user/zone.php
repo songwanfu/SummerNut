@@ -1,9 +1,12 @@
 <?php
 use kartik\tabs\TabsX;
+use app\models\Nut;
+use app\models\UserCourse;
+use app\models\Common;
 ?>
 
 <div class="background">
-	<img src="http://static.mukewang.com/static/img/u/temp1.jpg">
+	<img src="/uploads/img/back.jpg">
 </div>
 
 <div class="zone container">
@@ -21,11 +24,11 @@ use kartik\tabs\TabsX;
 			<div class="col-lg-3 col-lg-offset-4 zone-nut">
 				<ul class="list-inline">
 				  <li class="col-lg-6">
-				  	<h4>23小时26分</h4>
+				  	<h4><?php echo Common::transTime(UserCourse::userTotalTime($model->id))?></h4>
 				  	<h5>学习时长</h5>
 				  </li>
 				  <li class="col-lg-6">
-				  	<h4>999</h4>
+				  	<h4><?php echo Nut::nutCount($model->id)?></h4>
 				  	<h5>果果</h5>
 				  </li>
 				</ul>
@@ -57,11 +60,6 @@ use kartik\tabs\TabsX;
 			        'label'=>'<i class="glyphicon glyphicon-question-sign"></i> QA',
 			        'content'=>'2',
 			        'linkOptions'=>['data-url'=>\yii\helpers\Url::to(['/user/show-qa'])]
-			    ],
-			    [
-			        'label'=>'<i class="glyphicon glyphicon-pencil"></i>Article',
-			        'content'=>'2',
-			        'linkOptions'=>['data-url'=>\yii\helpers\Url::to(['/site/test'])]
 			    ],
 			    [
 			        'label'=>'<i class="glyphicon glyphicon-cog"></i> 设置',

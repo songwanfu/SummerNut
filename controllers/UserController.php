@@ -123,7 +123,7 @@ class UserController extends Controller
     public function actionZone()
     {
         $model = $this->currentUser();
-        $htmlCourse = $this->render('/user/course');
+        $htmlCourse = $this->render('/user/course', ['user' => $model]);
         return $this->render('zone', ['model' => $model, 'htmlCourse' => $htmlCourse]);
     }
 
@@ -141,7 +141,7 @@ class UserController extends Controller
     public function actionShowQa()
     {
         $model = $this->currentUser();
-        $html = $this->render('/user/qa', ['model' => $model]);
+        $html = $this->render('/user/qa', ['user' => $model]);
         return Json::encode($html);
     }
 

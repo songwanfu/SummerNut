@@ -334,3 +334,6 @@
 
 .reply-user-info-name{color:gray;text-align: center;}
 .fa-reply{cursor:pointer;}
+.qa-question-fa{margin-top: 4px;float:left}
+
+.zone-reply-time{float: right;font-size: 12px;color: gray"}

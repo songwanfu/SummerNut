@@ -31,7 +31,7 @@ $replyList = Answer::replyList($question->id);
 				<span>源自：<?php echo $course->name?></span>
 			</div>
 			<div class="col-lg-2" style="float:right">
-				<span>1回答</span>
+				<span><?php echo count($replyList)?>回答</span>
 				<span><?php echo $question->views?>浏览</span>
 			</div>
 		</div>
@@ -44,8 +44,8 @@ $replyList = Answer::replyList($question->id);
 					<div class="reply-user-info-name"><?php echo User::findModel($reply->answer_user_id)->username?></div>
 				</div>
 				<div class="col-lg-2">
-					<?php if ($user->id != $reply->answer_user_id && $user->id != $reply->answered_user_id): ?>
-						[回复<?php echo User::findModel($reply->answered_user_id)->username?>]
+					<?php if ($user->id != $reply->answered_user_id): ?>
+						<span style="color: rgba(102,102,102,0.5)">[<?php echo User::findModel($reply->answer_user_id)->username?>回复<?php echo User::findModel($reply->answered_user_id)->username?>]</span>
 					<?php endif ?>
 				</div>
 				<div class="col-lg-10">

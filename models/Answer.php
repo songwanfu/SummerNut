@@ -75,4 +75,20 @@ class Answer extends \yii\db\ActiveRecord
         return static::findAll(['question_id' => $questionId]);
     }
 
+    public static function replyLatest($questionId)
+    {
+        $data = static::find()->where(['question_id' => $questionId])->orderBy('create_time')->limit(1)->all();
+        if (empty($data)) {
+            return null;
+        } else {
+            return $data[0];
+        }
+
+    }
+
+    public static function myReplyList($userId)
+    {
+        return static::find()->where(['answer_user_id' => $userId])->orderBy('create_time')->all();
+    }
+
 }

@@ -23,10 +23,10 @@ $this->title = Yii::t('app', 'Comment');
 	<div class="row learn-body">
 		<div class="col-lg-9 course-learn-body">
 			<div class="learn-progress progress">
-			  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-			    已学60%用时0小时49分
-			  </div>
-			</div>
+        <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $learnPersent?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $learnPersent?>%;">
+          <span>已学<?php echo $learnPersent . '%'?> 用时 <?php echo $learnTimeToal?></span>
+        </div>
+      </div>
 			<div class="col-lg-12 course-menu">
 				<ul class="list-inline">
 				  <li class="col-lg-4"><a href="/course/learn?cid=<?php echo $course->id;?>"><h4>章节</h4></li></a>

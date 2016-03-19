@@ -1,4 +1,7 @@
 
+<?php 
+use app\models\User;
+?>
 	<div class="lear-start">
 		<?php if ($isLearn) : ?>
 			<a href="/course/learn?cid=<?php echo $course->id?>" class="btn btn-info btn-start col-lg-12"><?php echo Yii::t('app', 'Learn Continue');?></a>
@@ -10,11 +13,11 @@
 			<h4 class="teacher-word">讲师提示</h4>
 			<div class="media-left media-middle">
 		    <a href="#">
-		      <img class="media-object img-circle" src="http://img.mukewang.com/user/549beab90001be9037445616-80-80.jpg" alt="..." width="80px">
+		      <img class="media-object img-circle" src="<?php echo User::findModel($course->teacher_id)->head_picture?>" alt="..." width="80px">
 		    </a>
 		  </div>
 		  <div class="media-body">
-		  	<h5>张鑫旭</h5>
+		  	<h5><?php echo User::findModel($course->teacher_id)->username?></h5>
 		    <h6 class="teacher-job">页面重构设计</h6>
 		  </div>
 

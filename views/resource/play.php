@@ -5,6 +5,15 @@ use yii\grid\GridView;
 use kartik\markdown\MarkdownEditor;
 use app\assets\VideoPlay;
 use app\assets\CommentEmoji;
+use app\models\CourseComment;
+use app\models\Answer;
+use app\models\Question;
+use app\models\User;
+use kartik\markdown\Markdown;
+use app\models\Common;
+use app\models\Course;
+use app\models\Category;
+
 
 VideoPlay::register($this);
 CommentEmoji::register($this);
@@ -12,25 +21,30 @@ CommentEmoji::register($this);
 /* @var $searchModel app\models\VideoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$categoryModel = Category::findOneById($course->category);
+
 $this->title = Yii::t('app', 'Play');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Course'), 'url' => ['/course/list']];
+$this->params['breadcrumbs'][] = ['label' => $categoryModel->name, 'url' => ["/course/list?c=".$categoryModel->alias]];
+$this->params['breadcrumbs'][] = ['label' => $course->name, 'url' => ["/course/learn?cid=".Course::findOneById($course->root)->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
 
 <div class="container">
-	<div class="row col-lg-8 col-lg-offset-2">
-		<video id="video-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="264" poster="" data-setup="{}" autoplay='true'>
+	<div class="row col-lg-10">
+		<video id="video-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="1120" height="550" poster="" data-setup="{}" autoplay='true'>
 			<source src="<?php echo $url?>" type='video/mp4'>
 			
 			<!-- 如果浏览器不兼容HTML5则使用flash播放 -->
-		    <object id="video-player-flash" class="vjs-flash-fallback" width="640" height="264" type="application/x-shockwave-flash" data="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf">
+		    <object id="video-player-flash" class="vjs-flash-fallback" width="1120" height="550" type="application/x-shockwave-flash" data="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf">
 		        <param name="movie"
 		            value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />
 		        <param name="allowfullscreen" value="true" />
 		        <param name="flashvars" value='config={"playlist":["", {"url": "<?php echo $url?>","autoPlay":false,"autoBuffering":true}]}' />
 		        <!-- 视频图片. -->
-		        <img src="" width="640" height="264" alt="Poster Image" title="No video playback capabilities." />
+		        <img src="" width="1120" height="550" alt="Poster Image" title="No video playback capabilities." />
 		    </object>
 
 		</video>
@@ -71,35 +85,30 @@ $this->params['breadcrumbs'][] = $this->title;
         
 
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-detail">
-
-					<div class="media col-lg-12 evaluation-con">
-					  <div class="media-left media-middle">
-					    <a href="#">
-					      <img class="media-object img-circle" src="http://img.mukewang.com/user/545868f30001886f02200220-40-40.jpg" alt="..." width="60px">
-					    </a>
-					  </div>
-					  <div class="media-body">
-					  	<span class="evaluation-name">黎丶小小小陌</span>
-					    <h5 class="media-heading evaluation-content">挺棒的 支持。</h5>
-					    <span class="evaluation-time">时间：1天前</span>
-					    <span class="icon-thumbs-down comment-down">1</span>
-					    <span class="icon-thumbs-up comment-up">10</span>
-					  </div>
-					</div>
-					<div class="media col-lg-12 evaluation-con">
-					  <div class="media-left media-middle">
-					    <a href="#">
-					      <img class="media-object img-circle" src="http://img.mukewang.com/user/56dc4a6c0001dbb202000200-40-40.jpg" alt="..." width="60px">
-					    </a>
-					  </div>
-					  <div class="media-body">
-					  	<span class="evaluation-name">programme</span>
-					    <h5 class="media-heading evaluation-content">在项目中很实用</h5>
-					    <span class="evaluation-time">时间：1天前</span>
-					    <span class="icon-thumbs-down comment-down">1</span>
-					    <span class="icon-thumbs-up comment-up">10</span>
-					  </div>
-					</div>
+					<?php if (CourseComment::commentList($course->id)): ?>					
+						<?php $i = 1; foreach (CourseComment::commentList($course->id) as $comment): ?>
+							<div class="media col-lg-12 evaluation-con">
+							  <div class="media-left media-middle">
+							    <a href="#">
+							      <img class="media-object img-circle" src="<?php echo User::findModel($comment->user_id)->head_picture?>" alt="" width="60px">
+							    </a>
+							  </div>
+							  <div class="media-body">
+							  	<span class="evaluation-name"><?php echo User::findModel($comment->user_id)->username?></span>
+							    <h5 class="media-heading evaluation-content" id="comment-content-<?php echo $i?>"><?php echo $comment->content?></h5>
+							    <?php if ($comment->course_id == $comment->root_id): ?>
+							    	<span class="evaluation-time">时间：<?php echo Common::getAwayTime($comment->comment_time)?></span>
+									<?php else: ?>
+							    	<span class="evaluation-time">时间：<?php echo Common::getAwayTime($comment->comment_time)?>&nbsp;<a href="/resource/play?id=<?php echo Resource::getVideo($comment->course_id)->url?>">源自:<?php Course::findModel($comment->course_id)->name?></a></span>
+							    <?php endif ?>
+							    <span class="fa fa-thumbs-o-down comment-down" onclick="commentDown(<?php echo $comment->id?>)"><?php echo $comment->down_count?></span>
+							    <span class="fa fa-thumbs-o-up comment-up" onclick="commentUp(<?php echo $comment->id?>)"><?php echo $comment->up_count?></span>
+							  </div>
+							</div>
+						<?php $i++;endforeach ?>
+					<?php else: ?>
+					  <div class="alert alert-warning" role="alert" style="margin-top: 15px"><?php echo Yii::t('app', 'No more comments.');?></div>
+					<?php endif ?>
 
 				</div>
 
@@ -109,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 			</div>
 			<div class="tab-pane" id="qa">
-				<div class="qa-input">
+				<div class="qa-input" style="margin-top:20px">
 					<?php
 						echo MarkdownEditor::widget([
 						    'name' => 'markdown', 
@@ -120,46 +129,34 @@ $this->params['breadcrumbs'][] = $this->title;
 				</div>
 
 				<div class="qa-detail">
-					<div class="media col-lg-12">
-					  <div class="media-left media-middle col-lg-2">
-					    <a href="#">
-					      <img class="media-object img-circle" src="http://img.mukewang.com/user/545868f30001886f02200220-40-40.jpg" alt="..." width="60px">
-					    </a>
-					    <span class="qa-name">黎丶小小小陌</span>
-					  </div>
-					  <div class="media-body">
-					  	<span class="icon-question-sign icon-large"></span>
-					    <span class="media-heading qa-content">$('input').eq(1)与$("input:eq(2)") 什么区别？</span>
-					    <div class="qa-new">
-					    	<span class="icon-comment icon-large"></span>
-					    	<span>[最新回答]</span>
-					    	<span><a href="">lejsure: </a></span>
-					    	<span>找到答案了，不妥之处欢迎指正$( "selector" ).eq( index );//等价于$( "selector:eq(index)" );</span>
-					    </div>
-					    <span class="evaluation-time">时间：1天前</span>
-					    <span class="icon-comments comment-down">1</span>
-					    <span class="icon-eye-open comment-up">10</span>
-					  </div>
-					</div>
-					<div class="media col-lg-12">
-					  <div class="media-left media-middle col-lg-2">
-					    <a href="#">
-					      <img class="media-object img-circle" src="http://img.mukewang.com/user/534d3a85000149d401000100-40-40.jpg" alt="..." width="60px">
-					    </a>
-					    <span class="qa-name"> Mr_Hs1ung</span>
-					  </div>
-					  <div class="media-body">
-					  	<span class="icon-question-sign icon-large"></span>
-					    <span class="media-heading qa-content">绝对定位是拉伸没搞明白</span>
-					    <div class="qa-new">
-					    	<span class="icon-comment icon-large"></span>
-					    	<span><a href="">[我来回答]</a></span>
-					    </div>
-					    <span class="evaluation-time">时间：7小时前 </span>
-					    <span class="icon-comments comment-down">1</span>
-					    <span class="icon-eye-open comment-up">10</span>
-					  </div>
-					</div>
+					<?php foreach (Question::getQuestionList($course->id) as $question): ?>
+						<div class="media col-lg-12">
+						  <div class="media-left media-middle col-lg-2">
+						    <a href="#">
+						      <img class="media-object img-circle" style="margin: 6% 0 0 0 " src="<?php echo User::findModel($question->user_id)->head_picture?>" alt="" width="60px">
+						    </a>
+						    <span class="qa-name" style="text-align: center"><?php echo User::findModel($question->user_id)->username?></span>
+						  </div>
+						  <div class="media-body">
+						  	<span class="fa fa-question-circle fa-lg col-lg-1 qa-question-fa"></span>
+						    <span class="media-heading qa-content" ><?php echo Markdown::convert($question->content)?></span>
+						    <div class="qa-new">
+						    	<span class="fa fa-comment fa-lg col-lg-1"></span>
+						    	<?php if (Answer::replyLatest($question->id)): ?>
+						    		<span>[最新回答]</span>
+						    		<span><a href=""><?php echo User::findModel(Answer::replyLatest($question->id)->answer_user_id)->username?> :</a></span>
+						    		<span><?php echo Answer::replyLatest($question->id)->content?></span>
+						    	<?php else: ?>
+						    		<span>[还没有人回答]</span>
+						    	<?php endif ?>
+						    	
+						    </div>
+						    <span class="evaluation-time col-lg-4">时间：<?php echo Common::getAwayTime($question->create_time)?></span>
+						    <a href="/course/qadetail?qid=<?php echo $question->id?>"><span class="fa fa-comments comment-down"><?php echo count(Answer::replyList($question->id))?></span></a>
+						    <a href="/course/qadetail?qid=<?php echo $question->id?>"><span class="fa fa-eye comment-up"><?php echo $question->views?></span></a>
+						  </div>
+						</div>
+					<?php endforeach ?>
 				</div>
 
 
@@ -169,9 +166,11 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 
+<input type="hidden" id="course_id" value="<?php echo $course->id?>"/>
+<input type="hidden" id="learn_point" value="<?php echo $learnPoint?>"/>
 
 
-<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.0/jquery.js"></script>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
 <script>
  	$(document).ready(function(){
  		var startTime = 0;
@@ -182,23 +181,32 @@ $this->params['breadcrumbs'][] = $this->title;
 
 		video.addEventListener("loadedmetadata", function(){
 			startTime = new Date();
-		    video.volume = 0.5;
-		    video.currentTime = 0;
-		    video.playbackRate = 1;
-		    setInterval(function(){
-		    	console.log(video.currentTime);
-		    }, 10000);
+	    video.volume = 0.5;
+	    video.currentTime = $('#learn_point').val();
+	    video.playbackRate = 1;
+	    setInterval(function(){
+	    	$.ajax({
+          type: 'POST',
+          url: '/user-play/play-point',
+          data: {
+          	courseId: $('#course_id').val(),
+          	point: video.currentTime,
+          }
+      	});
+	    }, 10000);
 		});
 
 		video.addEventListener("ended", function(){
 			endTime = new Date();
 			duration = endTime.getTime() - startTime.getTime();
-            duration /= 1000;//取秒
+      duration /= 1000;//取秒
 			$.ajax({
-                type: 'GET',
-                url: '/video/play-end',
-                data: {duration:duration}
-            });
+          type: 'POST',
+          url: '/user-play/play-end',
+          data: {
+          	courseId: $('#course_id').val(),
+          }
+      });
 		});
 		
 		$('#play-rate-btn ul li').each(function(i){
@@ -211,17 +219,20 @@ $this->params['breadcrumbs'][] = $this->title;
 		});
 
 		$(window).bind('beforeunload', function(e) {
-            endTime = new Date();//用户退出时间
-            duration = endTime.getTime() - startTime.getTime();
-            duration /= 1000;//取秒
-            $.ajax({
-                type: 'GET',
-                async: false,//关闭异步
-                url: '/video/play-time',
-                data: {duration:duration}
-            });
-            return '您输入的内容尚未保存，确定离开此页面吗？';
+        endTime = new Date();//用户退出时间
+        duration = endTime.getTime() - startTime.getTime();
+        duration /= 1000;//取秒
+        $.ajax({
+            type: 'POST',
+            async: false,//关闭异步
+            url: '/user-course/add-play-time',
+            data: {
+            	courseId: $('#course_id').val(),
+            	duration:duration,
+            },
         });
+        // return '您输入的内容尚未保存，确定离开此页面吗？';
+    });
 
  	});
 
