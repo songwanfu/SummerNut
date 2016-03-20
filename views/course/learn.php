@@ -19,21 +19,27 @@ $resModel = new Resource();
 	</div>
 
 	<div class="row learn-body">
-		<div class="col-lg-9 course-learn-body">
+		<div class="col-lg-9 col-md-9 col-sm-9 course-learn-body">
 			<div class="learn-progress progress">
-			  <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $learnPersent?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $learnPersent?>%;">
-			    <span>已学<?php echo $learnPersent . '%'?> 用时 <?php echo $learnTimeToal?></span>
-			  </div>
+				<?php if ($learnPersent == 0): ?>
+					<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
+				    <span >已学<?php echo $learnPersent . '%'?> 用时 <?php echo $learnTimeToal?></span>
+				  </div>
+				<?php else: ?>
+				  <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $learnPersent?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $learnPersent?>%;">
+				    <span >已学<?php echo $learnPersent . '%'?> 用时 <?php echo $learnTimeToal?></span>
+				  </div>
+			  <?php endif ?>
 			</div>
-			<div class="col-lg-12 course-menu">
+			<div class="col-lg-12 col-md-12 col-sm-12 course-menu">
 				<ul class="list-inline">
-				  <li class="col-lg-4 menu-active"><a href="/course/learn?cid=<?php echo $course->id;?>"><h4>章节</h4></a></li>
-				  <li class="col-lg-4"><a href="/course/comment?cid=<?php echo $course->id;?>"><h4>评论</h4></a></li>
-				  <li class="col-lg-4"><a href="/course/qa?cid=<?php echo $course->id;?>"><h4>问答</h4></a></li>
+				  <li class="col-lg-4 col-md-4 col-sm-4 menu-active"><a href="/course/learn?cid=<?php echo $course->id;?>"><h4>章节</h4></a></li>
+				  <li class="col-lg-4 col-md-4 col-sm-4 "><a href="/course/comment?cid=<?php echo $course->id;?>"><h4>评论</h4></a></li>
+				  <li class="col-lg-4 col-md-4 col-sm-4"><a href="/course/qa?cid=<?php echo $course->id;?>"><h4>问答</h4></a></li>
 				</ul>
 			</div>
 
-			<div class="col-lg-12 course-learn-chapter">
+			<div class="col-lg-12 col-md-12 col-sm-12 course-learn-chapter">
 				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					<?php $i = 1; foreach ($chapterList as $chapter): ?>
 						<div class="panel panel-default">
@@ -64,7 +70,7 @@ $resModel = new Resource();
 
 		</div>
 
-		<div class="col-lg-3  course-view-right">
+		<div class="col-lg-3  col-md-3 col-sm-3 course-view-right">
 			<?= $this->render('course-right', ['isLearn' => true, 'course' => $course])?>
 
 		</div>

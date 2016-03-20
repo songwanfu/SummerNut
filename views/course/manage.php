@@ -3,6 +3,8 @@ use kartik\tree\TreeView;
 use app\models\Course;
 use yii\helpers\html;
  
+ $this->title = Yii::t('app', 'Course Manage');
+
 echo TreeView::widget([
     // single query fetch to render the tree
     // use the Product model you have in the previous step

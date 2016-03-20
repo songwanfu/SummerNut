@@ -28,7 +28,7 @@ class CourseController extends \yii\web\Controller
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['list', 'view', 'learn', 'comment', 'qa'], 
+                            'actions' => ['list', 'view'], 
                             'roles' => ['?'],
                         ],
                     ],

@@ -10,6 +10,7 @@ use app\models\UserPlay;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ResourceController implements the CRUD actions for Resource model.
@@ -19,6 +20,21 @@ class ResourceController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'create', 'update', 'delete', 'view', 'upload', 'play', 'delete-by-ajax', 'download', 'transcode'], 
+                            'roles' => ['@'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['transcode'], 
+                            'roles' => ['?'],
+                        ],
+                    ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -157,16 +173,6 @@ class ResourceController extends Controller
         if ($model->save()) {
             return $this->render('play', ['url' => $model->url, 'course' => $course, 'root' => $root, 'learnPoint' => $learnPoint]);
         } 
-    }
-
-    public function actionPlayTime($duration)
-    {
-        var_dump($duration);
-    }
-
-    public function actionPlayEnd($duration)
-    {
-        var_dump($duration);
     }
 
     public function actionDeleteByAjax()

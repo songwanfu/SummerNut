@@ -71,11 +71,11 @@ class Question extends \yii\db\ActiveRecord
     {
         $courseModel = Course::findOneById($courseId);
         if (Course::isRoot($courseModel)) {
-            return static::find(['root_id' => $courseId])->orderBy('create_time DESC')->all();
+            return static::find()->where(['root_id' => $courseId])->orderBy('create_time DESC')->all();
         }
 
         if (Course::isFile($courseModel)) {
-            return static::find(['course_id' => $courseId])->orderBy('create_time DESC')->all();
+            return static::find()->where(['course_id' => $courseId])->orderBy('create_time DESC')->all();
         }
     }
 

@@ -86,18 +86,18 @@ $directionList = Category::directionList();
 				<div class="tab-pane active" id="new">
 					<div class="row list-preivew">
 						<?php if (empty($newCourseList)) : ?>
-							<div class="col-lg-12">
+							<div class="col-lg-12 col-md-12 col-sm-12">
 								<div class="alert alert-warning" role="alert"><?php echo Yii::t('app', 'More wonderful courses are creating, to be continued!');?></div>
 							</div>
 						<?php else : ?>
 							<?php foreach ($newCourseList as $courseList) : ?>
 								<?php foreach ($courseList as $course) : ?>
-									<div class="col-lg-3 col-md-3 ">
+									<div class="col-lg-3 col-md-3 col-sm-3">
 										<a href="/course/view?cid=<?php echo $course->id;?>"><img src="<?php echo $course->icon;?>" class="img-rounded blur"></a>
 										<h5 style="text-align: left"><?php echo $course->name;?></h5>
-										<h6 class="course-tips"><?php echo $course->introduction?></h6>
-										<span class="course-leaner">更新完毕</span>
-										<span class="course-status">9773人学习</span>
+										<h6 class="course-tips"><?php echo mb_substr($course->introduction, 0, 20, 'utf-8') . '...'?></h6>
+										<span class="course-leaner"><?php echo Yii::t('app', 'Update OK')?></span>
+										<span class="course-status"><?php echo $course->learner_count?></span>
 									</div>
 								<?php endforeach;?>
 							<?php endforeach;?>
@@ -108,18 +108,18 @@ $directionList = Category::directionList();
 				<div class="tab-pane" id="hot">
 					<div class="row list-preivew">
 						<?php if (empty($hotCourseList)) : ?>
-							<div class="col-lg-12">
+							<div class="col-lg-12 col-md-12 col-sm-12">
 								<div class="alert alert-warning" role="alert"><?php echo Yii::t('app', 'More wonderful courses are creating, to be continued!');?></div>
 							</div>
 						<?php else : ?>
 							<?php foreach ($hotCourseList as $courseList) : ?>
 								<?php foreach ($courseList as $course) : ?>
-									<div class="col-lg-3 col-md-3 ">
+									<div class="col-lg-3 col-md-3 col-sm-3">
 										<a href="/course/view?cid=<?php echo $course->id;?>"><img src="<?php echo $course->icon;?>" class="img-rounded blur"></a>
 										<h5 style="text-align: left"><?php echo $course->name;?></h5>
-										<h6 class="course-tips"><?php echo $course->introduction?></h6>
-										<span class="course-leaner">更新完毕</span>
-										<span class="course-status">9773人学习</span>
+										<h6 class="course-tips"><?php echo mb_substr($course->introduction, 0, 20, 'utf-8') . '...'?></h6>
+										<span class="course-leaner"><?php echo Yii::t('app', 'Update OK')?></span>
+										<span class="course-status"><?php echo $course->learner_count?></span>
 									</div>
 								<?php endforeach;?>
 							<?php endforeach;?>

@@ -73,7 +73,7 @@ class Common
         }
         if ($time < 3600 && $time > 60) {
             $m = $time / 60;
-            return $m . Yii::t('app', 'minuts');
+            return floor($m) . Yii::t('app', 'minuts');
         }
         return $time . Yii::t('app', 'seconds');
     }

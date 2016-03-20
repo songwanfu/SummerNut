@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use yii\filters\AccessControl;
 /**
  * UserController implements the CRUD actions for User model.
  */
@@ -18,6 +19,16 @@ class UserController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'create', 'update', 'delete', 'view', 'zone', 'show-profile', 'update-profile', 'show-qa', 'refresh-head-pic'], 
+                            'roles' => ['@'],
+                        ],
+                    ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

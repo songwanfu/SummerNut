@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use yii\filters\AccessControl;
 /**
  * QuestionController implements the CRUD actions for Question model.
  */
@@ -17,6 +18,16 @@ class QuestionController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'create', 'update', 'delete', 'view', 'add-question'], 
+                            'roles' => ['@'],
+                        ],
+                    ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

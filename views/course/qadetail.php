@@ -15,47 +15,47 @@ $replyList = Answer::replyList($question->id);
 ?>
 
 <div class="row">
-	<div class="col-lg-10 qadetail-wrap">
-		<div class="col-lg-8 qadetail-user-info">
+	<div class="col-lg-10 col-md-10 col-sm-10 qadetail-wrap">
+		<div class="col-lg-8 col-md-8 col-sm-8 qadetail-user-info">
 			<img src="<?php echo $user->head_picture?>" class="img-circle" width="80px">
 			<?php echo $user->username?>
 		</div>
-		<div class="col-lg-8 qadetail-title">
+		<div class="col-lg-8 col-md-8 col-sm-8 qadetail-title">
 			<?php echo Markdown::convert($question->content)?>
 		</div>
-		<div class="col-lg-12 qadetail-bar">
-			<div class="col-lg-2">
+		<div class="col-lg-12 col-md-12 col-sm-12 qadetail-bar">
+			<div class="col-lg-2 col-md-2 col-sm-2">
 				<span><?php echo Common::getAwayTime($question->create_time)?></span>
 			</div>
-			<div class="col-lg-4">
+			<div class="col-lg-4 col-md-4 col-sm-4">
 				<span>源自：<?php echo $course->name?></span>
 			</div>
-			<div class="col-lg-2" style="float:right">
+			<div class="col-lg-2 col-md-2 col-sm-2" style="float:right">
 				<span><?php echo count($replyList)?>回答</span>
 				<span><?php echo $question->views?>浏览</span>
 			</div>
 		</div>
 		
 		<?php foreach ($replyList as $reply): ?>
-		<div class="col-lg-12 qadetail-reply">
+		<div class="col-lg-12 col-md-12 col-sm-12 qadetail-reply">
 			
-				<div class="col-lg-2 reply-user-info">
+				<div class="col-lg-2 col-md-2 col-sm-2 reply-user-info">
 					<div  style="margin: 0 25%"><img src="<?php echo User::findModel($reply->answer_user_id)->head_picture?>" class="img-circle" width="60px"></div>
 					<div class="reply-user-info-name"><?php echo User::findModel($reply->answer_user_id)->username?></div>
 				</div>
-				<div class="col-lg-2">
+				<div class="col-lg-2 col-md-2 col-sm-2">
 					<?php if ($user->id != $reply->answered_user_id): ?>
 						<span style="color: rgba(102,102,102,0.5)">[<?php echo User::findModel($reply->answer_user_id)->username?>回复<?php echo User::findModel($reply->answered_user_id)->username?>]</span>
 					<?php endif ?>
 				</div>
-				<div class="col-lg-10">
+				<div class="col-lg-10 col-md-10 col-sm-10">
 					<?php echo Markdown::convert($reply->content)?>
 				</div>
-				<div class="col-lg-10">
-					<div class="col-lg-4">
+				<div class="col-lg-10 col-md-10 col-sm-10">
+					<div class="col-lg-4 col-md-4 col-sm-4">
 						<?php echo Common::getAwayTime($reply->create_time)?>
 					</div>
-					<div class="col-lg-2" style="float:right">
+					<div class="col-lg-2 col-md-2 col-sm-2" style="float:right">
 						<?php if ($reply->answer_user_id != Yii::$app->user->id): ?>
 							<span class="fa fa-reply" onclick="changeAnsweredName(<?php echo $reply->answer_user_id?>)">回复</span>
 	
@@ -67,7 +67,7 @@ $replyList = Answer::replyList($question->id);
 		</div>
 		<?php endforeach ?>
 
-		<div class="col-lg-12 qadetail-input">
+		<div class="col-lg-12 col-md-12 col-sm-12 qadetail-input">
 			<?php
 				echo MarkdownEditor::widget([
 			    'name' => 'markdown', 

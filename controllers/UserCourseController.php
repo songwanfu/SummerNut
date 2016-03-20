@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use app\models\UserPlay;
+use yii\filters\AccessControl;
 
 /**
  * UserCourseController implements the CRUD actions for UserCourse model.
@@ -20,6 +21,16 @@ class UserCourseController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'create', 'update', 'delete', 'add-focus', 'drop-focus', 'add-play-time'], 
+                            'roles' => ['@'],
+                        ],
+                    ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -154,10 +165,6 @@ class UserCourseController extends Controller
     	echo false;
     }
 
-    public function actionPlayEnd()
-    {
-
-    }
 
     public function actionAddPlayTime()
     {

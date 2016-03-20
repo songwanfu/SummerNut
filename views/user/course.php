@@ -2,11 +2,13 @@
 use kartik\tabs\TabsX;
 use app\models\UserCourse;
 use app\models\Course;
+use app\models\UserPlay;
+use app\models\Common;
 ?>
 
 <link rel="stylesheet" type="text/css" href="/css/user-course.css">
 
-    <div class="row col-lg-10 user-course">
+    <div class="row col-lg-10 col-md-10 col-sm-10 user-course">
       <?php if (!empty(UserCourse::findModelsByUserId($user->id))): ?>
         <ul class="cbp_tmtimeline">
           <?php foreach (UserCourse::findModelsByUserId($user->id) as $userCourse): ?>    
@@ -23,7 +25,11 @@ use app\models\Course;
               </div>
               <div class="cbp_tmlabel">
                 <h2><?php echo Course::findOneById($userCourse->course_id)->name?></h2>
-                <img src="<?php echo Course::findOneById($userCourse->course_id)->icon?>" alt="" class="img-rounded">	
+                <a href="/course/view?cid=<?php echo Course::findOneById($userCourse->course_id)->id?>"><img src="<?php echo Course::findOneById($userCourse->course_id)->icon?>" alt="" class="img-rounded"></a>
+                <?php if ($userCourse->type == UserCourse::TYPE_LEARN): ?>
+                  <span >已学<?php echo UserPlay::getLearnPercent(Yii::$app->user->id, $userCourse->course_id) * 100 . '%'?> 用时 <?php echo Common::transTime(UserCourse::findOneLearnModel(Yii::$app->user->id, $userCourse->course_id)->learn_time_total)?></span>
+                <?php endif ?>
+
               </div>
             </li>
           <?php endforeach ?>

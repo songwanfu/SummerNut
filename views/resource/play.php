@@ -25,7 +25,7 @@ $categoryModel = Category::findOneById($course->category);
 
 $this->title = Yii::t('app', 'Play');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Course'), 'url' => ['/course/list']];
-$this->params['breadcrumbs'][] = ['label' => $categoryModel->name, 'url' => ["/course/list?c=".$categoryModel->alias]];
+// $this->params['breadcrumbs'][] = ['label' => $categoryModel->name, 'url' => ["/course/list?c=".$categoryModel->alias]];
 $this->params['breadcrumbs'][] = ['label' => $course->name, 'url' => ["/course/learn?cid=".Course::findOneById($course->root)->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

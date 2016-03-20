@@ -8,6 +8,7 @@ use app\models\TaskSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use app\models\Course;
 use app\models\Resource;
 use app\models\Common;
@@ -23,6 +24,16 @@ class TaskController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'create', 'update', 'delete', 'upload', 'view', 'preview'], 
+                            'roles' => ['@'],
+                        ],
+                    ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

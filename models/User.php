@@ -34,9 +34,12 @@ class user extends ActiveRecord implements IdentityInterface
     const SEX_SECRET = 3;//保密
     const TYPE_STUDENT = 1;//学生
     const TYPE_TEACHER = 2;//教师
+    const TYPE_ADMIN = 3;//管理员
     const STATUS_NORMAL = 1;//正常
-    const STATUS_ABNORMAL = 2;//异常
+    const STATUS_UNNORMAL = 2;//异常
     const STATUS_AUTHEN = 3;//认证
+    const INCLUDE_NOT_ALL = 1;
+    const INCLUDE_ALL = 2;
 
     public $password_repeat;
     public $rememberMe = true;
@@ -233,26 +236,66 @@ class user extends ActiveRecord implements IdentityInterface
      * [typeList Get user type list.]
      * @return [Array] [UserTypeList]
      */
-    public function typeList()
+    public function typeList($temp = self::INCLUDE_NOT_ALL)
     {
-        return [
+        $temp = [];
+        if ($temp == self::INCLUDE_ALL) {
+            $temp = ['' => Yii::t('app', 'All')];
+        }
+        $list = [
             self::TYPE_STUDENT => Yii::t('app', 'Student'), 
             self::TYPE_TEACHER => Yii::t('app', 'Teacher'),
+            self::TYPE_ADMIN => Yii::t('app', 'Admin'),
         ];
+        return ($temp + $list);
     }
 
-    public function sexList()
+    public function sexList($temp = self::INCLUDE_NOT_ALL)
     {
-        return [
-            static::SEX_FEMALE => Yii::t('app', 'Female'),
-            static::SEX_MALE => Yii::t('app', 'Male'),
-            static::SEX_SECRET => Yii::t('app', 'Secret'),
+        $temp = [];
+        if ($temp == self::INCLUDE_ALL) {
+            $temp = ['' => Yii::t('app', 'All')];
+        }
+        $list = [
+            self::SEX_FEMALE => Yii::t('app', 'Female'),
+            self::SEX_MALE => Yii::t('app', 'Male'),
+            self::SEX_SECRET => Yii::t('app', 'Secret'),
         ];
+        return ($temp + $list);
     }
 
     public static function findModel($id)
     {
         return static::findOne(['id' => $id]);
+    }
+
+    public static function isStudent($id)
+    {
+        return static::findModel($id)->type == self::TYPE_STUDENT ? true : false;
+    }
+
+    public static function isTeacher($id)
+    {
+        return static::findModel($id)->type == self::TYPE_TEACHER ? true : false;
+    }
+
+    public static function isAdmin($id)
+    {
+        return static::findModel($id)->type == self::TYPE_ADMIN ? true : false;
+    }
+
+    public static function statusList($type = self::INCLUDE_NOT_ALL)
+    {
+        $temp = [];
+        if ($type == self::INCLUDE_ALL) {
+            $temp = ['' => Yii::t('app', 'All')];
+        }
+        $list =  [
+            self::STATUS_NORMAL => Yii::t('app', 'User Normal'),
+            self::STATUS_UNNORMAL => Yii::t('app', 'User Unnormal'),
+            self::STATUS_AUTHEN => Yii::t('app', 'User Authen'),
+        ];
+        return ($temp + $list);
     }
 
 

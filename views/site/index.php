@@ -11,7 +11,7 @@ $this->title = Yii::t('app', 'Summer Nut');
 <div class="site-index">
 
     <div class="container-fluid">
-        <div class="row col-lg-12">
+        <div class="row col-lg-12 col-md-12 col-sm-12">
             <div id="carousel" class="carousel slide" data-ride="carousel">
                   <!-- Indicators -->
               <ol class="carousel-indicators">
@@ -28,7 +28,7 @@ $this->title = Yii::t('app', 'Summer Nut');
                   <?php else : ?>
                     <div class="item">
                   <?php endif;?>
-                    <img src="<?php echo $banner->img;?>" alt="">
+                    <a href="<?php echo $banner->jump_target?>"><img src="<?php echo $banner->img?>" alt=""></a>
                     <div class="carousel-caption">
                       <?php echo $banner->title;$i++;?>
                     </div>
@@ -52,19 +52,19 @@ $this->title = Yii::t('app', 'Summer Nut');
     <div class="body-content">
 
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-4 col-sm-4">
                 <h2>聚焦</h2>
 
                 <p>以知识点为基本单位，每个微课讲述一个主题。</p>
 
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-4 col-sm-4">
                 <h2>互动</h2>
 
                 <p>对微课进行讨论和问答。</p>
 
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-4 col-sm-4">
                 <h2>高效</h2>
 
                 <p>教师的一次讲述，将被多次播放和学习。</p>

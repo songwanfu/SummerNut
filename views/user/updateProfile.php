@@ -9,7 +9,7 @@ echo Dialog::widget([
 ]);
 ?>
 
-	<div class="row col-lg-8 user-profile">
+	<div class="row col-lg-8 col-md-8 col-sm-8 user-profile">
 
 		<div class="input-group" id="profile-username">
 		  <span class="input-group-addon" id="sizing-addon"><span class="fa fa-user"></span></span>
@@ -46,7 +46,7 @@ echo Dialog::widget([
 			<span class="fa fa-refresh" onclick="changeHeadPic()" id="refresh">换一换</span>
 		</div>
 
-		<div class="col-lg-12 upload-head-pic">
+		<div class="col-lg-12 col-md-12 col-sm-12 upload-head-pic">
 			<?php $form = ActiveForm::begin([
         		'options' => [
             	'class' => 'form-horizontal',
@@ -72,7 +72,7 @@ echo Dialog::widget([
 	   	<?php ActiveForm::end(); ?>
    	</div>
 
-   	<div class="col-lg-2 col-lg-offset-5 profile-save">
+   	<div class="col-lg-2 col-lg-offset-5 col-md-2 col-md-offset-5 col-sm-2 col-sm-offset-2 profile-save">
    		<button class="btn btn-info" onclick="profileSave()" id="profile-save-btn"><span class="fa fa-spinner fa-pulse" style="display:none"></span>保存</button>
    	</div>
 		

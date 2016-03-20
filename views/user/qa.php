@@ -7,7 +7,7 @@ use app\models\User;
 ?>
 <link rel="stylesheet" type="text/css" href="/css/user-qa.css">
 
-	<div class="row col-lg-10 user-qa">
+	<div class="row col-lg-10 col-md-10 col-sm-10 user-qa">
 		<div id="tabs" class="tabs">
 			<nav>
 				<ul>

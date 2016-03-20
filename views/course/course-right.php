@@ -10,7 +10,7 @@ use app\models\User;
 		<?php endif;?>
 	</div>
 	<div class="teacher-info">
-			<h4 class="teacher-word">讲师提示</h4>
+			<h4 class="teacher-word"><?php echo Yii::t('app', 'Teacher Tips')?></h4>
 			<div class="media-left media-middle">
 		    <a href="#">
 		      <img class="media-object img-circle" src="<?php echo User::findModel($course->teacher_id)->head_picture?>" alt="..." width="80px">
@@ -18,17 +18,17 @@ use app\models\User;
 		  </div>
 		  <div class="media-body">
 		  	<h5><?php echo User::findModel($course->teacher_id)->username?></h5>
-		    <h6 class="teacher-job">页面重构设计</h6>
+		    <!-- <h6 class="teacher-job">页面重构设计</h6> -->
 		  </div>
 
-		  <div class="col-lg-12 course-notice">
+		  <div class="col-lg-12 col-md-12 col-sm-12 course-notice">
 		  	<?php if ($course->notice): ?>
-		  		<h5>课程须知</h5>
+		  		<h5><?php echo Yii::t('app', 'Course Notice')?></h5>
 		  		<p><?php echo $course->notice;?></p>
 		  	<?php endif; ?>
 		  	
 		  	<?php if ($course->gains) : ?>
-					<h5>老师告诉你能学到什么？</h5>
+					<h5><?php echo Yii::t('app', 'What you gaint')?></h5>
 					<p><?php echo $course->gains;?></p>
 			  	<!-- <ol>
 					  <li>relative与absolute；</li>

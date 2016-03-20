@@ -19,7 +19,7 @@ $levelList = Course::levelList();
 		</ol>
 	</div>
 
-	<div class="col-lg-12 course-view-title">
+	<div class="col-lg-12 col-md-12 col-sm-12 course-view-title">
 		<h2><?php echo $course->name;?></h2>
 	</div>
 
@@ -34,8 +34,8 @@ $levelList = Course::levelList();
 
 	<div class="col-lg-3 col-md-3 col-xs-3 course-view-class">
 		<dl>
-		  <h4><dt><?php echo $course->learner_count;?></dt></h4>
-		  <dd><?php echo Yii::t('app', 'Learner Count');?></dd>
+		  <h4><dt><?php echo $course->learner_count?></dt></h4>
+		  <dd><?php echo Yii::t('app', 'Learner Count')?></dd>
 		</dl>
 		<dl>
 	</div>
