@@ -2,5 +2,5 @@
 
 return [
     'adminEmail' => 'admin@example.com',
-    'uploadUrl' => '/Users/test/work/server/nginx/html/SummerNut/web/',
+    'uploadUrl' => '/usr/share/nginx/html/SummerNut/web/',
 ];

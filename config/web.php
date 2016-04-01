@@ -67,7 +67,7 @@ $config = [
         
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'enableStrictParsing' => false,
+           	'enableStrictParsing' => false,
             'showScriptName' => false,
             'rules' => [
                  ['class' => 'yii\rest\UrlRule', 'controller' => ['avatar']]

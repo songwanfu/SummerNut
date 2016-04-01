@@ -8,7 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\user;
+use app\models\User;
 use app\models\SignupForm;
 use app\models\Banner;
 use yii\helpers\Json;
