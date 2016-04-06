@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1958433e11c0032499058f06e4f1e3a7",
-    "content-hash": "fe8269c4ec1b69cd5e96346ebae4a17d",
+    "hash": "76f3a4e9488fe90997004f7596972f2f",
+    "content-hash": "63c8857d6e803837cae16baaf272c7cd",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -784,7 +784,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-tree-manager/zipball/d5a3a7c68f9872559e945959eb95936cc0f3f8dd",
+                "url": "https://api.github.com/repos/kartik-v/yii2-tree-manager/zipball/e430278044d072badc0d144c530a151403cfcf16",
                 "reference": "d5a3a7c68f9872559e945959eb95936cc0f3f8dd",
                 "shasum": ""
             },
