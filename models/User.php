@@ -236,10 +236,10 @@ class user extends ActiveRecord implements IdentityInterface
      * [typeList Get user type list.]
      * @return [Array] [UserTypeList]
      */
-    public function typeList($temp = self::INCLUDE_NOT_ALL)
-    {
+    public function typeList($type = self::INCLUDE_NOT_ALL)
+	{
         $temp = [];
-        if ($temp == self::INCLUDE_ALL) {
+        if ($type == self::INCLUDE_ALL) {
             $temp = ['' => Yii::t('app', 'All')];
         }
         $list = [
@@ -250,10 +250,10 @@ class user extends ActiveRecord implements IdentityInterface
         return ($temp + $list);
     }
 
-    public function sexList($temp = self::INCLUDE_NOT_ALL)
+    public function sexList($type = self::INCLUDE_NOT_ALL)
     {
         $temp = [];
-        if ($temp == self::INCLUDE_ALL) {
+        if ($type == self::INCLUDE_ALL) {
             $temp = ['' => Yii::t('app', 'All')];
         }
         $list = [
