@@ -171,7 +171,10 @@ class ResourceController extends Controller
 
         $model->play_count += 1;
         if ($model->save()) {
-            return $this->render('play', ['url' => $model->url, 'course' => $course, 'root' => $root, 'learnPoint' => $learnPoint]);
+            //获取附件
+            $resourceModel = new Resource();
+            $attachments = $resourceModel->getAttachments($model->course_id);
+            return $this->render('play', ['url' => $model->url, 'course' => $course, 'root' => $root, 'learnPoint' => $learnPoint, 'id' => $model->id, 'attachments' => $attachments]);
         } 
     }
 

@@ -68,12 +68,14 @@ $this->params['breadcrumbs'][] = $this->title;
 		    	<li><a href="javascript:void(0)">2.0X</a></li>
 		 	 </ul>
 		</div>
+		<a href="/resource/download?id=<?php echo $id;?>" class="btn btn-primary"><span class="fa fa-download" style="cursor:pointer"></span></a>
 	</div>
 
 	<div class="row col-lg-12 video-menu">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#comment" data-toggle="tab">评论</a></li>
 			<li><a href="#qa" data-toggle="tab">问答</a></li>
+			<li><a href="#attachment" data-toggle="tab">附件</a></li>
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane active" id="comment">
@@ -158,8 +160,22 @@ $this->params['breadcrumbs'][] = $this->title;
 						</div>
 					<?php endforeach ?>
 				</div>
-
-
+			</div>
+			<div class="tab-pane" id="attachment" style="margin-top:20px">
+				<div class="container row">
+					<table class="table table-striped">
+				 		<?php if ($attachments): ?>
+				 			<?php foreach ($attachments as $attachment): ?>
+				 				<tr class="info">
+									<td><?php echo $attachment->name . '.' . $attachment->extension?></td>
+									<td><a href="/resource/download?id=<?php echo $attachment->id;?>" style="cursor:pointer"><span class="fa fa-download"></span></a></td>
+				 				</tr>
+				 			<?php endforeach ?>
+				 		<?php else: ?>
+				 			<div class="alert alert-warning" role="alert" style="margin-top: 15px"><?php echo Yii::t('app', 'No more attachments.');?></div>
+				 		<?php endif ?>
+					</table>
+				</div>
 			</div>
 	</div>
 
