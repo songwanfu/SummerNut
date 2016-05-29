@@ -24,7 +24,7 @@ class UserController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['index', 'create', 'update', 'delete', 'view', 'zone', 'show-profile', 'update-profile', 'show-qa', 'refresh-head-pic'], 
+                            'actions' => ['index', 'create', 'update', 'delete', 'view', 'zone', 'show-profile', 'update-profile', 'show-qa', 'refresh-head-pic', 'upload-head-pic'], 
                             'roles' => ['@'],
                         ],
                     ],

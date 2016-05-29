@@ -86,6 +86,6 @@ class Question extends \yii\db\ActiveRecord
 
     public static function myQuestion($userId)
     {
-        return static::find()->where(['user_id' => $userId])->orderBy('create_time')->all();
+        return static::find()->where(['user_id' => $userId])->orderBy('create_time DESC')->all();
     }
 }

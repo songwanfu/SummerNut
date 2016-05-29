@@ -26,7 +26,7 @@ use app\models\User;
 							    <span style="font-size: 12px;color: gray;float: right;margin-top: -10px"><?php echo Common::getAwayTime($question->create_time)?></span>
 							  </div>
 							  <div class="panel-body">
-							    <span>[最新回答] <?php echo Answer::replyLatest($question->id)->content?></span>
+							    <span>[最新回答] <?php echo empty(Answer::replyLatest($question->id)->content) ? '暂无' : Answer::replyLatest($question->id)->content?></span>
 							    <a href="/course/qadetail?qid=<?php echo $question->id?>"><span class="fa fa-comments comment-down"><?php echo count(Answer::replyList($question->id))?></span></a>
 							    <a href="/course/qadetail?qid=<?php echo $question->id?>"><span class="fa fa-eye comment-up"><?php echo $question->views?></span></a>
 							  </div>

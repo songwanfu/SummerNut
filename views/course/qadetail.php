@@ -17,7 +17,7 @@ $replyList = Answer::replyList($question->id);
 <div class="row">
 	<div class="col-lg-10 col-md-10 col-sm-10 qadetail-wrap">
 		<div class="col-lg-8 col-md-8 col-sm-8 qadetail-user-info">
-			<img src="<?php echo $user->head_picture?>" class="img-circle" width="80px">
+			<a href='#'><img src="<?php echo $user->head_picture?>" class="img-circle" width="80px"></a>
 			<?php echo $user->username?>
 		</div>
 		<div class="col-lg-8 col-md-8 col-sm-8 qadetail-title">
@@ -40,10 +40,10 @@ $replyList = Answer::replyList($question->id);
 		<div class="col-lg-12 col-md-12 col-sm-12 qadetail-reply">
 			
 				<div class="col-lg-2 col-md-2 col-sm-2 reply-user-info">
-					<div  style="margin: 0 25%"><img src="<?php echo User::findModel($reply->answer_user_id)->head_picture?>" class="img-circle" width="60px"></div>
+					<div  style="margin: 0 25%"><a href='#'><img src="<?php echo User::findModel($reply->answer_user_id)->head_picture?>" class="img-circle" width="60px"></a></div>
 					<div class="reply-user-info-name"><?php echo User::findModel($reply->answer_user_id)->username?></div>
 				</div>
-				<div class="col-lg-2 col-md-2 col-sm-2">
+				<div class="col-lg-3 col-md-2 col-sm-2">
 					<?php if ($user->id != $reply->answered_user_id): ?>
 						<span style="color: rgba(102,102,102,0.5)">[<?php echo User::findModel($reply->answer_user_id)->username?>回复<?php echo User::findModel($reply->answered_user_id)->username?>]</span>
 					<?php endif ?>

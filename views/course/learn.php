@@ -33,9 +33,9 @@ $resModel = new Resource();
 			</div>
 			<div class="col-lg-12 col-md-12 col-sm-12 course-menu">
 				<ul class="list-inline">
-				  <li class="col-lg-4 col-md-4 col-sm-4 menu-active"><a href="/course/learn?cid=<?php echo $course->id;?>"><h4>章节</h4></a></li>
-				  <li class="col-lg-4 col-md-4 col-sm-4 "><a href="/course/comment?cid=<?php echo $course->id;?>"><h4>评论</h4></a></li>
-				  <li class="col-lg-4 col-md-4 col-sm-4"><a href="/course/qa?cid=<?php echo $course->id;?>"><h4>问答</h4></a></li>
+				<li class="col-lg-4 col-md-4 col-sm-4 menu-active"><a href="/course/learn?cid=<?php echo $course->id;?>"><h4><?php echo Yii::t('app', 'Chapter')?></h4></a></li>
+				<li class="col-lg-4 col-md-4 col-sm-4 "><a href="/course/comment?cid=<?php echo $course->id;?>"><h4><?php echo Yii::t('app', 'Comments')?></h4></a></li>
+				<li class="col-lg-4 col-md-4 col-sm-4"><a href="/course/qa?cid=<?php echo $course->id;?>"><h4><?php echo Yii::t('app', 'QA')?></h4></a></li>
 				</ul>
 			</div>
 

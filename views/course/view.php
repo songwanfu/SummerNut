@@ -50,7 +50,7 @@ $judgmentCount = count($judgments);
 
 			<div class="col-lg-12 col-md-12 col-sm-12 course-comment">
 				<span class="comment-title"><?php echo Yii::t('app', 'Course Judgement')?></span>
-				<?php if (!CourseComment::isCommented(Yii::$app->user->id, $course->id)): ?>
+				<?php if (!CourseComment::isCommented(Yii::$app->user->id, $course->id) && !empty(Yii::$app->user->id)): ?>
 					<span class="fa fa-comment addComment" onclick="alertAddCommentMoal();"><?php echo Yii::t('app', 'Add Course Judgement')?></span>
 				<?php endif ?>
 				<div class="evaluation-info col-lg-12 col-md-12 col-sm-12">

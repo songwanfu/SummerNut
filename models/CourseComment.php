@@ -97,7 +97,7 @@ class CourseComment extends \yii\db\ActiveRecord
 
     public static function judgmentList($courseId)
     {
-        return static::findAll(['course_id' => $courseId, 'comment_type' => self::COMMENT_TYPE_JUDGMENT]);
+        return static::find()->where(['course_id' => $courseId, 'comment_type' => self::COMMENT_TYPE_JUDGMENT])->orderBy('comment_time DESC')->all();
     }
 
     public static function findOneById($id)
@@ -109,11 +109,11 @@ class CourseComment extends \yii\db\ActiveRecord
     {
         $courseModel = Course::findModel($courseId);
         if (Course::isFile($courseModel)) {
-            return static::findAll(['course_id' => $courseId, 'comment_type' => self::COMMENT_TYPE_COMMENT]);
+            return static::find()->where(['course_id' => $courseId, 'comment_type' => self::COMMENT_TYPE_COMMENT])->orderBy('comment_time DESC')->all();
         } 
 
         if (Course::isRoot($courseModel)) {
-            return static::findAll(['root_id' => $courseId, 'comment_type' => self::COMMENT_TYPE_COMMENT]);
+            return static::find()->where(['root_id' => $courseId, 'comment_type' => self::COMMENT_TYPE_COMMENT])->orderBy('comment_time DESC')->all();
         }
         
     }

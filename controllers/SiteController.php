@@ -78,7 +78,8 @@ class SiteController extends Controller
     {
         $model = new User();
         $model->setScenario('signup');
-        if ($model->load(Yii::$app->request->post())) { 
+		if ($model->load(Yii::$app->request->post())) { 
+			$model->head_picture = 'http://img.mukewang.com/user/54584f0b000124f802200220-220-220.jpg';
             if ($model->save()) {
                 if ($model->type == $model::TYPE_TEACHER) {
                     return $this->render('authen', ['message' => $model->username]);

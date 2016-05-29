@@ -46,9 +46,8 @@ class Common
         $currentTime = time();
         $oldTime = strtotime($timestamp);
         $time = $currentTime - $oldTime;
-        
         if ($time > 86400) {
-            return (floor($time / 86400) . Yii::t('app', 'days ago'));
+            return $timestamp;
         } 
         if ($time < 86400 && $time > 3600) {
 

@@ -71,7 +71,7 @@ class user extends ActiveRecord implements IdentityInterface
             [['username', 'password', 'email'], 'required'],
             [['sex', 'type', 'status'], 'integer'],
             [['register_time', 'login_time'], 'safe'],
-            ['username', 'string', 'min' => 3, 'max' => 16],
+            ['username', 'string', 'min' => 2, 'max' => 16],
             ['password', 'string', 'min' => 6, 'max' => 16],
             [['email', 'head_picture', 'accessToken', 'authKey', 'signature'], 'string', 'max' => 255],
             [['phone_number'], 'string', 'max' => 11],
@@ -90,7 +90,7 @@ class user extends ActiveRecord implements IdentityInterface
             ['email', 'email', 'on' => 'profile'],
             ['rememberMe', 'boolean', 'on' => 'signup'],
             ['head_picture', 'file', 'extensions' => ['png', 'jpg', 'jpeg'], 'maxSize' => 1024*1024*1024, 'on' => 'profile'],
-            ['head_picture', 'string', 'min' => 3, 'max' => 255, 'on' => 'refreshHeadPic'],
+			['head_picture', 'string', 'min' => 3, 'max' => 255, 'on' => 'refreshHeadPic'],
         ];
     }
 
